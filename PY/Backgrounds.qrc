@@ -1,0 +1,5 @@
+<RCC>
+  <qresource prefix="newPrefix">
+    <file>../images/backgrounds/PsLYIQ01.svg</file>
+  </qresource>
+</RCC>
