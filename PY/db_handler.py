@@ -1,6 +1,6 @@
 import sqlite3 as sql
 
-class sqliteDB:
+class SqliteDB:
 
     @staticmethod
     def add_user(P_name, P_email_adress):
