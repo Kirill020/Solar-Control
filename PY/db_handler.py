@@ -58,11 +58,50 @@ class SqliteDB:
         conn.commit()
         conn.close()
 
-    #update panels data
+    #update user info
     @staticmethod
-    def updata_penels_group():
-        
+    def update_user_data(Person_id: int, new_name: str, new_email_adress: str, new_adress:str, new_pass: str):
         conn = sql.connect('Solar_panel.db')
         cursor = conn.cursor()
+        if(new_name != None):
+            query = "UPDATE Users SET P_name = {new_name} WHERE Person_id = {Person_id}"
+            cursor.execute(query)
+            conn.commit()
+            conn.close()
+
+        elif(new_email_adress != None):
+            query = "UPDATE Users SET P_email_adress = {new_email_adress} WHERE Person_id = {Person_id}"
+            cursor.execute(query)
+            conn.commit()
+            conn.close()
+        
+        elif(new_adress != None):
+            query = "UPDATE Users SET P_adress = {new_adress} WHERE Person_id = {Person_id}"
+            cursor.execute(query)
+            conn.commit()
+            conn.close()
+
+        elif(new_pass != None):
+            P_pass  = hashlib.sha256(new_pass.encode('utf-8')).hexdigest()
+            query = "UPDATE Users SET P_pass = {P_pass} WHERE Person_id = {Person_id}"
+            cursor.execute(query)
+            conn.commit()
+            conn.close()
+        
+
+
+    #update panels data
+    #todo:      change DB(Panels) and set power, voltage and power
+    #           and change next method
+    
+    @staticmethod
+    def update_penels_group(Panels_id: int):
+        conn = sql.connect('Solar_panel.db')
+        cursor = conn.cursor()
+        query = "UPDATE Panels SET Performance = {P_pass} WHERE Id_PanelGroup = {Panels_id}"
+        #cursor.execute(query)
+        conn.commit()
+        conn.close()
+
     #@staticmethod
     #def upd_user()
