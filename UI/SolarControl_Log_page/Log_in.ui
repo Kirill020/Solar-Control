@@ -135,15 +135,15 @@ radius: 1.35, stop: 0 #fff, stop: 1 #ddd
   <widget class="QPushButton" name="pushButton">
    <property name="geometry">
     <rect>
-     <x>210</x>
+     <x>200</x>
      <y>300</y>
-     <width>131</width>
+     <width>166</width>
      <height>41</height>
     </rect>
    </property>
    <property name="minimumSize">
     <size>
-     <width>131</width>
+     <width>166</width>
      <height>41</height>
     </size>
    </property>
