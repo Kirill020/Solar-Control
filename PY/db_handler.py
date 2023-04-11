@@ -4,8 +4,6 @@ from datetime import datetime
 
 class SqliteDB:
 
-    # todo: sql-query to get an Id from Weather and Panels
-
     #authentication user
     @staticmethod
     def authenticate_user(username: str, password: str) -> tuple[bool, int]:
@@ -28,7 +26,7 @@ class SqliteDB:
         return False, None
 
 
-    #get wetaher_id
+    #get wetaher id
     @staticmethod
     def get_weather_id(id_panel_group: int) -> int:
         conn = sql.connect("Solar_panel.db")
@@ -45,6 +43,7 @@ class SqliteDB:
             return result[0]
         
     
+    #get panel group id
     @staticmethod
     def get_panel_group_id(person_id: int) -> int:
         conn = sql.connect("Solar_panel.db")
@@ -66,7 +65,7 @@ class SqliteDB:
         conn = sql.connect("Solar_panel.db")
         cursor = conn.cursor()
         p_pass  = hashlib.sha256(password.encode('utf-8')).hexdigest()
-        cursor.execute("INSERT INTO Users (P_name, P_email_adress, P_adress, P_pass) VALUES (?, ?, ?, ?)", (p_name, p_email_adress, p_adress, p_pass))
+        cursor.execute("INSERT INTO Users (P_name, P_email_adress, P_adress, P_pass) VALUES (?, ?, ?, ?)", (p_name, p_email_adress, p_adress, p_pass,))
         conn.commit()
         conn.close()
     
@@ -88,8 +87,9 @@ class SqliteDB:
         conn = sql.connect('Solar_panel.db')
         cursor = conn.cursor()
         date = datetime.now()
+        date_str = date.strftime('%Y-%m-%d')
         query = "INSERT INTO Weather (Id_PanelsGroup, Weather_type, Date, Temperature, Wind_speed) VALUES (?, ?, ?, ?, ?)"
-        values = (id_panels_group, weather_type, date, temperature, wind_speed)
+        values = (id_panels_group, weather_type, date_str, temperature, wind_speed)
         cursor.execute(query, values)
         conn.commit()
         conn.close()
@@ -136,8 +136,9 @@ class SqliteDB:
         conn = sql.connect('Solar_panel.db')
         cursor = conn.cursor()
         date = datetime.now()
+        date_str = date.strftime('%Y-%m-%d')
         query = "INSERT INTO Panels (Id_PanelGroup, Person_id, Panels_amount, Panels_adress, Performance, Voltage, Power, Date) VALUES (?, ?, ?, ?, ?, ?, ?, ?)"
-        values = (panels_id, person_id, panels_amount, panels_adress, performance, voltage, power, date)
+        values = (panels_id, person_id, panels_amount, panels_adress, performance, voltage, power, date_str)
         cursor.execute(query, values)
         conn.commit()
         conn.close()
@@ -148,8 +149,9 @@ class SqliteDB:
         conn = sql.connect('Solar_panel.db')
         cursor = conn.cursor()
         date = datetime.now()
+        date_str = date.strftime('%Y-%m-%d')
         query = "INSERT INTO Weather (Weather_id, Id_PanelsGroup, Weather_type, Date, Temperature, Wind_speed) VALUES (?, ?, ?, ?, ?, ?)"
-        values = (weather_id, id_panels_group, weather_type, date, temperature, wind_speed)
+        values = (weather_id, id_panels_group, weather_type, date_str, temperature, wind_speed)
         cursor.execute(query, values)
         conn.commit()
         conn.close()
@@ -178,7 +180,7 @@ class SqliteDB:
     def delete_panels(id_panel_group: int, person_id: int) -> bool:
         conn = sql.connect('Solar_panel.db')
         cursor = conn.cursor()
-        cursor.execute("SELECT * FROM Panels WHERE Person_id = ? AND Id_PanelGroup = ?", (person_id, id_panel_group))
+        cursor.execute("SELECT * FROM Panels WHERE Person_id = ? AND Id_PanelGroup = ?", (person_id, id_panel_group,))
         result = cursor.fetchone()
         
         if result is None:
@@ -186,7 +188,26 @@ class SqliteDB:
             return False
 
         else:
-            cursor.execute("DELETE FROM Panels WHERE Person_id = ? AND Id_PanelGroup = ?", (person_id, id_panel_group))
+            cursor.execute("DELETE FROM Panels WHERE Person_id = ? AND Id_PanelGroup = ?", (person_id, id_panel_group,))
+            conn.commit()
+            conn.close()
+            return True
+    
+    #delete weather
+    @staticmethod
+    def delete_weather(id_panel_group: int, date: datetime) -> bool:
+        conn = sql.connect('Solar_panel.db')
+        cursor = conn.cursor()
+        date_str = date.strftime('%Y-%m-%d')  
+        cursor.execute("SELECT * FROM Weather WHERE Id_PanelGroup = ? AND Date = ?", (id_panel_group, date_str))
+        result = cursor.fetchone()
+        
+        if result is None:
+            conn.close()
+            return False
+
+        else:
+            cursor.execute("DELETE FROM Weather WHERE Id_PanelGroup = ? AND Date = ?", (id_panel_group, date_str,))
             conn.commit()
             conn.close()
             return True
