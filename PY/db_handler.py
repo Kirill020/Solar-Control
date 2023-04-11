@@ -144,7 +144,7 @@ class SqliteDB:
 
     #update weather data
     @staticmethod
-    def upddate_weather(weather_id: int, id_panels_group: int, weather_type: str, temperature: float, wind_speed: float):
+    def update_weather(weather_id: int, id_panels_group: int, weather_type: str, temperature: float, wind_speed: float):
         conn = sql.connect('Solar_panel.db')
         cursor = conn.cursor()
         date = datetime.now()
@@ -153,3 +153,40 @@ class SqliteDB:
         cursor.execute(query, values)
         conn.commit()
         conn.close()
+    
+    #delete user
+    @staticmethod
+    def delete_user(person_id: int) -> bool:
+        conn = sql.connect('Solar_panel.db')
+        cursor = conn.cursor()
+        cursor.execute("SELECT P_name FROM Users WHERE Person_id = ?", (person_id,))
+        result = cursor.fetchone()
+        
+        if result is None:
+            conn.close()
+            return False
+
+        else:
+            cursor.execute("DELETE FROM Users WHERE Person_id = ?", (person_id,))
+            conn.commit()
+            conn.close()
+            return True
+    
+
+    #delete panels group
+    @staticmethod
+    def delete_panels(id_panel_group: int, person_id: int) -> bool:
+        conn = sql.connect('Solar_panel.db')
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM Panels WHERE Person_id = ? AND Id_PanelGroup = ?", (person_id, id_panel_group))
+        result = cursor.fetchone()
+        
+        if result is None:
+            conn.close()
+            return False
+
+        else:
+            cursor.execute("DELETE FROM Panels WHERE Person_id = ? AND Id_PanelGroup = ?", (person_id, id_panel_group))
+            conn.commit()
+            conn.close()
+            return True
