@@ -9,6 +9,7 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
+from datetime import datetime
 
 
 class Ui_Form(object):
@@ -71,6 +72,8 @@ if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
     Form = QtWidgets.QWidget()
     ui = Ui_Form()
+    date = datetime.now()
+    print(date)
     ui.setupUi(Form)
     Form.show()
     sys.exit(app.exec_())
