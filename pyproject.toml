@@ -5,12 +5,13 @@ description = ""
 authors = ["Your Name <you@example.com>"]
 license = "MIT"
 readme = "README.md"
-packages = [{include = "solar_control"}]
 
 [tool.poetry.dependencies]
 python = "^3.9"
 PyQt5 = "^5.15.9"
 fastapi = "^0.95.1"
+uvicorn = "^0.21.1"
+pydantic = "^1.10.7"
 
 
 [build-system]
