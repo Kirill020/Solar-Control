@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "solar-control"
+version = "0.1.0"
+description = ""
+authors = ["Your Name <you@example.com>"]
+license = "MIT"
+readme = "README.md"
+packages = [{include = "solar_control"}]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+PyQt5 = "^5.15.9"
+fastapi = "^0.95.1"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
