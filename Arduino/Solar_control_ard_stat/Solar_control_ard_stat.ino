@@ -3,8 +3,8 @@
 
 char ssid[] = "FRITZ!Box 7530 HW";
 char pass[] = "04087603372686221636";
-char server[] = "192.168.178.21"; // например, "192.168.1.100" или "example.com"
-int port = 8000; // порт, на котором запущен ваш API
+char server[] = "0.0.0.0"; 
+int port = 8000; 
 
 WiFiClient client;
 
@@ -56,9 +56,8 @@ void loop() {
     }
   }
 
-  // разрыв соединения с сервером
+  
   client.stop();
 
-  // задержка между отправкой данных
   delay(10000);
 }
