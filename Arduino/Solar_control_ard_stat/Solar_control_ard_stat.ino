@@ -1,6 +1,15 @@
 #include <WiFiNINA.h>
 #include <ArduinoJson.h>
 
+int Sensor = A0; // Der Stromstärkesensor wird am Pin A0 (Analog "0") angeschlossen.
+int VpA = 185; // Millivolt pro Ampere (100 für 20A Modul und 66 für 30A Modul)
+int sensorwert= 0;
+float Nullpunkt = 2.5; // Spannung in mV bei dem keine Stromstärke vorhanden ist
+double Voltage = 0;
+double Ampere = 0;
+double Performance = 0;
+
+
 char ssid[] = "FRITZ!Box 7530 HW";
 char pass[] = "04087603372686221636";
 char server[] = "192.168.178.21"; 
@@ -22,12 +31,25 @@ void setup() {
 }
 
 void loop() {
+  sensorwert = analogRead(Sensor);
+  Voltage = ((sensorwert / 1024.0) * 5000)/1000; 
+  Ampere = ((Voltage - Nullpunkt) / VpA); 
+  Performance = Performance +(Ampere*Voltage);
+
+  //Serial.print("\t Voltage in V = ");
+  //Serial.print(Voltage,3);
+  //Serial.print("\t Ampere = ");
+  //Serial.println(Ampere,3);
+  //Serial.print("\t Performance in W = ");
+  //Serial.print(Performance,3);
+  
+
   // создание объекта JSON и заполнение его данными
   StaticJsonDocument<200> doc;
   doc["id"] = 13;
-  doc["performance"] = random(0.5, 1.0);
-  doc["voltage"] = random(0.5, 1.0);
-  doc["power"] = random(0.5, 1.0);
+  doc["performance"] = Performance;
+  doc["voltage"] = Voltage;
+  doc["power"] = Ampere;
 
   // сериализация объекта JSON в строку
   String jsonStr;
@@ -61,5 +83,5 @@ void loop() {
   
   client.stop();
 
-  delay(10000);
+  delay(1800000);
 }
