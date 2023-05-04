@@ -174,7 +174,7 @@ class SqliteDB:
         cursor = conn.cursor()
         date = datetime.now()
         date_str = date.strftime('%Y-%m-%d')
-        query = "INSERT INTO Weather (Id_PanelsGroup, Weather_type, Date, Temperature, Wind_speed) VALUES (?, ?, ?, ?, ?)"
+        query = "INSERT INTO Weather (Id_PanelGroup, Weather_type, Date, Temperature, Wind_speed) VALUES (?, ?, ?, ?, ?)"
         values = (id_panels_group, weather_type, date_str, temperature, wind_speed)
         cursor.execute(query, values)
         conn.commit()
