@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'C:\Solar Control\UI\SolarControl_U_profile\U_profile.ui'
+# Form implementation generated from reading ui file 'C:\Solar Control\Solar-Control\UI\SolarControl_U_profile\U_profile.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.8
 #
@@ -14,8 +14,8 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
-        Form.resize(1267, 727)
-        Form.setMinimumSize(QtCore.QSize(1267, 727))
+        Form.resize(1180, 727)
+        Form.setMinimumSize(QtCore.QSize(1180, 727))
         Form.setStyleSheet("background-color: qlineargradient(spread:pad, x1:0.482198, y1:0.971, x2:0.497, y2:0.023, stop:0.0338983 rgba(46, 46, 46, 255), stop:1 rgba(168, 168, 168, 255));")
         self.horizontalLayout = QtWidgets.QHBoxLayout(Form)
         self.horizontalLayout.setObjectName("horizontalLayout")
@@ -55,33 +55,153 @@ class Ui_Form(object):
         self.horizontalLayout_3.setObjectName("horizontalLayout_3")
         self.gridLayout = QtWidgets.QGridLayout()
         self.gridLayout.setObjectName("gridLayout")
-        self.Photo_lay_prof = QtWidgets.QGridLayout()
-        self.Photo_lay_prof.setObjectName("Photo_lay_prof")
-        spacerItem = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
-        self.Photo_lay_prof.addItem(spacerItem, 2, 5, 1, 1)
-        spacerItem1 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.Photo_lay_prof.addItem(spacerItem1, 1, 3, 1, 1)
-        spacerItem2 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
-        self.Photo_lay_prof.addItem(spacerItem2, 0, 1, 1, 1)
-        spacerItem3 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
-        self.Photo_lay_prof.addItem(spacerItem3, 1, 5, 1, 1)
-        self.U_photo_prof = QtWidgets.QLabel(self.U_profile_tab)
-        self.U_photo_prof.setMinimumSize(QtCore.QSize(169, 169))
-        self.U_photo_prof.setMaximumSize(QtCore.QSize(169, 169))
-        self.U_photo_prof.setStyleSheet("border: 3px solid black;\n"
-"border-radius: 80px;\n"
-"background-color: rgba(255, 255, 255, 10);")
-        self.U_photo_prof.setObjectName("U_photo_prof")
-        self.Photo_lay_prof.addWidget(self.U_photo_prof, 1, 1, 2, 2)
-        spacerItem4 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.Photo_lay_prof.addItem(spacerItem4, 1, 0, 1, 1)
-        spacerItem5 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.Photo_lay_prof.addItem(spacerItem5, 1, 4, 1, 1)
-        self.gridLayout.addLayout(self.Photo_lay_prof, 0, 0, 3, 2)
         self.Check_lay_prof = QtWidgets.QGridLayout()
         self.Check_lay_prof.setObjectName("Check_lay_prof")
+        self.Support_data_prof = QtWidgets.QListView(self.U_profile_tab)
+        self.Support_data_prof.setMinimumSize(QtCore.QSize(250, 135))
+        self.Support_data_prof.setMaximumSize(QtCore.QSize(250, 135))
+        self.Support_data_prof.setStyleSheet("background-color: rgb(168, 168, 168);\n"
+"")
+        self.Support_data_prof.setObjectName("Support_data_prof")
+        self.Check_lay_prof.addWidget(self.Support_data_prof, 2, 1, 1, 1)
+        spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.Check_lay_prof.addItem(spacerItem, 2, 0, 1, 1)
+        self.Search_ed_prof = QtWidgets.QLineEdit(self.U_profile_tab)
+        self.Search_ed_prof.setMinimumSize(QtCore.QSize(150, 41))
+        self.Search_ed_prof.setMaximumSize(QtCore.QSize(220, 41))
+        palette = QtGui.QPalette()
+        brush = QtGui.QBrush(QtGui.QColor(51, 51, 51))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.WindowText, brush)
+        gradient = QtGui.QRadialGradient(0.3, -0.4, 1.35, 0.3, -0.4)
+        gradient.setSpread(QtGui.QGradient.PadSpread)
+        gradient.setCoordinateMode(QtGui.QGradient.ObjectBoundingMode)
+        gradient.setColorAt(0.0, QtGui.QColor(255, 255, 255))
+        gradient.setColorAt(1.0, QtGui.QColor(166, 166, 166))
+        brush = QtGui.QBrush(gradient)
+        palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.Button, brush)
+        brush = QtGui.QBrush(QtGui.QColor(51, 51, 51))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.Text, brush)
+        brush = QtGui.QBrush(QtGui.QColor(51, 51, 51))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.ButtonText, brush)
+        gradient = QtGui.QRadialGradient(0.3, -0.4, 1.35, 0.3, -0.4)
+        gradient.setSpread(QtGui.QGradient.PadSpread)
+        gradient.setCoordinateMode(QtGui.QGradient.ObjectBoundingMode)
+        gradient.setColorAt(0.0, QtGui.QColor(255, 255, 255))
+        gradient.setColorAt(1.0, QtGui.QColor(166, 166, 166))
+        brush = QtGui.QBrush(gradient)
+        palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.Base, brush)
+        gradient = QtGui.QRadialGradient(0.3, -0.4, 1.35, 0.3, -0.4)
+        gradient.setSpread(QtGui.QGradient.PadSpread)
+        gradient.setCoordinateMode(QtGui.QGradient.ObjectBoundingMode)
+        gradient.setColorAt(0.0, QtGui.QColor(255, 255, 255))
+        gradient.setColorAt(1.0, QtGui.QColor(166, 166, 166))
+        brush = QtGui.QBrush(gradient)
+        palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.Window, brush)
+        brush = QtGui.QBrush(QtGui.QColor(51, 51, 51, 128))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.PlaceholderText, brush)
+        brush = QtGui.QBrush(QtGui.QColor(51, 51, 51))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.WindowText, brush)
+        gradient = QtGui.QRadialGradient(0.3, -0.4, 1.35, 0.3, -0.4)
+        gradient.setSpread(QtGui.QGradient.PadSpread)
+        gradient.setCoordinateMode(QtGui.QGradient.ObjectBoundingMode)
+        gradient.setColorAt(0.0, QtGui.QColor(255, 255, 255))
+        gradient.setColorAt(1.0, QtGui.QColor(166, 166, 166))
+        brush = QtGui.QBrush(gradient)
+        palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.Button, brush)
+        brush = QtGui.QBrush(QtGui.QColor(51, 51, 51))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.Text, brush)
+        brush = QtGui.QBrush(QtGui.QColor(51, 51, 51))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.ButtonText, brush)
+        gradient = QtGui.QRadialGradient(0.3, -0.4, 1.35, 0.3, -0.4)
+        gradient.setSpread(QtGui.QGradient.PadSpread)
+        gradient.setCoordinateMode(QtGui.QGradient.ObjectBoundingMode)
+        gradient.setColorAt(0.0, QtGui.QColor(255, 255, 255))
+        gradient.setColorAt(1.0, QtGui.QColor(166, 166, 166))
+        brush = QtGui.QBrush(gradient)
+        palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.Base, brush)
+        gradient = QtGui.QRadialGradient(0.3, -0.4, 1.35, 0.3, -0.4)
+        gradient.setSpread(QtGui.QGradient.PadSpread)
+        gradient.setCoordinateMode(QtGui.QGradient.ObjectBoundingMode)
+        gradient.setColorAt(0.0, QtGui.QColor(255, 255, 255))
+        gradient.setColorAt(1.0, QtGui.QColor(166, 166, 166))
+        brush = QtGui.QBrush(gradient)
+        palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.Window, brush)
+        brush = QtGui.QBrush(QtGui.QColor(51, 51, 51, 128))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.PlaceholderText, brush)
+        brush = QtGui.QBrush(QtGui.QColor(51, 51, 51))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.WindowText, brush)
+        gradient = QtGui.QRadialGradient(0.3, -0.4, 1.35, 0.3, -0.4)
+        gradient.setSpread(QtGui.QGradient.PadSpread)
+        gradient.setCoordinateMode(QtGui.QGradient.ObjectBoundingMode)
+        gradient.setColorAt(0.0, QtGui.QColor(255, 255, 255))
+        gradient.setColorAt(1.0, QtGui.QColor(166, 166, 166))
+        brush = QtGui.QBrush(gradient)
+        palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.Button, brush)
+        brush = QtGui.QBrush(QtGui.QColor(51, 51, 51))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.Text, brush)
+        brush = QtGui.QBrush(QtGui.QColor(51, 51, 51))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.ButtonText, brush)
+        gradient = QtGui.QRadialGradient(0.3, -0.4, 1.35, 0.3, -0.4)
+        gradient.setSpread(QtGui.QGradient.PadSpread)
+        gradient.setCoordinateMode(QtGui.QGradient.ObjectBoundingMode)
+        gradient.setColorAt(0.0, QtGui.QColor(255, 255, 255))
+        gradient.setColorAt(1.0, QtGui.QColor(166, 166, 166))
+        brush = QtGui.QBrush(gradient)
+        palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.Base, brush)
+        gradient = QtGui.QRadialGradient(0.3, -0.4, 1.35, 0.3, -0.4)
+        gradient.setSpread(QtGui.QGradient.PadSpread)
+        gradient.setCoordinateMode(QtGui.QGradient.ObjectBoundingMode)
+        gradient.setColorAt(0.0, QtGui.QColor(255, 255, 255))
+        gradient.setColorAt(1.0, QtGui.QColor(166, 166, 166))
+        brush = QtGui.QBrush(gradient)
+        palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.Window, brush)
+        brush = QtGui.QBrush(QtGui.QColor(51, 51, 51, 128))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.PlaceholderText, brush)
+        self.Search_ed_prof.setPalette(palette)
+        self.Search_ed_prof.setStyleSheet("QLineEdit {\n"
+"color: #333;\n"
+"border: 2px solid #555;\n"
+"border-radius: 10px;\n"
+"border-style: inset;\n"
+"font: 12pt \"MS Shell Dlg 2\";\n"
+"min-width: 8em;\n"
+"background: qradialgradient(\n"
+"cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4,\n"
+"radius: 1.35, stop: 0 #fff, stop: 1 #a6a6a6\n"
+");\n"
+"padding: 5px;\n"
+"}\n"
+"\n"
+"QLineEdit:hover {\n"
+"background: qradialgradient(\n"
+"cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4,\n"
+"radius: 1.35, stop: 0 #b4b4b4, stop: 1 #969696\n"
+");\n"
+"}\n"
+"\n"
+"QLineEdit:pressed {\n"
+"border-style: inset;\n"
+"background: qradialgradient(\n"
+"cx: 0.4, cy: -0.1, fx: 0.4, fy: -0.1,\n"
+"radius: 1.35, stop: 0 #fff, stop: 1 #ddd\n"
+");\n"
+"}")
+        self.Search_ed_prof.setObjectName("Search_ed_prof")
+        self.Check_lay_prof.addWidget(self.Search_ed_prof, 1, 0, 1, 1)
         self.Search_but_prof = QtWidgets.QPushButton(self.U_profile_tab)
-        self.Search_but_prof.setMinimumSize(QtCore.QSize(166, 41))
+        self.Search_but_prof.setMinimumSize(QtCore.QSize(150, 41))
         self.Search_but_prof.setMaximumSize(QtCore.QSize(131, 41))
         self.Search_but_prof.setStyleSheet("QPushButton {\n"
 "color: #333;\n"
@@ -112,112 +232,8 @@ class Ui_Form(object):
 ");\n"
 "}")
         self.Search_but_prof.setObjectName("Search_but_prof")
-        self.Check_lay_prof.addWidget(self.Search_but_prof, 2, 2, 1, 1)
-        self.Objects_info_prof = QtWidgets.QTableWidget(self.U_profile_tab)
-        self.Objects_info_prof.setMinimumSize(QtCore.QSize(850, 391))
-        self.Objects_info_prof.setMaximumSize(QtCore.QSize(850, 391))
-        self.Objects_info_prof.setStyleSheet("background-color: rgb(168, 168, 168);\n"
-"")
-        self.Objects_info_prof.setColumnCount(4)
-        self.Objects_info_prof.setObjectName("Objects_info_prof")
-        self.Objects_info_prof.setRowCount(0)
-        self.Check_lay_prof.addWidget(self.Objects_info_prof, 1, 0, 1, 3)
-        self.Support_data_prof = QtWidgets.QListView(self.U_profile_tab)
-        self.Support_data_prof.setMinimumSize(QtCore.QSize(250, 135))
-        self.Support_data_prof.setMaximumSize(QtCore.QSize(250, 135))
-        self.Support_data_prof.setStyleSheet("background-color: rgb(168, 168, 168);\n"
-"")
-        self.Support_data_prof.setObjectName("Support_data_prof")
-        self.Check_lay_prof.addWidget(self.Support_data_prof, 6, 2, 1, 1)
-        spacerItem6 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
-        self.Check_lay_prof.addItem(spacerItem6, 2, 0, 1, 1)
-        spacerItem7 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
-        self.Check_lay_prof.addItem(spacerItem7, 5, 0, 1, 1)
-        spacerItem8 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.Check_lay_prof.addItem(spacerItem8, 5, 1, 1, 1)
-        spacerItem9 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
-        self.Check_lay_prof.addItem(spacerItem9, 5, 2, 1, 1)
-        self.Search_ed_prof = QtWidgets.QLineEdit(self.U_profile_tab)
-        self.Search_ed_prof.setMinimumSize(QtCore.QSize(100, 41))
-        self.Search_ed_prof.setMaximumSize(QtCore.QSize(220, 41))
-        palette = QtGui.QPalette()
-        gradient = QtGui.QLinearGradient(0.482198, 0.971, 0.497, 0.023)
-        gradient.setSpread(QtGui.QGradient.PadSpread)
-        gradient.setCoordinateMode(QtGui.QGradient.ObjectBoundingMode)
-        gradient.setColorAt(0.0338983, QtGui.QColor(46, 46, 46))
-        gradient.setColorAt(1.0, QtGui.QColor(168, 168, 168))
-        brush = QtGui.QBrush(gradient)
-        palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.Button, brush)
-        gradient = QtGui.QLinearGradient(0.482198, 0.971, 0.497, 0.023)
-        gradient.setSpread(QtGui.QGradient.PadSpread)
-        gradient.setCoordinateMode(QtGui.QGradient.ObjectBoundingMode)
-        gradient.setColorAt(0.0338983, QtGui.QColor(46, 46, 46))
-        gradient.setColorAt(1.0, QtGui.QColor(168, 168, 168))
-        brush = QtGui.QBrush(gradient)
-        palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.Base, brush)
-        gradient = QtGui.QLinearGradient(0.482198, 0.971, 0.497, 0.023)
-        gradient.setSpread(QtGui.QGradient.PadSpread)
-        gradient.setCoordinateMode(QtGui.QGradient.ObjectBoundingMode)
-        gradient.setColorAt(0.0338983, QtGui.QColor(46, 46, 46))
-        gradient.setColorAt(1.0, QtGui.QColor(168, 168, 168))
-        brush = QtGui.QBrush(gradient)
-        palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.Window, brush)
-        gradient = QtGui.QLinearGradient(0.482198, 0.971, 0.497, 0.023)
-        gradient.setSpread(QtGui.QGradient.PadSpread)
-        gradient.setCoordinateMode(QtGui.QGradient.ObjectBoundingMode)
-        gradient.setColorAt(0.0338983, QtGui.QColor(46, 46, 46))
-        gradient.setColorAt(1.0, QtGui.QColor(168, 168, 168))
-        brush = QtGui.QBrush(gradient)
-        palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.Button, brush)
-        gradient = QtGui.QLinearGradient(0.482198, 0.971, 0.497, 0.023)
-        gradient.setSpread(QtGui.QGradient.PadSpread)
-        gradient.setCoordinateMode(QtGui.QGradient.ObjectBoundingMode)
-        gradient.setColorAt(0.0338983, QtGui.QColor(46, 46, 46))
-        gradient.setColorAt(1.0, QtGui.QColor(168, 168, 168))
-        brush = QtGui.QBrush(gradient)
-        palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.Base, brush)
-        gradient = QtGui.QLinearGradient(0.482198, 0.971, 0.497, 0.023)
-        gradient.setSpread(QtGui.QGradient.PadSpread)
-        gradient.setCoordinateMode(QtGui.QGradient.ObjectBoundingMode)
-        gradient.setColorAt(0.0338983, QtGui.QColor(46, 46, 46))
-        gradient.setColorAt(1.0, QtGui.QColor(168, 168, 168))
-        brush = QtGui.QBrush(gradient)
-        palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.Window, brush)
-        gradient = QtGui.QLinearGradient(0.482198, 0.971, 0.497, 0.023)
-        gradient.setSpread(QtGui.QGradient.PadSpread)
-        gradient.setCoordinateMode(QtGui.QGradient.ObjectBoundingMode)
-        gradient.setColorAt(0.0338983, QtGui.QColor(46, 46, 46))
-        gradient.setColorAt(1.0, QtGui.QColor(168, 168, 168))
-        brush = QtGui.QBrush(gradient)
-        palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.Button, brush)
-        gradient = QtGui.QLinearGradient(0.482198, 0.971, 0.497, 0.023)
-        gradient.setSpread(QtGui.QGradient.PadSpread)
-        gradient.setCoordinateMode(QtGui.QGradient.ObjectBoundingMode)
-        gradient.setColorAt(0.0338983, QtGui.QColor(46, 46, 46))
-        gradient.setColorAt(1.0, QtGui.QColor(168, 168, 168))
-        brush = QtGui.QBrush(gradient)
-        palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.Base, brush)
-        gradient = QtGui.QLinearGradient(0.482198, 0.971, 0.497, 0.023)
-        gradient.setSpread(QtGui.QGradient.PadSpread)
-        gradient.setCoordinateMode(QtGui.QGradient.ObjectBoundingMode)
-        gradient.setColorAt(0.0338983, QtGui.QColor(46, 46, 46))
-        gradient.setColorAt(1.0, QtGui.QColor(168, 168, 168))
-        brush = QtGui.QBrush(gradient)
-        palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.Window, brush)
-        self.Search_ed_prof.setPalette(palette)
-        self.Search_ed_prof.setObjectName("Search_ed_prof")
-        self.Check_lay_prof.addWidget(self.Search_ed_prof, 2, 1, 1, 1)
-        spacerItem10 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
-        self.Check_lay_prof.addItem(spacerItem10, 0, 0, 1, 1)
-        self.gridLayout.addLayout(self.Check_lay_prof, 0, 3, 7, 1)
-        spacerItem11 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.gridLayout.addItem(spacerItem11, 1, 2, 1, 1)
-        spacerItem12 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.gridLayout.addItem(spacerItem12, 2, 6, 1, 1)
-        spacerItem13 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
-        self.gridLayout.addItem(spacerItem13, 3, 1, 1, 1)
-        self.Name_lay_prof = QtWidgets.QGridLayout()
-        self.Name_lay_prof.setObjectName("Name_lay_prof")
+        self.Check_lay_prof.addWidget(self.Search_but_prof, 1, 1, 1, 1)
+        self.gridLayout.addLayout(self.Check_lay_prof, 4, 2, 1, 1)
         self.U_name_prof = QtWidgets.QLabel(self.U_profile_tab)
         self.U_name_prof.setMinimumSize(QtCore.QSize(250, 41))
         palette = QtGui.QPalette()
@@ -249,28 +265,45 @@ class Ui_Form(object):
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.Window, brush)
         self.U_name_prof.setPalette(palette)
-        self.U_name_prof.setStyleSheet("background-color: rgba(255, 255, 255, 0);")
+        self.U_name_prof.setStyleSheet("background-color: rgba(255, 255, 255, 10);")
         self.U_name_prof.setObjectName("U_name_prof")
-        self.Name_lay_prof.addWidget(self.U_name_prof, 0, 0, 1, 1)
-        self.gridLayout.addLayout(self.Name_lay_prof, 4, 0, 1, 1)
-        spacerItem14 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.gridLayout.addItem(spacerItem14, 4, 2, 1, 1)
-        spacerItem15 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
-        self.gridLayout.addItem(spacerItem15, 5, 1, 1, 1)
+        self.gridLayout.addWidget(self.U_name_prof, 3, 0, 1, 1)
+        self.Objects_info_prof = QtWidgets.QTableWidget(self.U_profile_tab)
+        self.Objects_info_prof.setMinimumSize(QtCore.QSize(850, 391))
+        self.Objects_info_prof.setMaximumSize(QtCore.QSize(850, 391))
+        self.Objects_info_prof.setStyleSheet("background-color: rgb(168, 168, 168);\n"
+"")
+        self.Objects_info_prof.setColumnCount(4)
+        self.Objects_info_prof.setObjectName("Objects_info_prof")
+        self.Objects_info_prof.setRowCount(0)
+        self.gridLayout.addWidget(self.Objects_info_prof, 1, 2, 1, 1)
+        self.Photo_lay_prof = QtWidgets.QGridLayout()
+        self.Photo_lay_prof.setObjectName("Photo_lay_prof")
+        spacerItem1 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.Photo_lay_prof.addItem(spacerItem1, 1, 2, 1, 1)
+        self.U_photo_prof = QtWidgets.QLabel(self.U_profile_tab)
+        self.U_photo_prof.setMinimumSize(QtCore.QSize(169, 169))
+        self.U_photo_prof.setMaximumSize(QtCore.QSize(169, 169))
+        self.U_photo_prof.setStyleSheet("border: 3px solid black;\n"
+"border-radius: 80px;\n"
+"background-color: rgba(255, 255, 255, 10);")
+        self.U_photo_prof.setObjectName("U_photo_prof")
+        self.Photo_lay_prof.addWidget(self.U_photo_prof, 0, 0, 2, 2)
+        spacerItem2 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.Photo_lay_prof.addItem(spacerItem2, 2, 0, 1, 1)
+        spacerItem3 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.Photo_lay_prof.addItem(spacerItem3, 0, 2, 1, 1)
+        self.gridLayout.addLayout(self.Photo_lay_prof, 0, 0, 3, 2)
         self.Prof_logo_lay = QtWidgets.QGridLayout()
         self.Prof_logo_lay.setObjectName("Prof_logo_lay")
-        spacerItem16 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.Prof_logo_lay.addItem(spacerItem16, 1, 2, 1, 1)
         self.Logo_prof = QtWidgets.QLabel(self.U_profile_tab)
         self.Logo_prof.setMinimumSize(QtCore.QSize(82, 45))
         self.Logo_prof.setStyleSheet("background-color: rgba(255, 255, 255, 0);\n"
 "image: url(:/newPrefix/images/backgrounds/PsLYIQ01.svg);")
         self.Logo_prof.setObjectName("Logo_prof")
-        self.Prof_logo_lay.addWidget(self.Logo_prof, 3, 0, 1, 1)
-        spacerItem17 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
-        self.Prof_logo_lay.addItem(spacerItem17, 0, 1, 1, 1)
-        spacerItem18 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
-        self.Prof_logo_lay.addItem(spacerItem18, 2, 0, 1, 1)
+        self.Prof_logo_lay.addWidget(self.Logo_prof, 2, 0, 1, 1)
+        spacerItem4 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.Prof_logo_lay.addItem(spacerItem4, 0, 1, 1, 1)
         self.Log_out_but_prof = QtWidgets.QPushButton(self.U_profile_tab)
         self.Log_out_but_prof.setMinimumSize(QtCore.QSize(145, 41))
         self.Log_out_but_prof.setMaximumSize(QtCore.QSize(145, 41))
@@ -279,7 +312,6 @@ class Ui_Form(object):
         font.setPointSize(12)
         font.setBold(False)
         font.setItalic(False)
-        font.setWeight(50)
         self.Log_out_but_prof.setFont(font)
         self.Log_out_but_prof.setStyleSheet("QPushButton {\n"
 "color: #333;\n"
@@ -311,49 +343,214 @@ class Ui_Form(object):
 ");\n"
 "}")
         self.Log_out_but_prof.setObjectName("Log_out_but_prof")
-        self.Prof_logo_lay.addWidget(self.Log_out_but_prof, 3, 1, 1, 1)
-        self.gridLayout.addLayout(self.Prof_logo_lay, 6, 0, 2, 2)
-        spacerItem19 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.gridLayout.addItem(spacerItem19, 6, 2, 1, 1)
-        spacerItem20 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.gridLayout.addItem(spacerItem20, 7, 6, 1, 1)
+        self.Prof_logo_lay.addWidget(self.Log_out_but_prof, 2, 1, 1, 1)
+        spacerItem5 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.Prof_logo_lay.addItem(spacerItem5, 1, 0, 1, 1)
+        self.gridLayout.addLayout(self.Prof_logo_lay, 4, 0, 2, 2)
         self.horizontalLayout_3.addLayout(self.gridLayout)
         self.tabWidget.addTab(self.U_profile_tab, "")
-        self.U_Capavity = QtWidgets.QWidget()
-        self.U_Capavity.setObjectName("U_Capavity")
-        self.horizontalLayout_4 = QtWidgets.QHBoxLayout(self.U_Capavity)
+        self.U_Performance = QtWidgets.QWidget()
+        self.U_Performance.setObjectName("U_Performance")
+        self.horizontalLayout_4 = QtWidgets.QHBoxLayout(self.U_Performance)
         self.horizontalLayout_4.setObjectName("horizontalLayout_4")
-        self.U_capacity_lay = QtWidgets.QGridLayout()
-        self.U_capacity_lay.setObjectName("U_capacity_lay")
-        spacerItem21 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.U_capacity_lay.addItem(spacerItem21, 4, 5, 1, 1)
-        spacerItem22 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.U_capacity_lay.addItem(spacerItem22, 4, 2, 1, 1)
-        spacerItem23 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
-        self.U_capacity_lay.addItem(spacerItem23, 4, 3, 1, 1)
-        self.Cap_logo_lay = QtWidgets.QGridLayout()
-        self.Cap_logo_lay.setObjectName("Cap_logo_lay")
-        spacerItem24 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.Cap_logo_lay.addItem(spacerItem24, 1, 2, 1, 1)
-        self.Logo_cap = QtWidgets.QLabel(self.U_Capavity)
-        self.Logo_cap.setMinimumSize(QtCore.QSize(82, 45))
-        self.Logo_cap.setStyleSheet("background-color: rgba(255, 255, 255, 0);\n"
-"image: url(:/newPrefix/images/backgrounds/PsLYIQ01.svg);")
-        self.Logo_cap.setObjectName("Logo_cap")
-        self.Cap_logo_lay.addWidget(self.Logo_cap, 3, 0, 1, 1)
-        spacerItem25 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
-        self.Cap_logo_lay.addItem(spacerItem25, 2, 0, 1, 1)
-        self.Log_out_but_cap = QtWidgets.QPushButton(self.U_Capavity)
-        self.Log_out_but_cap.setMinimumSize(QtCore.QSize(145, 41))
-        self.Log_out_but_cap.setMaximumSize(QtCore.QSize(145, 41))
+        self.U_perf_lay = QtWidgets.QGridLayout()
+        self.U_perf_lay.setObjectName("U_perf_lay")
+        self.Search_ed_perf = QtWidgets.QLineEdit(self.U_Performance)
+        self.Search_ed_perf.setMinimumSize(QtCore.QSize(150, 41))
+        self.Search_ed_perf.setMaximumSize(QtCore.QSize(220, 41))
+        palette = QtGui.QPalette()
+        brush = QtGui.QBrush(QtGui.QColor(51, 51, 51))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.WindowText, brush)
+        gradient = QtGui.QRadialGradient(0.3, -0.4, 1.35, 0.3, -0.4)
+        gradient.setSpread(QtGui.QGradient.PadSpread)
+        gradient.setCoordinateMode(QtGui.QGradient.ObjectBoundingMode)
+        gradient.setColorAt(0.0, QtGui.QColor(255, 255, 255))
+        gradient.setColorAt(1.0, QtGui.QColor(166, 166, 166))
+        brush = QtGui.QBrush(gradient)
+        palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.Button, brush)
+        brush = QtGui.QBrush(QtGui.QColor(51, 51, 51))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.Text, brush)
+        brush = QtGui.QBrush(QtGui.QColor(51, 51, 51))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.ButtonText, brush)
+        gradient = QtGui.QRadialGradient(0.3, -0.4, 1.35, 0.3, -0.4)
+        gradient.setSpread(QtGui.QGradient.PadSpread)
+        gradient.setCoordinateMode(QtGui.QGradient.ObjectBoundingMode)
+        gradient.setColorAt(0.0, QtGui.QColor(255, 255, 255))
+        gradient.setColorAt(1.0, QtGui.QColor(166, 166, 166))
+        brush = QtGui.QBrush(gradient)
+        palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.Base, brush)
+        gradient = QtGui.QRadialGradient(0.3, -0.4, 1.35, 0.3, -0.4)
+        gradient.setSpread(QtGui.QGradient.PadSpread)
+        gradient.setCoordinateMode(QtGui.QGradient.ObjectBoundingMode)
+        gradient.setColorAt(0.0, QtGui.QColor(255, 255, 255))
+        gradient.setColorAt(1.0, QtGui.QColor(166, 166, 166))
+        brush = QtGui.QBrush(gradient)
+        palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.Window, brush)
+        brush = QtGui.QBrush(QtGui.QColor(51, 51, 51, 128))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.PlaceholderText, brush)
+        brush = QtGui.QBrush(QtGui.QColor(51, 51, 51))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.WindowText, brush)
+        gradient = QtGui.QRadialGradient(0.3, -0.4, 1.35, 0.3, -0.4)
+        gradient.setSpread(QtGui.QGradient.PadSpread)
+        gradient.setCoordinateMode(QtGui.QGradient.ObjectBoundingMode)
+        gradient.setColorAt(0.0, QtGui.QColor(255, 255, 255))
+        gradient.setColorAt(1.0, QtGui.QColor(166, 166, 166))
+        brush = QtGui.QBrush(gradient)
+        palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.Button, brush)
+        brush = QtGui.QBrush(QtGui.QColor(51, 51, 51))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.Text, brush)
+        brush = QtGui.QBrush(QtGui.QColor(51, 51, 51))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.ButtonText, brush)
+        gradient = QtGui.QRadialGradient(0.3, -0.4, 1.35, 0.3, -0.4)
+        gradient.setSpread(QtGui.QGradient.PadSpread)
+        gradient.setCoordinateMode(QtGui.QGradient.ObjectBoundingMode)
+        gradient.setColorAt(0.0, QtGui.QColor(255, 255, 255))
+        gradient.setColorAt(1.0, QtGui.QColor(166, 166, 166))
+        brush = QtGui.QBrush(gradient)
+        palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.Base, brush)
+        gradient = QtGui.QRadialGradient(0.3, -0.4, 1.35, 0.3, -0.4)
+        gradient.setSpread(QtGui.QGradient.PadSpread)
+        gradient.setCoordinateMode(QtGui.QGradient.ObjectBoundingMode)
+        gradient.setColorAt(0.0, QtGui.QColor(255, 255, 255))
+        gradient.setColorAt(1.0, QtGui.QColor(166, 166, 166))
+        brush = QtGui.QBrush(gradient)
+        palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.Window, brush)
+        brush = QtGui.QBrush(QtGui.QColor(51, 51, 51, 128))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.PlaceholderText, brush)
+        brush = QtGui.QBrush(QtGui.QColor(51, 51, 51))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.WindowText, brush)
+        gradient = QtGui.QRadialGradient(0.3, -0.4, 1.35, 0.3, -0.4)
+        gradient.setSpread(QtGui.QGradient.PadSpread)
+        gradient.setCoordinateMode(QtGui.QGradient.ObjectBoundingMode)
+        gradient.setColorAt(0.0, QtGui.QColor(255, 255, 255))
+        gradient.setColorAt(1.0, QtGui.QColor(166, 166, 166))
+        brush = QtGui.QBrush(gradient)
+        palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.Button, brush)
+        brush = QtGui.QBrush(QtGui.QColor(51, 51, 51))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.Text, brush)
+        brush = QtGui.QBrush(QtGui.QColor(51, 51, 51))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.ButtonText, brush)
+        gradient = QtGui.QRadialGradient(0.3, -0.4, 1.35, 0.3, -0.4)
+        gradient.setSpread(QtGui.QGradient.PadSpread)
+        gradient.setCoordinateMode(QtGui.QGradient.ObjectBoundingMode)
+        gradient.setColorAt(0.0, QtGui.QColor(255, 255, 255))
+        gradient.setColorAt(1.0, QtGui.QColor(166, 166, 166))
+        brush = QtGui.QBrush(gradient)
+        palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.Base, brush)
+        gradient = QtGui.QRadialGradient(0.3, -0.4, 1.35, 0.3, -0.4)
+        gradient.setSpread(QtGui.QGradient.PadSpread)
+        gradient.setCoordinateMode(QtGui.QGradient.ObjectBoundingMode)
+        gradient.setColorAt(0.0, QtGui.QColor(255, 255, 255))
+        gradient.setColorAt(1.0, QtGui.QColor(166, 166, 166))
+        brush = QtGui.QBrush(gradient)
+        palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.Window, brush)
+        brush = QtGui.QBrush(QtGui.QColor(51, 51, 51, 128))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.PlaceholderText, brush)
+        self.Search_ed_perf.setPalette(palette)
+        self.Search_ed_perf.setStyleSheet("QLineEdit {\n"
+"color: #333;\n"
+"border: 2px solid #555;\n"
+"border-radius: 10px;\n"
+"border-style: inset;\n"
+"font: 12pt \"MS Shell Dlg 2\";\n"
+"min-width: 8em;\n"
+"background: qradialgradient(\n"
+"cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4,\n"
+"radius: 1.35, stop: 0 #fff, stop: 1 #a6a6a6\n"
+");\n"
+"padding: 5px;\n"
+"}\n"
+"\n"
+"QLineEdit:hover {\n"
+"background: qradialgradient(\n"
+"cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4,\n"
+"radius: 1.35, stop: 0 #b4b4b4, stop: 1 #969696\n"
+");\n"
+"}\n"
+"\n"
+"QLineEdit:pressed {\n"
+"border-style: inset;\n"
+"background: qradialgradient(\n"
+"cx: 0.4, cy: -0.1, fx: 0.4, fy: -0.1,\n"
+"radius: 1.35, stop: 0 #fff, stop: 1 #ddd\n"
+");\n"
+"}")
+        self.Search_ed_perf.setObjectName("Search_ed_perf")
+        self.U_perf_lay.addWidget(self.Search_ed_perf, 1, 1, 1, 1)
+        self.Support_data_cap = QtWidgets.QListView(self.U_Performance)
+        self.Support_data_cap.setMinimumSize(QtCore.QSize(250, 135))
+        self.Support_data_cap.setMaximumSize(QtCore.QSize(250, 135))
+        self.Support_data_cap.setStyleSheet("background-color: rgb(168, 168, 168);\n"
+"")
+        self.Support_data_cap.setObjectName("Support_data_cap")
+        self.U_perf_lay.addWidget(self.Support_data_cap, 3, 4, 1, 1)
+        self.Objects_info_cap = QtWidgets.QTableWidget(self.U_Performance)
+        self.Objects_info_cap.setMinimumSize(QtCore.QSize(1115, 421))
+        self.Objects_info_cap.setMaximumSize(QtCore.QSize(1115, 421))
+        self.Objects_info_cap.setStyleSheet("background-color: rgb(168, 168, 168);")
+        self.Objects_info_cap.setColumnCount(5)
+        self.Objects_info_cap.setObjectName("Objects_info_cap")
+        self.Objects_info_cap.setRowCount(0)
+        self.U_perf_lay.addWidget(self.Objects_info_cap, 0, 1, 1, 1)
+        self.Search_but_perf = QtWidgets.QPushButton(self.U_Performance)
+        self.Search_but_perf.setMinimumSize(QtCore.QSize(150, 41))
+        self.Search_but_perf.setMaximumSize(QtCore.QSize(131, 41))
+        self.Search_but_perf.setStyleSheet("QPushButton {\n"
+"color: #333;\n"
+"border: 2px solid #555;\n"
+"border-radius: 20px;\n"
+"border-style: outset;\n"
+"font: 12pt \"MS Shell Dlg 2\";\n"
+"min-width: 8em;\n"
+"background: qradialgradient(\n"
+"cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4,\n"
+"radius: 1.35, stop: 0 #fff, stop: 1 #888\n"
+");\n"
+"padding: 5px;\n"
+"}\n"
+"\n"
+"QPushButton:hover {\n"
+"background: qradialgradient(\n"
+"cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4,\n"
+"radius: 1.35, stop: 0 #fff, stop: 1 #bbb\n"
+");\n"
+"}\n"
+"\n"
+"QPushButton:pressed {\n"
+"border-style: inset;\n"
+"background: qradialgradient(\n"
+"cx: 0.4, cy: -0.1, fx: 0.4, fy: -0.1,\n"
+"radius: 1.35, stop: 0 #fff, stop: 1 #ddd\n"
+");\n"
+"}")
+        self.Search_but_perf.setObjectName("Search_but_perf")
+        self.U_perf_lay.addWidget(self.Search_but_perf, 1, 4, 1, 1)
+        self.Perf_logo_lay = QtWidgets.QGridLayout()
+        self.Perf_logo_lay.setObjectName("Perf_logo_lay")
+        spacerItem6 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.Perf_logo_lay.addItem(spacerItem6, 1, 1, 1, 1)
+        self.Log_out_but_perf = QtWidgets.QPushButton(self.U_Performance)
+        self.Log_out_but_perf.setMinimumSize(QtCore.QSize(145, 41))
+        self.Log_out_but_perf.setMaximumSize(QtCore.QSize(145, 41))
         font = QtGui.QFont()
         font.setFamily("MS Shell Dlg 2")
         font.setPointSize(12)
         font.setBold(False)
         font.setItalic(False)
-        font.setWeight(50)
-        self.Log_out_but_cap.setFont(font)
-        self.Log_out_but_cap.setStyleSheet("QPushButton {\n"
+        self.Log_out_but_perf.setFont(font)
+        self.Log_out_but_perf.setStyleSheet("QPushButton {\n"
 "color: #333;\n"
 "border: 2px solid #555;\n"
 "border-radius: 20px;\n"
@@ -382,104 +579,58 @@ class Ui_Form(object):
 "radius: 1.35, stop: 0 #fff, stop: 1 #ddd\n"
 ");\n"
 "}")
-        self.Log_out_but_cap.setObjectName("Log_out_but_cap")
-        self.Cap_logo_lay.addWidget(self.Log_out_but_cap, 3, 1, 1, 1)
-        spacerItem26 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
-        self.Cap_logo_lay.addItem(spacerItem26, 1, 1, 1, 1)
-        self.U_capacity_lay.addLayout(self.Cap_logo_lay, 3, 0, 2, 2)
-        spacerItem27 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
-        self.U_capacity_lay.addItem(spacerItem27, 4, 4, 1, 1)
-        self.Search_ed_cap = QtWidgets.QLineEdit(self.U_Capavity)
-        self.Search_ed_cap.setMinimumSize(QtCore.QSize(220, 41))
-        self.Search_ed_cap.setMaximumSize(QtCore.QSize(220, 41))
-        palette = QtGui.QPalette()
-        gradient = QtGui.QLinearGradient(0.482198, 0.971, 0.497, 0.023)
-        gradient.setSpread(QtGui.QGradient.PadSpread)
-        gradient.setCoordinateMode(QtGui.QGradient.ObjectBoundingMode)
-        gradient.setColorAt(0.0338983, QtGui.QColor(46, 46, 46))
-        gradient.setColorAt(1.0, QtGui.QColor(168, 168, 168))
-        brush = QtGui.QBrush(gradient)
-        palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.Button, brush)
-        gradient = QtGui.QLinearGradient(0.482198, 0.971, 0.497, 0.023)
-        gradient.setSpread(QtGui.QGradient.PadSpread)
-        gradient.setCoordinateMode(QtGui.QGradient.ObjectBoundingMode)
-        gradient.setColorAt(0.0338983, QtGui.QColor(46, 46, 46))
-        gradient.setColorAt(1.0, QtGui.QColor(168, 168, 168))
-        brush = QtGui.QBrush(gradient)
-        palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.Base, brush)
-        gradient = QtGui.QLinearGradient(0.482198, 0.971, 0.497, 0.023)
-        gradient.setSpread(QtGui.QGradient.PadSpread)
-        gradient.setCoordinateMode(QtGui.QGradient.ObjectBoundingMode)
-        gradient.setColorAt(0.0338983, QtGui.QColor(46, 46, 46))
-        gradient.setColorAt(1.0, QtGui.QColor(168, 168, 168))
-        brush = QtGui.QBrush(gradient)
-        palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.Window, brush)
-        gradient = QtGui.QLinearGradient(0.482198, 0.971, 0.497, 0.023)
-        gradient.setSpread(QtGui.QGradient.PadSpread)
-        gradient.setCoordinateMode(QtGui.QGradient.ObjectBoundingMode)
-        gradient.setColorAt(0.0338983, QtGui.QColor(46, 46, 46))
-        gradient.setColorAt(1.0, QtGui.QColor(168, 168, 168))
-        brush = QtGui.QBrush(gradient)
-        palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.Button, brush)
-        gradient = QtGui.QLinearGradient(0.482198, 0.971, 0.497, 0.023)
-        gradient.setSpread(QtGui.QGradient.PadSpread)
-        gradient.setCoordinateMode(QtGui.QGradient.ObjectBoundingMode)
-        gradient.setColorAt(0.0338983, QtGui.QColor(46, 46, 46))
-        gradient.setColorAt(1.0, QtGui.QColor(168, 168, 168))
-        brush = QtGui.QBrush(gradient)
-        palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.Base, brush)
-        gradient = QtGui.QLinearGradient(0.482198, 0.971, 0.497, 0.023)
-        gradient.setSpread(QtGui.QGradient.PadSpread)
-        gradient.setCoordinateMode(QtGui.QGradient.ObjectBoundingMode)
-        gradient.setColorAt(0.0338983, QtGui.QColor(46, 46, 46))
-        gradient.setColorAt(1.0, QtGui.QColor(168, 168, 168))
-        brush = QtGui.QBrush(gradient)
-        palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.Window, brush)
-        gradient = QtGui.QLinearGradient(0.482198, 0.971, 0.497, 0.023)
-        gradient.setSpread(QtGui.QGradient.PadSpread)
-        gradient.setCoordinateMode(QtGui.QGradient.ObjectBoundingMode)
-        gradient.setColorAt(0.0338983, QtGui.QColor(46, 46, 46))
-        gradient.setColorAt(1.0, QtGui.QColor(168, 168, 168))
-        brush = QtGui.QBrush(gradient)
-        palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.Button, brush)
-        gradient = QtGui.QLinearGradient(0.482198, 0.971, 0.497, 0.023)
-        gradient.setSpread(QtGui.QGradient.PadSpread)
-        gradient.setCoordinateMode(QtGui.QGradient.ObjectBoundingMode)
-        gradient.setColorAt(0.0338983, QtGui.QColor(46, 46, 46))
-        gradient.setColorAt(1.0, QtGui.QColor(168, 168, 168))
-        brush = QtGui.QBrush(gradient)
-        palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.Base, brush)
-        gradient = QtGui.QLinearGradient(0.482198, 0.971, 0.497, 0.023)
-        gradient.setSpread(QtGui.QGradient.PadSpread)
-        gradient.setCoordinateMode(QtGui.QGradient.ObjectBoundingMode)
-        gradient.setColorAt(0.0338983, QtGui.QColor(46, 46, 46))
-        gradient.setColorAt(1.0, QtGui.QColor(168, 168, 168))
-        brush = QtGui.QBrush(gradient)
-        palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.Window, brush)
-        self.Search_ed_cap.setPalette(palette)
-        self.Search_ed_cap.setObjectName("Search_ed_cap")
-        self.U_capacity_lay.addWidget(self.Search_ed_cap, 2, 2, 1, 1)
-        self.Support_data_cap = QtWidgets.QListView(self.U_Capavity)
-        self.Support_data_cap.setMinimumSize(QtCore.QSize(250, 135))
-        self.Support_data_cap.setMaximumSize(QtCore.QSize(250, 135))
-        self.Support_data_cap.setStyleSheet("background-color: rgb(168, 168, 168);\n"
+        self.Log_out_but_perf.setObjectName("Log_out_but_perf")
+        self.Perf_logo_lay.addWidget(self.Log_out_but_perf, 3, 1, 1, 1)
+        self.Logo_perf = QtWidgets.QLabel(self.U_Performance)
+        self.Logo_perf.setMinimumSize(QtCore.QSize(82, 45))
+        self.Logo_perf.setStyleSheet("background-color: rgba(255, 255, 255, 0);\n"
+"image: url(:/newPrefix/images/backgrounds/PsLYIQ01.svg);")
+        self.Logo_perf.setObjectName("Logo_perf")
+        self.Perf_logo_lay.addWidget(self.Logo_perf, 3, 0, 1, 1)
+        spacerItem7 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.Perf_logo_lay.addItem(spacerItem7, 2, 0, 1, 1)
+        spacerItem8 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.Perf_logo_lay.addItem(spacerItem8, 1, 2, 1, 1)
+        self.U_perf_lay.addLayout(self.Perf_logo_lay, 2, 0, 2, 2)
+        self.horizontalLayout_4.addLayout(self.U_perf_lay)
+        self.tabWidget.addTab(self.U_Performance, "")
+        self.U_chart = QtWidgets.QWidget()
+        self.U_chart.setObjectName("U_chart")
+        self.horizontalLayout_5 = QtWidgets.QHBoxLayout(self.U_chart)
+        self.horizontalLayout_5.setObjectName("horizontalLayout_5")
+        self.pushButton = QtWidgets.QPushButton(self.U_chart)
+        self.pushButton.setObjectName("pushButton")
+        self.horizontalLayout_5.addWidget(self.pushButton)
+        self.tabWidget.addTab(self.U_chart, "")
+        self.U_settings = QtWidgets.QWidget()
+        self.U_settings.setObjectName("U_settings")
+        self.horizontalLayout_2 = QtWidgets.QHBoxLayout(self.U_settings)
+        self.horizontalLayout_2.setObjectName("horizontalLayout_2")
+        self.gridLayout_2 = QtWidgets.QGridLayout()
+        self.gridLayout_2.setObjectName("gridLayout_2")
+        self.Logo_set = QtWidgets.QLabel(self.U_settings)
+        self.Logo_set.setMinimumSize(QtCore.QSize(82, 45))
+        self.Logo_set.setStyleSheet("background-color: rgba(255, 255, 255, 0);\n"
+"image: url(:/newPrefix/images/backgrounds/PsLYIQ01.svg);\n"
 "")
-        self.Support_data_cap.setObjectName("Support_data_cap")
-        self.U_capacity_lay.addWidget(self.Support_data_cap, 4, 6, 1, 1)
-        spacerItem28 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
-        self.U_capacity_lay.addItem(spacerItem28, 2, 1, 1, 1)
-        spacerItem29 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.U_capacity_lay.addItem(spacerItem29, 1, 7, 1, 1)
-        self.Search_but_cap = QtWidgets.QPushButton(self.U_Capavity)
-        self.Search_but_cap.setMinimumSize(QtCore.QSize(166, 41))
-        self.Search_but_cap.setMaximumSize(QtCore.QSize(131, 41))
-        self.Search_but_cap.setStyleSheet("QPushButton {\n"
+        self.Logo_set.setObjectName("Logo_set")
+        self.gridLayout_2.addWidget(self.Logo_set, 8, 0, 1, 1)
+        self.Log_out_but_set = QtWidgets.QPushButton(self.U_settings)
+        self.Log_out_but_set.setMinimumSize(QtCore.QSize(0, 41))
+        self.Log_out_but_set.setMaximumSize(QtCore.QSize(145, 41))
+        font = QtGui.QFont()
+        font.setFamily("MS Shell Dlg 2")
+        font.setPointSize(12)
+        font.setBold(False)
+        font.setItalic(False)
+        self.Log_out_but_set.setFont(font)
+        self.Log_out_but_set.setStyleSheet("QPushButton {\n"
 "color: #333;\n"
 "border: 2px solid #555;\n"
 "border-radius: 20px;\n"
 "border-style: outset;\n"
 "font: 12pt \"MS Shell Dlg 2\";\n"
-"min-width: 8em;\n"
+"max-width: 131px;\n"
 "background: qradialgradient(\n"
 "cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4,\n"
 "radius: 1.35, stop: 0 #fff, stop: 1 #888\n"
@@ -501,32 +652,8 @@ class Ui_Form(object):
 "radius: 1.35, stop: 0 #fff, stop: 1 #ddd\n"
 ");\n"
 "}")
-        self.Search_but_cap.setObjectName("Search_but_cap")
-        self.U_capacity_lay.addWidget(self.Search_but_cap, 2, 5, 1, 2)
-        self.Objects_info_cap = QtWidgets.QTableWidget(self.U_Capavity)
-        self.Objects_info_cap.setMinimumSize(QtCore.QSize(1091, 421))
-        self.Objects_info_cap.setMaximumSize(QtCore.QSize(1091, 421))
-        self.Objects_info_cap.setStyleSheet("background-color: rgb(168, 168, 168);")
-        self.Objects_info_cap.setColumnCount(5)
-        self.Objects_info_cap.setObjectName("Objects_info_cap")
-        self.Objects_info_cap.setRowCount(0)
-        self.U_capacity_lay.addWidget(self.Objects_info_cap, 1, 1, 1, 6)
-        spacerItem30 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
-        self.U_capacity_lay.addItem(spacerItem30, 0, 1, 1, 1)
-        self.horizontalLayout_4.addLayout(self.U_capacity_lay)
-        self.tabWidget.addTab(self.U_Capavity, "")
-        self.U_settings = QtWidgets.QWidget()
-        self.U_settings.setObjectName("U_settings")
-        self.horizontalLayout_2 = QtWidgets.QHBoxLayout(self.U_settings)
-        self.horizontalLayout_2.setObjectName("horizontalLayout_2")
-        self.U_settings_lay = QtWidgets.QGridLayout()
-        self.U_settings_lay.setObjectName("U_settings_lay")
-        self.Photo_lay_set = QtWidgets.QGridLayout()
-        self.Photo_lay_set.setObjectName("Photo_lay_set")
-        spacerItem31 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.Photo_lay_set.addItem(spacerItem31, 1, 0, 1, 1)
-        spacerItem32 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
-        self.Photo_lay_set.addItem(spacerItem32, 3, 3, 1, 1)
+        self.Log_out_but_set.setObjectName("Log_out_but_set")
+        self.gridLayout_2.addWidget(self.Log_out_but_set, 8, 1, 1, 1)
         self.Ch_photo_but = QtWidgets.QPushButton(self.U_settings)
         self.Ch_photo_but.setMinimumSize(QtCore.QSize(145, 41))
         self.Ch_photo_but.setMaximumSize(QtCore.QSize(145, 41))
@@ -560,108 +687,7 @@ class Ui_Form(object):
 ");\n"
 "}")
         self.Ch_photo_but.setObjectName("Ch_photo_but")
-        self.Photo_lay_set.addWidget(self.Ch_photo_but, 2, 3, 1, 1)
-        self.U_photo_set = QtWidgets.QLabel(self.U_settings)
-        self.U_photo_set.setMinimumSize(QtCore.QSize(169, 169))
-        self.U_photo_set.setMaximumSize(QtCore.QSize(169, 169))
-        self.U_photo_set.setStyleSheet("border: 3px solid black;\n"
-"border-radius: 80px;\n"
-"background-color: rgba(255, 255, 255, 10);")
-        self.U_photo_set.setObjectName("U_photo_set")
-        self.Photo_lay_set.addWidget(self.U_photo_set, 1, 1, 3, 2)
-        spacerItem33 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
-        self.Photo_lay_set.addItem(spacerItem33, 1, 3, 1, 1)
-        spacerItem34 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
-        self.Photo_lay_set.addItem(spacerItem34, 0, 1, 1, 1)
-        self.U_settings_lay.addLayout(self.Photo_lay_set, 0, 0, 1, 1)
-        spacerItem35 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.U_settings_lay.addItem(spacerItem35, 0, 1, 1, 1)
-        self.Check_lay_set = QtWidgets.QGridLayout()
-        self.Check_lay_set.setObjectName("Check_lay_set")
-        spacerItem36 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
-        self.Check_lay_set.addItem(spacerItem36, 3, 0, 1, 1)
-        spacerItem37 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
-        self.Check_lay_set.addItem(spacerItem37, 2, 0, 1, 1)
-        self.Objects_data_set = QtWidgets.QTableWidget(self.U_settings)
-        self.Objects_data_set.setMinimumSize(QtCore.QSize(850, 391))
-        self.Objects_data_set.setMaximumSize(QtCore.QSize(850, 391))
-        self.Objects_data_set.setStyleSheet("background-color: rgb(168, 168, 168);")
-        self.Objects_data_set.setColumnCount(4)
-        self.Objects_data_set.setObjectName("Objects_data_set")
-        self.Objects_data_set.setRowCount(0)
-        self.Check_lay_set.addWidget(self.Objects_data_set, 1, 0, 1, 3)
-        spacerItem38 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.Check_lay_set.addItem(spacerItem38, 4, 1, 1, 1)
-        self.Support_data_2_set = QtWidgets.QListView(self.U_settings)
-        self.Support_data_2_set.setMinimumSize(QtCore.QSize(325, 135))
-        self.Support_data_2_set.setMaximumSize(QtCore.QSize(325, 135))
-        self.Support_data_2_set.setStyleSheet("background-color: rgb(168, 168, 168);\n"
-"")
-        self.Support_data_2_set.setObjectName("Support_data_2_set")
-        self.Check_lay_set.addWidget(self.Support_data_2_set, 4, 0, 1, 1)
-        spacerItem39 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
-        self.Check_lay_set.addItem(spacerItem39, 2, 2, 1, 1)
-        spacerItem40 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
-        self.Check_lay_set.addItem(spacerItem40, 3, 2, 1, 1)
-        self.Support_data_set = QtWidgets.QListView(self.U_settings)
-        self.Support_data_set.setMinimumSize(QtCore.QSize(250, 135))
-        self.Support_data_set.setMaximumSize(QtCore.QSize(250, 135))
-        self.Support_data_set.setStyleSheet("background-color: rgb(168, 168, 168);\n"
-"")
-        self.Support_data_set.setObjectName("Support_data_set")
-        self.Check_lay_set.addWidget(self.Support_data_set, 4, 2, 1, 1)
-        spacerItem41 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
-        self.Check_lay_set.addItem(spacerItem41, 0, 0, 1, 1)
-        self.U_settings_lay.addLayout(self.Check_lay_set, 0, 2, 5, 1)
-        spacerItem42 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
-        self.U_settings_lay.addItem(spacerItem42, 1, 0, 1, 1)
-        spacerItem43 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.U_settings_lay.addItem(spacerItem43, 2, 1, 1, 1)
-        self.Name_lay_set = QtWidgets.QGridLayout()
-        self.Name_lay_set.setObjectName("Name_lay_set")
-        self.U_name_set = QtWidgets.QLabel(self.U_settings)
-        self.U_name_set.setMinimumSize(QtCore.QSize(147, 41))
-        self.U_name_set.setStyleSheet("background-color: rgba(255, 255, 255, 10);")
-        self.U_name_set.setObjectName("U_name_set")
-        self.Name_lay_set.addWidget(self.U_name_set, 0, 0, 1, 1)
-        self.Ch_name_but = QtWidgets.QPushButton(self.U_settings)
-        self.Ch_name_but.setMinimumSize(QtCore.QSize(145, 41))
-        self.Ch_name_but.setMaximumSize(QtCore.QSize(145, 41))
-        self.Ch_name_but.setStyleSheet("QPushButton {\n"
-"color: #333;\n"
-"border: 2px solid #555;\n"
-"border-radius: 20px;\n"
-"border-style: outset;\n"
-"font: 12pt \"MS Shell Dlg 2\";\n"
-"max-width: 131px;\n"
-"background: qradialgradient(\n"
-"cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4,\n"
-"radius: 1.35, stop: 0 #fff, stop: 1 #888\n"
-");\n"
-"padding: 5px;\n"
-"}\n"
-"\n"
-"QPushButton:hover {\n"
-"background: qradialgradient(\n"
-"cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4,\n"
-"radius: 1.35, stop: 0 #fff, stop: 1 #bbb\n"
-");\n"
-"}\n"
-"\n"
-"QPushButton:pressed {\n"
-"border-style: inset;\n"
-"background: qradialgradient(\n"
-"cx: 0.4, cy: -0.1, fx: 0.4, fy: -0.1,\n"
-"radius: 1.35, stop: 0 #fff, stop: 1 #ddd\n"
-");\n"
-"}")
-        self.Ch_name_but.setObjectName("Ch_name_but")
-        self.Name_lay_set.addWidget(self.Ch_name_but, 0, 1, 1, 1)
-        self.U_settings_lay.addLayout(self.Name_lay_set, 2, 0, 1, 1)
-        spacerItem44 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
-        self.U_settings_lay.addItem(spacerItem44, 3, 0, 1, 1)
-        self.Changes_lay_set = QtWidgets.QGridLayout()
-        self.Changes_lay_set.setObjectName("Changes_lay_set")
+        self.gridLayout_2.addWidget(self.Ch_photo_but, 0, 2, 1, 1)
         self.Ch_log_but = QtWidgets.QPushButton(self.U_settings)
         self.Ch_log_but.setMinimumSize(QtCore.QSize(145, 41))
         self.Ch_log_but.setMaximumSize(QtCore.QSize(145, 41))
@@ -694,7 +720,49 @@ class Ui_Form(object):
 ");\n"
 "}")
         self.Ch_log_but.setObjectName("Ch_log_but")
-        self.Changes_lay_set.addWidget(self.Ch_log_but, 0, 1, 1, 1)
+        self.gridLayout_2.addWidget(self.Ch_log_but, 3, 1, 1, 1)
+        spacerItem9 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.gridLayout_2.addItem(spacerItem9, 2, 1, 1, 1)
+        self.U_name_set = QtWidgets.QLabel(self.U_settings)
+        self.U_name_set.setMinimumSize(QtCore.QSize(147, 41))
+        self.U_name_set.setStyleSheet("background-color: rgba(255, 255, 255, 10);")
+        self.U_name_set.setObjectName("U_name_set")
+        self.gridLayout_2.addWidget(self.U_name_set, 1, 0, 1, 2)
+        self.Ch_name_but = QtWidgets.QPushButton(self.U_settings)
+        self.Ch_name_but.setMinimumSize(QtCore.QSize(145, 41))
+        self.Ch_name_but.setMaximumSize(QtCore.QSize(145, 41))
+        self.Ch_name_but.setStyleSheet("QPushButton {\n"
+"color: #333;\n"
+"border: 2px solid #555;\n"
+"border-radius: 20px;\n"
+"border-style: outset;\n"
+"font: 12pt \"MS Shell Dlg 2\";\n"
+"max-width: 131px;\n"
+"background: qradialgradient(\n"
+"cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4,\n"
+"radius: 1.35, stop: 0 #fff, stop: 1 #888\n"
+");\n"
+"padding: 5px;\n"
+"}\n"
+"\n"
+"QPushButton:hover {\n"
+"background: qradialgradient(\n"
+"cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4,\n"
+"radius: 1.35, stop: 0 #fff, stop: 1 #bbb\n"
+");\n"
+"}\n"
+"\n"
+"QPushButton:pressed {\n"
+"border-style: inset;\n"
+"background: qradialgradient(\n"
+"cx: 0.4, cy: -0.1, fx: 0.4, fy: -0.1,\n"
+"radius: 1.35, stop: 0 #fff, stop: 1 #ddd\n"
+");\n"
+"}")
+        self.Ch_name_but.setObjectName("Ch_name_but")
+        self.gridLayout_2.addWidget(self.Ch_name_but, 1, 2, 1, 1)
+        spacerItem10 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.gridLayout_2.addItem(spacerItem10, 4, 1, 1, 1)
         self.Ch_pass_butt = QtWidgets.QPushButton(self.U_settings)
         self.Ch_pass_butt.setMinimumSize(QtCore.QSize(145, 41))
         self.Ch_pass_butt.setMaximumSize(QtCore.QSize(145, 41))
@@ -703,7 +771,6 @@ class Ui_Form(object):
         font.setPointSize(11)
         font.setBold(False)
         font.setItalic(False)
-        font.setWeight(50)
         self.Ch_pass_butt.setFont(font)
         self.Ch_pass_butt.setStyleSheet("QPushButton {\n"
 "color: #333;\n"
@@ -734,31 +801,166 @@ class Ui_Form(object):
 ");\n"
 "}")
         self.Ch_pass_butt.setObjectName("Ch_pass_butt")
-        self.Changes_lay_set.addWidget(self.Ch_pass_butt, 2, 1, 1, 1)
-        self.Logo_set = QtWidgets.QLabel(self.U_settings)
-        self.Logo_set.setMinimumSize(QtCore.QSize(82, 45))
-        self.Logo_set.setStyleSheet("background-color: rgba(255, 255, 255, 0);\n"
-"image: url(:/newPrefix/images/backgrounds/PsLYIQ01.svg);\n"
-"")
-        self.Logo_set.setObjectName("Logo_set")
-        self.Changes_lay_set.addWidget(self.Logo_set, 4, 0, 1, 1)
-        self.Log_out_but_set = QtWidgets.QPushButton(self.U_settings)
-        self.Log_out_but_set.setMinimumSize(QtCore.QSize(0, 41))
-        self.Log_out_but_set.setMaximumSize(QtCore.QSize(145, 41))
+        self.gridLayout_2.addWidget(self.Ch_pass_butt, 5, 1, 1, 3)
+        self.U_photo_set = QtWidgets.QLabel(self.U_settings)
+        self.U_photo_set.setMinimumSize(QtCore.QSize(169, 169))
+        self.U_photo_set.setMaximumSize(QtCore.QSize(169, 169))
+        self.U_photo_set.setStyleSheet("border: 3px solid black;\n"
+"border-radius: 80px;\n"
+"background-color: rgba(255, 255, 255, 10);")
+        self.U_photo_set.setObjectName("U_photo_set")
+        self.gridLayout_2.addWidget(self.U_photo_set, 0, 0, 1, 2)
+        spacerItem11 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.gridLayout_2.addItem(spacerItem11, 6, 1, 1, 1)
+        self.horizontalLayout_2.addLayout(self.gridLayout_2)
+        self.verticalLayout_2 = QtWidgets.QVBoxLayout()
+        self.verticalLayout_2.setObjectName("verticalLayout_2")
+        spacerItem12 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.verticalLayout_2.addItem(spacerItem12)
+        spacerItem13 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.verticalLayout_2.addItem(spacerItem13)
+        self.label_4 = QtWidgets.QLabel(self.U_settings)
+        self.label_4.setStyleSheet("background-color: rgba(255, 255, 255, 0);")
+        self.label_4.setObjectName("label_4")
+        self.verticalLayout_2.addWidget(self.label_4)
+        spacerItem14 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.verticalLayout_2.addItem(spacerItem14)
+        self.U_name_2 = QtWidgets.QLineEdit(self.U_settings)
+        self.U_name_2.setMinimumSize(QtCore.QSize(234, 41))
+        self.U_name_2.setMaximumSize(QtCore.QSize(220, 41))
         font = QtGui.QFont()
         font.setFamily("MS Shell Dlg 2")
         font.setPointSize(12)
         font.setBold(False)
         font.setItalic(False)
-        font.setWeight(50)
-        self.Log_out_but_set.setFont(font)
-        self.Log_out_but_set.setStyleSheet("QPushButton {\n"
+        self.U_name_2.setFont(font)
+        self.U_name_2.setStyleSheet("QLineEdit {\n"
+"color: #333;\n"
+"border: 2px solid #555;\n"
+"border-radius: 10px;\n"
+"border-style: inset;\n"
+"font: 12pt \"MS Shell Dlg 2\";\n"
+"min-width: 220px;\n"
+"background: qradialgradient(\n"
+"cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4,\n"
+"radius: 1.35, stop: 0 #fff, stop: 1 #a6a6a6\n"
+");\n"
+"padding: 5px;\n"
+"}\n"
+"\n"
+"QLineEdit:hover {\n"
+"background: qradialgradient(\n"
+"cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4,\n"
+"radius: 1.35, stop: 0 #b4b4b4, stop: 1 #969696\n"
+");\n"
+"}\n"
+"\n"
+"QLineEdit:pressed {\n"
+"border-style: inset;\n"
+"background: qradialgradient(\n"
+"cx: 0.4, cy: -0.1, fx: 0.4, fy: -0.1,\n"
+"radius: 1.35, stop: 0 #fff, stop: 1 #ddd\n"
+");\n"
+"}")
+        self.U_name_2.setInputMask("")
+        self.U_name_2.setText("")
+        self.U_name_2.setObjectName("U_name_2")
+        self.verticalLayout_2.addWidget(self.U_name_2, 0, QtCore.Qt.AlignHCenter)
+        spacerItem15 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.verticalLayout_2.addItem(spacerItem15)
+        self.U_email_2 = QtWidgets.QLineEdit(self.U_settings)
+        self.U_email_2.setMinimumSize(QtCore.QSize(234, 41))
+        self.U_email_2.setMaximumSize(QtCore.QSize(220, 41))
+        self.U_email_2.setStyleSheet("QLineEdit {\n"
+"color: #333;\n"
+"border: 2px solid #555;\n"
+"border-radius: 10px;\n"
+"border-style: inset;\n"
+"font: 12pt \"MS Shell Dlg 2\";\n"
+"min-width: 220px;\n"
+"background: qradialgradient(\n"
+"cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4,\n"
+"radius: 1.35, stop: 0 #fff, stop: 1 #a6a6a6\n"
+");\n"
+"padding: 5px;\n"
+"}\n"
+"\n"
+"QLineEdit:hover {\n"
+"background: qradialgradient(\n"
+"cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4,\n"
+"radius: 1.35, stop: 0 #b4b4b4, stop: 1 #969696\n"
+");\n"
+"}\n"
+"\n"
+"QLineEdit:pressed {\n"
+"border-style: inset;\n"
+"background: qradialgradient(\n"
+"cx: 0.4, cy: -0.1, fx: 0.4, fy: -0.1,\n"
+"radius: 1.35, stop: 0 #fff, stop: 1 #ddd\n"
+");\n"
+"}")
+        self.U_email_2.setInputMask("")
+        self.U_email_2.setText("")
+        self.U_email_2.setObjectName("U_email_2")
+        self.verticalLayout_2.addWidget(self.U_email_2, 0, QtCore.Qt.AlignHCenter)
+        spacerItem16 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.verticalLayout_2.addItem(spacerItem16)
+        self.U_pass_2 = QtWidgets.QLineEdit(self.U_settings)
+        self.U_pass_2.setMinimumSize(QtCore.QSize(234, 41))
+        self.U_pass_2.setMaximumSize(QtCore.QSize(220, 41))
+        self.U_pass_2.setStyleSheet("QLineEdit {\n"
+"color: #333;\n"
+"border: 2px solid #555;\n"
+"border-radius: 10px;\n"
+"border-style: inset;\n"
+"font: 12pt \"MS Shell Dlg 2\";\n"
+"min-width: 220px;\n"
+"background: qradialgradient(\n"
+"cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4,\n"
+"radius: 1.35, stop: 0 #fff, stop: 1 #a6a6a6\n"
+");\n"
+"padding: 5px;\n"
+"}\n"
+"\n"
+"QLineEdit:hover {\n"
+"background: qradialgradient(\n"
+"cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4,\n"
+"radius: 1.35, stop: 0 #b4b4b4, stop: 1 #969696\n"
+");\n"
+"}\n"
+"\n"
+"QLineEdit:pressed {\n"
+"border-style: inset;\n"
+"background: qradialgradient(\n"
+"cx: 0.4, cy: -0.1, fx: 0.4, fy: -0.1,\n"
+"radius: 1.35, stop: 0 #fff, stop: 1 #ddd\n"
+");\n"
+"}")
+        self.U_pass_2.setInputMask("")
+        self.U_pass_2.setText("")
+        self.U_pass_2.setObjectName("U_pass_2")
+        self.verticalLayout_2.addWidget(self.U_pass_2, 0, QtCore.Qt.AlignHCenter)
+        spacerItem17 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.verticalLayout_2.addItem(spacerItem17)
+        spacerItem18 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.verticalLayout_2.addItem(spacerItem18)
+        self.U_add_panels_but_3 = QtWidgets.QPushButton(self.U_settings)
+        self.U_add_panels_but_3.setMinimumSize(QtCore.QSize(145, 41))
+        self.U_add_panels_but_3.setMaximumSize(QtCore.QSize(145, 41))
+        font = QtGui.QFont()
+        font.setFamily("MS Shell Dlg 2")
+        font.setPointSize(12)
+        font.setBold(False)
+        font.setItalic(False)
+        self.U_add_panels_but_3.setFont(font)
+        self.U_add_panels_but_3.setStyleSheet("QPushButton {\n"
 "color: #333;\n"
 "border: 2px solid #555;\n"
 "border-radius: 20px;\n"
 "border-style: outset;\n"
 "font: 12pt \"MS Shell Dlg 2\";\n"
-"max-width: 131px;\n"
+"min-width:131px;\n"
+"max-width:131px;\n"
 "background: qradialgradient(\n"
 "cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4,\n"
 "radius: 1.35, stop: 0 #fff, stop: 1 #888\n"
@@ -780,48 +982,227 @@ class Ui_Form(object):
 "radius: 1.35, stop: 0 #fff, stop: 1 #ddd\n"
 ");\n"
 "}")
-        self.Log_out_but_set.setObjectName("Log_out_but_set")
-        self.Changes_lay_set.addWidget(self.Log_out_but_set, 4, 1, 1, 1)
-        spacerItem45 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
-        self.Changes_lay_set.addItem(spacerItem45, 1, 1, 1, 1)
-        spacerItem46 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
-        self.Changes_lay_set.addItem(spacerItem46, 3, 0, 1, 1)
-        spacerItem47 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.Changes_lay_set.addItem(spacerItem47, 2, 2, 1, 1)
-        self.U_settings_lay.addLayout(self.Changes_lay_set, 4, 0, 1, 1)
-        spacerItem48 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.U_settings_lay.addItem(spacerItem48, 4, 1, 1, 1)
-        spacerItem49 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.U_settings_lay.addItem(spacerItem49, 0, 3, 1, 1)
-        self.horizontalLayout_2.addLayout(self.U_settings_lay)
+        self.U_add_panels_but_3.setObjectName("U_add_panels_but_3")
+        self.verticalLayout_2.addWidget(self.U_add_panels_but_3, 0, QtCore.Qt.AlignHCenter)
+        spacerItem19 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.verticalLayout_2.addItem(spacerItem19)
+        self.horizontalLayout_2.addLayout(self.verticalLayout_2)
+        self.verticalLayout_4 = QtWidgets.QVBoxLayout()
+        self.verticalLayout_4.setObjectName("verticalLayout_4")
+        spacerItem20 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.verticalLayout_4.addItem(spacerItem20)
+        spacerItem21 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.verticalLayout_4.addItem(spacerItem21)
+        self.label_3 = QtWidgets.QLabel(self.U_settings)
+        self.label_3.setStyleSheet("background-color: rgba(255, 255, 255, 0);")
+        self.label_3.setObjectName("label_3")
+        self.verticalLayout_4.addWidget(self.label_3)
+        spacerItem22 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.verticalLayout_4.addItem(spacerItem22)
+        self.U_panels_adress_2 = QtWidgets.QLineEdit(self.U_settings)
+        self.U_panels_adress_2.setMinimumSize(QtCore.QSize(234, 41))
+        self.U_panels_adress_2.setMaximumSize(QtCore.QSize(220, 41))
+        self.U_panels_adress_2.setStyleSheet("QLineEdit {\n"
+"color: #333;\n"
+"border: 2px solid #555;\n"
+"border-radius: 10px;\n"
+"border-style: inset;\n"
+"font: 12pt \"MS Shell Dlg 2\";\n"
+"min-width: 220px;\n"
+"background: qradialgradient(\n"
+"cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4,\n"
+"radius: 1.35, stop: 0 #fff, stop: 1 #a6a6a6\n"
+");\n"
+"padding: 5px;\n"
+"}\n"
+"\n"
+"QLineEdit:hover {\n"
+"background: qradialgradient(\n"
+"cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4,\n"
+"radius: 1.35, stop: 0 #b4b4b4, stop: 1 #969696\n"
+");\n"
+"}\n"
+"\n"
+"QLineEdit:pressed {\n"
+"border-style: inset;\n"
+"background: qradialgradient(\n"
+"cx: 0.4, cy: -0.1, fx: 0.4, fy: -0.1,\n"
+"radius: 1.35, stop: 0 #fff, stop: 1 #ddd\n"
+");\n"
+"}")
+        self.U_panels_adress_2.setInputMask("")
+        self.U_panels_adress_2.setText("")
+        self.U_panels_adress_2.setObjectName("U_panels_adress_2")
+        self.verticalLayout_4.addWidget(self.U_panels_adress_2, 0, QtCore.Qt.AlignHCenter)
+        spacerItem23 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.verticalLayout_4.addItem(spacerItem23)
+        self.U_panels_amount_2 = QtWidgets.QLineEdit(self.U_settings)
+        self.U_panels_amount_2.setMinimumSize(QtCore.QSize(234, 41))
+        self.U_panels_amount_2.setMaximumSize(QtCore.QSize(220, 41))
+        self.U_panels_amount_2.setStyleSheet("QLineEdit {\n"
+"color: #333;\n"
+"border: 2px solid #555;\n"
+"border-radius: 10px;\n"
+"border-style: inset;\n"
+"font: 12pt \"MS Shell Dlg 2\";\n"
+"min-width: 220px;\n"
+"background: qradialgradient(\n"
+"cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4,\n"
+"radius: 1.35, stop: 0 #fff, stop: 1 #a6a6a6\n"
+");\n"
+"padding: 5px;\n"
+"}\n"
+"\n"
+"QLineEdit:hover {\n"
+"background: qradialgradient(\n"
+"cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4,\n"
+"radius: 1.35, stop: 0 #b4b4b4, stop: 1 #969696\n"
+");\n"
+"}\n"
+"\n"
+"QLineEdit:pressed {\n"
+"border-style: inset;\n"
+"background: qradialgradient(\n"
+"cx: 0.4, cy: -0.1, fx: 0.4, fy: -0.1,\n"
+"radius: 1.35, stop: 0 #fff, stop: 1 #ddd\n"
+");\n"
+"}")
+        self.U_panels_amount_2.setInputMask("")
+        self.U_panels_amount_2.setText("")
+        self.U_panels_amount_2.setObjectName("U_panels_amount_2")
+        self.verticalLayout_4.addWidget(self.U_panels_amount_2, 0, QtCore.Qt.AlignHCenter)
+        spacerItem24 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.verticalLayout_4.addItem(spacerItem24)
+        self.U_panels_key_2 = QtWidgets.QLineEdit(self.U_settings)
+        self.U_panels_key_2.setMinimumSize(QtCore.QSize(234, 41))
+        self.U_panels_key_2.setMaximumSize(QtCore.QSize(220, 41))
+        self.U_panels_key_2.setStyleSheet("QLineEdit {\n"
+"color: #333;\n"
+"border: 2px solid #555;\n"
+"border-radius: 10px;\n"
+"border-style: inset;\n"
+"font: 12pt \"MS Shell Dlg 2\";\n"
+"min-width: 220px;\n"
+"background: qradialgradient(\n"
+"cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4,\n"
+"radius: 1.35, stop: 0 #fff, stop: 1 #a6a6a6\n"
+");\n"
+"padding: 5px;\n"
+"}\n"
+"\n"
+"QLineEdit:hover {\n"
+"background: qradialgradient(\n"
+"cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4,\n"
+"radius: 1.35, stop: 0 #b4b4b4, stop: 1 #969696\n"
+");\n"
+"}\n"
+"\n"
+"QLineEdit:pressed {\n"
+"border-style: inset;\n"
+"background: qradialgradient(\n"
+"cx: 0.4, cy: -0.1, fx: 0.4, fy: -0.1,\n"
+"radius: 1.35, stop: 0 #fff, stop: 1 #ddd\n"
+");\n"
+"}")
+        self.U_panels_key_2.setInputMask("")
+        self.U_panels_key_2.setText("")
+        self.U_panels_key_2.setObjectName("U_panels_key_2")
+        self.verticalLayout_4.addWidget(self.U_panels_key_2, 0, QtCore.Qt.AlignHCenter)
+        spacerItem25 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.verticalLayout_4.addItem(spacerItem25)
+        spacerItem26 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.verticalLayout_4.addItem(spacerItem26)
+        self.U_add_panels_but_4 = QtWidgets.QPushButton(self.U_settings)
+        self.U_add_panels_but_4.setMinimumSize(QtCore.QSize(145, 41))
+        self.U_add_panels_but_4.setMaximumSize(QtCore.QSize(145, 41))
+        font = QtGui.QFont()
+        font.setFamily("MS Shell Dlg 2")
+        font.setPointSize(12)
+        font.setBold(False)
+        font.setItalic(False)
+        self.U_add_panels_but_4.setFont(font)
+        self.U_add_panels_but_4.setStyleSheet("QPushButton {\n"
+"color: #333;\n"
+"border: 2px solid #555;\n"
+"border-radius: 20px;\n"
+"border-style: outset;\n"
+"font: 12pt \"MS Shell Dlg 2\";\n"
+"min-width:131px;\n"
+"max-width:131px;\n"
+"background: qradialgradient(\n"
+"cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4,\n"
+"radius: 1.35, stop: 0 #fff, stop: 1 #888\n"
+");\n"
+"padding: 5px;\n"
+"}\n"
+"\n"
+"QPushButton:hover {\n"
+"background: qradialgradient(\n"
+"cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4,\n"
+"radius: 1.35, stop: 0 #fff, stop: 1 #bbb\n"
+");\n"
+"}\n"
+"\n"
+"QPushButton:pressed {\n"
+"border-style: inset;\n"
+"background: qradialgradient(\n"
+"cx: 0.4, cy: -0.1, fx: 0.4, fy: -0.1,\n"
+"radius: 1.35, stop: 0 #fff, stop: 1 #ddd\n"
+");\n"
+"}")
+        self.U_add_panels_but_4.setObjectName("U_add_panels_but_4")
+        self.verticalLayout_4.addWidget(self.U_add_panels_but_4, 0, QtCore.Qt.AlignHCenter)
+        spacerItem27 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.verticalLayout_4.addItem(spacerItem27)
+        self.horizontalLayout_2.addLayout(self.verticalLayout_4)
         self.tabWidget.addTab(self.U_settings, "")
         self.horizontalLayout.addWidget(self.tabWidget)
 
         self.retranslateUi(Form)
-        self.tabWidget.setCurrentIndex(0)
+        self.tabWidget.setCurrentIndex(3)
         QtCore.QMetaObject.connectSlotsByName(Form)
 
     def retranslateUi(self, Form):
         _translate = QtCore.QCoreApplication.translate
         Form.setWindowTitle(_translate("Form", "Form"))
-        self.U_photo_prof.setText(_translate("Form", "<html><head/><body><p align=\"center\">Photo</p></body></html>"))
         self.Search_but_prof.setText(_translate("Form", "Search"))
         self.U_name_prof.setText(_translate("Form", "<html><head/><body><p align=\"center\">Name</p></body></html>"))
+        self.U_photo_prof.setText(_translate("Form", "<html><head/><body><p align=\"center\">Photo</p></body></html>"))
         self.Logo_prof.setText(_translate("Form", "<html><head/><body><p align=\"center\"><br/></p></body></html>"))
         self.Log_out_but_prof.setText(_translate("Form", "Log out"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.U_profile_tab), _translate("Form", "Profile"))
-        self.Logo_cap.setText(_translate("Form", "<html><head/><body><p align=\"center\"><br/></p></body></html>"))
-        self.Log_out_but_cap.setText(_translate("Form", "Log out"))
-        self.Search_but_cap.setText(_translate("Form", "Search"))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.U_Capavity), _translate("Form", "Capacity"))
-        self.Ch_photo_but.setText(_translate("Form", "Change"))
-        self.U_photo_set.setText(_translate("Form", "<html><head/><body><p align=\"center\">Photo</p></body></html>"))
-        self.U_name_set.setText(_translate("Form", "<html><head/><body><p align=\"center\">Name</p></body></html>"))
-        self.Ch_name_but.setText(_translate("Form", "Change"))
-        self.Ch_log_but.setText(_translate("Form", "Change Login"))
-        self.Ch_pass_butt.setText(_translate("Form", "Change Password"))
+        self.Search_but_perf.setText(_translate("Form", "Search"))
+        self.Log_out_but_perf.setText(_translate("Form", "Log out"))
+        self.Logo_perf.setText(_translate("Form", "<html><head/><body><p align=\"center\"><br/></p></body></html>"))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.U_Performance), _translate("Form", "Performance"))
+        self.pushButton.setText(_translate("Form", "PushButton"))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.U_chart), _translate("Form", "Chart"))
         self.Logo_set.setText(_translate("Form", "<html><head/><body><p align=\"center\"><br/></p></body></html>"))
         self.Log_out_but_set.setText(_translate("Form", "Log out"))
+        self.Ch_photo_but.setText(_translate("Form", "Change"))
+        self.Ch_log_but.setText(_translate("Form", "Change Login"))
+        self.U_name_set.setText(_translate("Form", "<html><head/><body><p align=\"center\">Name</p></body></html>"))
+        self.Ch_name_but.setText(_translate("Form", "Change"))
+        self.Ch_pass_butt.setText(_translate("Form", "Change Password"))
+        self.U_photo_set.setText(_translate("Form", "<html><head/><body><p align=\"center\">Photo</p></body></html>"))
+        self.label_4.setToolTip(_translate("Form", "<html><head/><body><p><br/></p></body></html>"))
+        self.label_4.setText(_translate("Form", "<html><head/><body><p align=\"center\"><span style=\" font-size:14pt; color:#f5f5dc;\">User data</span></p></body></html>"))
+        self.U_name_2.setWhatsThis(_translate("Form", "Login"))
+        self.U_name_2.setPlaceholderText(_translate("Form", "Name"))
+        self.U_email_2.setWhatsThis(_translate("Form", "Login"))
+        self.U_email_2.setPlaceholderText(_translate("Form", "E-mail"))
+        self.U_pass_2.setWhatsThis(_translate("Form", "Login"))
+        self.U_pass_2.setPlaceholderText(_translate("Form", "Password"))
+        self.U_add_panels_but_3.setText(_translate("Form", "Add Panels"))
+        self.label_3.setToolTip(_translate("Form", "<html><head/><body><p><br/></p></body></html>"))
+        self.label_3.setText(_translate("Form", "<html><head/><body><p align=\"center\"><span style=\" font-size:14pt; color:#f5f5dc;\">Panels data</span></p></body></html>"))
+        self.U_panels_adress_2.setWhatsThis(_translate("Form", "Login"))
+        self.U_panels_adress_2.setPlaceholderText(_translate("Form", "Adress"))
+        self.U_panels_amount_2.setWhatsThis(_translate("Form", "Login"))
+        self.U_panels_amount_2.setPlaceholderText(_translate("Form", "Amount"))
+        self.U_panels_key_2.setWhatsThis(_translate("Form", "Login"))
+        self.U_panels_key_2.setPlaceholderText(_translate("Form", "Panels key"))
+        self.U_add_panels_but_4.setText(_translate("Form", "Clear data"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.U_settings), _translate("Form", "Settings"))
 import Backgrounds
 

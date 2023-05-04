@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "solar-control"
+version = "0.1.0"
+description = "Software for solar panels control"
+authors = ["Kyrylo Tanasiichuk <tanasiychukkirill@gmail.com>" , "Danila Verbinskiy <work.danv4656@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+packages = [
+    { include = "PY" },
+]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+PyQt5 = "^5.15.9"
+fastapi = "^0.95.1"
+uvicorn = "^0.21.1"
+pydantic = "^1.10.7"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

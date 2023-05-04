@@ -1,0 +1,2 @@
+# git ignore file for python with poetry
+poetry.lock
