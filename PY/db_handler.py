@@ -6,12 +6,11 @@ class SqliteDB:
 
     #authentication user
     @staticmethod
-    def authenticate_user(username: str, password: str) -> tuple[bool, int]:
+    def authenticate_user(login: str, password: str) -> tuple[bool, int]:
         conn = sql.connect('C:\Solar Control\Solar-Control\PY\Solar_panels.db')
         cursor = conn.cursor()
-        cursor.execute("SELECT P_pass, Person_id FROM Users WHERE P_name = ?", (username,))
+        cursor.execute("SELECT P_pass, Person_id FROM Users WHERE P_email_adress = ?", (login,))
         result = cursor.fetchone()
-        
         if result is None:
             conn.close()
             return False, None
@@ -59,7 +58,7 @@ class SqliteDB:
             Panels_Data = []
             for i in result:
                 Panels_Data = {'Id_PanelGroup':i[0], 'Person_id':i[1], 'Panels_amount':i[2], 'Panels_adress':i[3], 'Performance': i[4], 'Voltage': i[5], 'Power': i[6], 'Data': i[7], 'Control_id': i[8], 'Id': i[9]}
-            return result[0]
+            return Panels_Data
 
 
     #get panels data for api
@@ -81,13 +80,19 @@ class SqliteDB:
     
     #add user
     @staticmethod
-    def add_user(p_name: str, p_email_adress: str, p_adress: str, password: str):
+    def add_user(p_name: str, p_email_adress: str, p_adress: str, password: str) -> bool:
         conn = sql.connect("C:\Solar Control\Solar-Control\PY\Solar_panels.db")
         cursor = conn.cursor()
         p_pass  = hashlib.sha256(password.encode('utf-8')).hexdigest()
         cursor.execute("INSERT INTO Users (P_name, P_email_adress, P_adress, P_pass) VALUES (?, ?, ?, ?)", (p_name, p_email_adress, p_adress, p_pass,))
         conn.commit()
+        cursor.execute("SELECT COUNT(*) FROM Users WHERE P_name = ? AND P_email_adress = ? AND P_adress = ?  LIMIT 1", (p_name,p_email_adress, p_adress,))
+        result = cursor.fetchone()
         conn.close()
+        if result is not None:
+            return True
+        else:
+            return False
     
     #add panel group
     @staticmethod
