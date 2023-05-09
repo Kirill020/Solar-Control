@@ -1,17 +1,20 @@
-import Log_in
+import typing
+from PyQt5.QtWidgets import QWidget
+import control
 from PyQt5 import QtCore, QtGui, QtWidgets
 
 
-class Ui_Form(object):
-    def setupUi(self, Form):
-        Form.setObjectName("Form")
-        Form.resize(1180, 727)
-        Form.setMinimumSize(QtCore.QSize(1180, 727))
-        Form.setStyleSheet("background-color: qlineargradient(spread:pad, x1:0.482198, y1:0.971, x2:0.497, y2:0.023, stop:0.0338983 rgba(46, 46, 46, 255), stop:1 rgba(168, 168, 168, 255));")
+class ProfileWindow(QtWidgets.QMainWindow):
+    def __init__(self):
+        super().__init__()
+        self.setWindowTitle("SOLAR CONTROL")
+        self.resize(1180, 727)
+        self.setMinimumSize(QtCore.QSize(1180, 727))
+        self.setStyleSheet("background-color: qlineargradient(spread:pad, x1:0.482198, y1:0.971, x2:0.497, y2:0.023, stop:0.0338983 rgba(46, 46, 46, 255), stop:1 rgba(168, 168, 168, 255));")
 
 
 #create  Tab Widget
-        self.tabWidget = QtWidgets.QTabWidget(Form)
+        self.tabWidget = QtWidgets.QTabWidget(self)
         self.tabWidget.setGeometry(QtCore.QRect(9, 9, 1162, 709))
         self.tabWidget.setStyleSheet("QTabBar::tab {\n"
                         "color: #333;\n"
@@ -249,6 +252,7 @@ class Ui_Form(object):
                         ");\n"
                         "}")
         self.Search_but_prof.setObjectName("Search_but_prof")
+        self.Search_but_prof.setText("Search")
 #add to layout
         self.Check_lay_prof.addWidget(self.Search_but_prof, 1, 1, 1, 1)
 
@@ -257,6 +261,7 @@ class Ui_Form(object):
         self.gridLayout.addLayout(self.Check_lay_prof, 4, 2, 1, 1)
         self.U_name_prof = QtWidgets.QLabel(self.U_profile_tab)
         self.U_name_prof.setMinimumSize(QtCore.QSize(250, 41))
+        self.U_name_prof.setText("<html><head/><body><p align=\"center\">Name</p></body></html>")
 
 
 
@@ -324,6 +329,7 @@ class Ui_Form(object):
                         "border-radius: 80px;\n"
                         "background-color: rgba(255, 255, 255, 10);")
         self.U_photo_prof.setObjectName("U_photo_prof")
+        self.U_photo_prof.setText("<html><head/><body><p align=\"center\">Photo</p></body></html>")
 #add to layout
         self.Photo_lay_prof.addWidget(self.U_photo_prof, 0, 0, 2, 2)
         spacerItem2 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
@@ -343,6 +349,7 @@ class Ui_Form(object):
         self.Logo_prof.setStyleSheet("background-color: rgba(255, 255, 255, 0);\n"
                         "image: url(:/newPrefix/images/backgrounds/PsLYIQ01.svg);")
         self.Logo_prof.setObjectName("Logo_prof")
+        self.Logo_prof.setText("<html><head/><body><p align=\"center\"><br/></p></body></html>")
 #add to layout
         self.Prof_logo_lay.addWidget(self.Logo_prof, 2, 0, 1, 1)
         spacerItem4 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
@@ -389,6 +396,7 @@ class Ui_Form(object):
                         ");\n"
                         "}")
         self.Log_out_but_prof.setObjectName("Log_out_but_prof")
+        self.Log_out_but_prof.setText("Log out")
         self.Log_out_but_prof.clicked.connect(self.log_out)
 
 
@@ -609,6 +617,7 @@ class Ui_Form(object):
                         ");\n"
                         "}")
         self.Search_but_perf.setObjectName("Search_but_perf")
+        self.Search_but_perf.setText("Search")
 
 #add to layout
         self.U_perf_lay.addWidget(self.Search_but_perf, 1, 4, 1, 1)
@@ -659,6 +668,8 @@ class Ui_Form(object):
                         ");\n"
                         "}")
         self.Log_out_but_perf.setObjectName("Log_out_but_perf")
+        self.Log_out_but_perf.setText("Log out")
+        self.Log_out_but_perf.clicked.connect(self.log_out)
 
 #logo and layouts
         self.Perf_logo_lay.addWidget(self.Log_out_but_perf, 3, 1, 1, 1)
@@ -667,6 +678,8 @@ class Ui_Form(object):
         self.Logo_perf.setStyleSheet("background-color: rgba(255, 255, 255, 0);\n"
                         "image: url(:/newPrefix/images/backgrounds/PsLYIQ01.svg);")
         self.Logo_perf.setObjectName("Logo_perf")
+        self.Logo_perf.setText("<html><head/><body><p align=\"center\"><br/></p></body></html>")
+
         self.Perf_logo_lay.addWidget(self.Logo_perf, 3, 0, 1, 1)
         spacerItem7 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
         self.Perf_logo_lay.addItem(spacerItem7, 2, 0, 1, 1)
@@ -690,6 +703,7 @@ class Ui_Form(object):
 #button
         self.pushButton = QtWidgets.QPushButton(self.U_chart)
         self.pushButton.setObjectName("pushButton")
+        self.pushButton.setText("Check chart")
         self.horizontalLayout_5.addWidget(self.pushButton)
 #add tab to tab widget
         self.tabWidget.addTab(self.U_chart, "")
@@ -711,6 +725,7 @@ class Ui_Form(object):
         self.Logo_set.setStyleSheet("background-color: rgba(255, 255, 255, 0);\n"
                         "image: url(:/newPrefix/images/backgrounds/PsLYIQ01.svg);\n""")
         self.Logo_set.setObjectName("Logo_set")
+        self.Logo_set.setText("<html><head/><body><p align=\"center\"><br/></p></body></html>")
 #add to layout        
         self.gridLayout_2.addWidget(self.Logo_set, 8, 0, 1, 1)
 
@@ -753,6 +768,8 @@ class Ui_Form(object):
                         ");\n"
                         "}")
         self.Log_out_but_set.setObjectName("Log_out_but_set")
+        self.Log_out_but_set.setText("Log out")
+        self.Log_out_but_set.clicked.connect(self.log_out)
 #add to layout
         self.gridLayout_2.addWidget(self.Log_out_but_set, 8, 1, 1, 1)
 
@@ -790,6 +807,7 @@ class Ui_Form(object):
                         ");\n"
                         "}")
         self.Ch_photo_but.setObjectName("Ch_photo_but")
+        self.Ch_photo_but.setText("Change")
 #add to layout
         self.gridLayout_2.addWidget(self.Ch_photo_but, 0, 2, 1, 1)
 
@@ -826,6 +844,7 @@ class Ui_Form(object):
                         ");\n"
                         "}")
         self.Ch_log_but.setObjectName("Ch_log_but")
+        self.Ch_log_but.setText("Change Login")
 #add to layout
         self.gridLayout_2.addWidget(self.Ch_log_but, 3, 1, 1, 1)
         spacerItem9 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
@@ -836,6 +855,7 @@ class Ui_Form(object):
         self.U_name_set.setMinimumSize(QtCore.QSize(147, 41))
         self.U_name_set.setStyleSheet("background-color: rgba(255, 255, 255, 10);")
         self.U_name_set.setObjectName("U_name_set")
+        self.U_name_set.setText("<html><head/><body><p align=\"center\">Name</p></body></html>")
 #add to layout
         self.gridLayout_2.addWidget(self.U_name_set, 1, 0, 1, 2)
 
@@ -872,6 +892,7 @@ class Ui_Form(object):
                         ");\n"
                         "}")
         self.Ch_name_but.setObjectName("Ch_name_but")
+        self.Ch_name_but.setText("Change")
 #add to layout
         self.gridLayout_2.addWidget(self.Ch_name_but, 1, 2, 1, 1)
         spacerItem10 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
@@ -916,6 +937,7 @@ class Ui_Form(object):
                         ");\n"
                         "}")
         self.Ch_pass_butt.setObjectName("Ch_pass_butt")
+        self.Ch_pass_butt.setText("Change Password")
 #add to layout
         self.gridLayout_2.addWidget(self.Ch_pass_butt, 5, 1, 1, 3)
 
@@ -927,6 +949,7 @@ class Ui_Form(object):
                         "border-radius: 80px;\n"
                         "background-color: rgba(255, 255, 255, 10);")
         self.U_photo_set.setObjectName("U_photo_set")
+        self.U_photo_set.setText("<html><head/><body><p align=\"center\">Photo</p></body></html>")
 #add to layout
         self.gridLayout_2.addWidget(self.U_photo_set, 0, 0, 1, 2)
         spacerItem11 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
@@ -943,6 +966,8 @@ class Ui_Form(object):
         self.add_pan_us_lab = QtWidgets.QLabel(self.U_settings)
         self.add_pan_us_lab.setStyleSheet("background-color: rgba(255, 255, 255, 0);")
         self.add_pan_us_lab.setObjectName("add_pan_lab")
+        self.add_pan_us_lab.setToolTip("<html><head/><body><p><br/></p></body></html>")
+        self.add_pan_us_lab.setText("<html><head/><body><p align=\"center\"><span style=\" font-size:14pt; color:#f5f5dc;\">User data</span></p></body></html>")
 #add to layout
         self.verticalLayout_2.addWidget(self.add_pan_us_lab)
         spacerItem14 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
@@ -989,6 +1014,8 @@ class Ui_Form(object):
         self.U_name_add_panels.setInputMask("")
         self.U_name_add_panels.setText("")
         self.U_name_add_panels.setObjectName("U_name_add_panels")
+        self.U_name_add_panels.setWhatsThis("Name")
+        self.U_name_add_panels.setPlaceholderText("Name")
 #add to layout
         self.verticalLayout_2.addWidget(self.U_name_add_panels, 0, QtCore.Qt.AlignHCenter)
         spacerItem15 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
@@ -1029,6 +1056,8 @@ class Ui_Form(object):
         self.U_email_add_panels.setInputMask("")
         self.U_email_add_panels.setText("")
         self.U_email_add_panels.setObjectName("U_email_add_panels")
+        self.U_email_add_panels.setWhatsThis("Email")
+        self.U_email_add_panels.setPlaceholderText("E-mail")
 #add to layout
         self.verticalLayout_2.addWidget(self.U_email_add_panels, 0, QtCore.Qt.AlignHCenter)
         spacerItem16 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
@@ -1069,6 +1098,8 @@ class Ui_Form(object):
         self.U_pass_add_panels.setInputMask("")
         self.U_pass_add_panels.setText("")
         self.U_pass_add_panels.setObjectName("U_pass_add_panels")
+        self.U_pass_add_panels.setWhatsThis("Password")
+        self.U_pass_add_panels.setPlaceholderText("Password")
 #add to layout
         self.verticalLayout_2.addWidget(self.U_pass_add_panels, 0, QtCore.Qt.AlignHCenter)
         spacerItem17 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
@@ -1115,7 +1146,8 @@ class Ui_Form(object):
                         "radius: 1.35, stop: 0 #fff, stop: 1 #ddd\n"
                         ");\n"
                         "}")
-        self.U_add_panels_but.setObjectName("U_add_panels_but_3")
+        self.U_add_panels_but.setObjectName("U_add_panels_but")
+        self.U_add_panels_but.setText("Add Panels")
 #add to layout
         self.verticalLayout_2.addWidget(self.U_add_panels_but, 0, QtCore.Qt.AlignHCenter)
         spacerItem19 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
@@ -1131,7 +1163,9 @@ class Ui_Form(object):
 #labels for add panels label(panels data)
         self.add_pan_dat_lab = QtWidgets.QLabel(self.U_settings)
         self.add_pan_dat_lab.setStyleSheet("background-color: rgba(255, 255, 255, 0);")
-        self.add_pan_dat_lab.setObjectName("label_3")
+        self.add_pan_dat_lab.setObjectName("add_pan_dat_lab")
+        self.add_pan_dat_lab.setToolTip("<html><head/><body><p><br/></p></body></html>")
+        self.add_pan_dat_lab.setText("<html><head/><body><p align=\"center\"><span style=\" font-size:14pt; color:#f5f5dc;\">Panels data</span></p></body></html>")
 #add to layout
         self.verticalLayout_4.addWidget(self.add_pan_dat_lab)
         spacerItem22 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
@@ -1172,6 +1206,8 @@ class Ui_Form(object):
         self.U_new_panels_adress.setInputMask("")
         self.U_new_panels_adress.setText("")
         self.U_new_panels_adress.setObjectName("U_new_panels_adress")
+        self.U_new_panels_adress.setWhatsThis("New Adress")
+        self.U_new_panels_adress.setPlaceholderText("Adress")
 #add to layout
         self.verticalLayout_4.addWidget(self.U_new_panels_adress, 0, QtCore.Qt.AlignHCenter)
         spacerItem23 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
@@ -1212,6 +1248,8 @@ class Ui_Form(object):
         self.U_panels_amount.setInputMask("")
         self.U_panels_amount.setText("")
         self.U_panels_amount.setObjectName("U_panels_amount")
+        self.U_panels_amount.setWhatsThis("Amount")
+        self.U_panels_amount.setPlaceholderText("Amount")
         self.verticalLayout_4.addWidget(self.U_panels_amount, 0, QtCore.Qt.AlignHCenter)
 #add to layout
         spacerItem24 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
@@ -1252,6 +1290,8 @@ class Ui_Form(object):
         self.U_panels_key.setInputMask("")
         self.U_panels_key.setText("")
         self.U_panels_key.setObjectName("U_panels_key")
+        self.U_panels_key.setWhatsThis("Key")
+        self.U_panels_key.setPlaceholderText("Panels key")
 #add to layout
         self.verticalLayout_4.addWidget(self.U_panels_key, 0, QtCore.Qt.AlignHCenter)
         spacerItem25 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
@@ -1299,6 +1339,7 @@ class Ui_Form(object):
                         ");\n"
                         "}")
         self.U_clear_panels_but.setObjectName("U_clear_panels_but")
+        self.U_clear_panels_but.setText("Clear data")
 #add to layout
         self.verticalLayout_4.addWidget(self.U_clear_panels_but, 0, QtCore.Qt.AlignHCenter)
         spacerItem27 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
@@ -1309,73 +1350,27 @@ class Ui_Form(object):
         self.add_pan_lab = QtWidgets.QLabel(self.U_settings)
         self.add_pan_lab.setStyleSheet("background-color: rgba(255, 255, 255, 0);")
         self.add_pan_lab.setObjectName("add_pan_lab")
+        self.add_pan_lab.setToolTip("<html><head/><body><p><br/></p></body></html>")
+        self.add_pan_lab.setText("<html><head/><body><p align=\"center\"><span style=\" font-size:14pt; color:#f5f5dc;\">Add Panels</span></p></body></html>")
 #add to layout
         self.gridLayout_3.addWidget(self.add_pan_lab, 0, 2, 1, 1)
         self.tabWidget.addTab(self.U_settings, "")
 
-        self.retranslateUi(Form)
         self.tabWidget.setCurrentIndex(0)
-        QtCore.QMetaObject.connectSlotsByName(Form)
-        
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.U_profile_tab), "Profile")
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.U_Performance), "Performance")
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.U_chart), "Chart")
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.U_settings), "Settings")
 
     def log_out(self):
-        self.login_window = Log_in.LoginWindow()
-        self.login_window.show()
-        Form.close()
-
-
-    def retranslateUi(self, Form):
-        _translate = QtCore.QCoreApplication.translate
-        Form.setWindowTitle(_translate("Form", "Form"))
-        self.Search_but_prof.setText(_translate("Form", "Search"))
-        self.U_name_prof.setText(_translate("Form", "<html><head/><body><p align=\"center\">Name</p></body></html>"))
-        self.U_photo_prof.setText(_translate("Form", "<html><head/><body><p align=\"center\">Photo</p></body></html>"))
-        self.Logo_prof.setText(_translate("Form", "<html><head/><body><p align=\"center\"><br/></p></body></html>"))
-        self.Log_out_but_prof.setText(_translate("Form", "Log out"))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.U_profile_tab), _translate("Form", "Profile"))
-        self.Search_but_perf.setText(_translate("Form", "Search"))
-        self.Log_out_but_perf.setText(_translate("Form", "Log out"))
-        self.Logo_perf.setText(_translate("Form", "<html><head/><body><p align=\"center\"><br/></p></body></html>"))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.U_Performance), _translate("Form", "Performance"))
-        self.pushButton.setText(_translate("Form", "Check chart"))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.U_chart), _translate("Form", "Chart"))
-        self.Logo_set.setText(_translate("Form", "<html><head/><body><p align=\"center\"><br/></p></body></html>"))
-        self.Log_out_but_set.setText(_translate("Form", "Log out"))
-        self.Ch_photo_but.setText(_translate("Form", "Change"))
-        self.Ch_log_but.setText(_translate("Form", "Change Login"))
-        self.U_name_set.setText(_translate("Form", "<html><head/><body><p align=\"center\">Name</p></body></html>"))
-        self.Ch_name_but.setText(_translate("Form", "Change"))
-        self.Ch_pass_butt.setText(_translate("Form", "Change Password"))
-        self.U_photo_set.setText(_translate("Form", "<html><head/><body><p align=\"center\">Photo</p></body></html>"))
-        self.add_pan_us_lab.setToolTip(_translate("Form", "<html><head/><body><p><br/></p></body></html>"))
-        self.add_pan_us_lab.setText(_translate("Form", "<html><head/><body><p align=\"center\"><span style=\" font-size:14pt; color:#f5f5dc;\">User data</span></p></body></html>"))
-        self.U_name_add_panels.setWhatsThis(_translate("Form", "Name"))
-        self.U_name_add_panels.setPlaceholderText(_translate("Form", "Name"))
-        self.U_email_add_panels.setWhatsThis(_translate("Form", "Email"))
-        self.U_email_add_panels.setPlaceholderText(_translate("Form", "E-mail"))
-        self.U_pass_add_panels.setWhatsThis(_translate("Form", "Password"))
-        self.U_pass_add_panels.setPlaceholderText(_translate("Form", "Password"))
-        self.U_add_panels_but.setText(_translate("Form", "Add Panels"))
-        self.add_pan_dat_lab.setToolTip(_translate("Form", "<html><head/><body><p><br/></p></body></html>"))
-        self.add_pan_dat_lab.setText(_translate("Form", "<html><head/><body><p align=\"center\"><span style=\" font-size:14pt; color:#f5f5dc;\">Panels data</span></p></body></html>"))
-        self.U_new_panels_adress.setWhatsThis(_translate("Form", "New Adress"))
-        self.U_new_panels_adress.setPlaceholderText(_translate("Form", "Adress"))
-        self.U_panels_amount.setWhatsThis(_translate("Form", "Amount"))
-        self.U_panels_amount.setPlaceholderText(_translate("Form", "Amount"))
-        self.U_panels_key.setWhatsThis(_translate("Form", "Key"))
-        self.U_panels_key.setPlaceholderText(_translate("Form", "Panels key"))
-        self.U_clear_panels_but.setText(_translate("Form", "Clear data"))
-        self.add_pan_lab.setToolTip(_translate("Form", "<html><head/><body><p><br/></p></body></html>"))
-        self.add_pan_lab.setText(_translate("Form", "<html><head/><body><p align=\"center\"><span style=\" font-size:14pt; color:#f5f5dc;\">Add Panels</span></p></body></html>"))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.U_settings), _translate("Form", "Settings"))
+        self.controller = control.Control()
+        self.controller.show_login()
+        self.close()
+        
 import Backgrounds
-
-
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
-    Form = QtWidgets.QWidget()
-    ui = Ui_Form()
-    ui.setupUi(Form)
-    Form.show()
+    profile_window = ProfileWindow()
+    profile_window.show()
     sys.exit(app.exec_())
