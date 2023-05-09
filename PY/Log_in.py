@@ -1,5 +1,5 @@
 import sys
-import U_profile
+import control
 from db_handler import SqliteDB
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QApplication, QMainWindow
@@ -78,12 +78,22 @@ class LoginWindow(QMainWindow):
 
         #Link lable to register window
         self.link_lab = QtWidgets.QLabel(self)
-        self.link_lab.setGeometry(QtCore.QRect(200, 370, 171, 31))
+        self.link_lab.setGeometry(QtCore.QRect(170, 370, 171, 31))
         self.link_lab.setToolTip("")
         self.link_lab.setAutoFillBackground(False)
         self.link_lab.setStyleSheet("border: 0px; background-color:rgba(0,0,0,0%);")
         self.link_lab.setObjectName("link_lab")
-        self.link_lab.setText("<html><head/><body><p align=\"center\">Don`t have an account? <span style=\" color:#882a2a;\">Sign up</span></p></body></html>")
+        self.link_lab.setText("<html><head/><body><p align=\"center\">Don`t have an account?</p></body></html>")
+
+        self.link_lab_2 = QtWidgets.QLabel(self)
+        self.link_lab_2.setGeometry(QtCore.QRect(253, 370, 171, 31))
+        self.link_lab_2.setToolTip("")
+        self.link_lab_2.setAutoFillBackground(False)
+        self.link_lab_2.setStyleSheet("border: 0px; background-color:rgba(0,0,0,0%);")
+        self.link_lab_2.setObjectName("link_lab_2")
+        self.link_lab_2.setText("<html><head/><body><p style=\" color:#FFFFFF;\" align=\"center\">Sign in </p></body></html>")
+        self.link_lab_2.mousePressEvent = self.show_sign_in
+
 
 
         #Log in button 
@@ -122,7 +132,7 @@ class LoginWindow(QMainWindow):
                         "}")
         self.log_in_But.setObjectName("Log_in_But")
         self.log_in_But.setText("Log in")
-
+        self.log_in_But.clicked.connect(self.log_check)
 
         
         #Edit for password
@@ -164,8 +174,7 @@ class LoginWindow(QMainWindow):
         self.password_edit.setWhatsThis("Edit for Password")
         self.password_edit.setPlaceholderText("Password")
 
-        self.log_in_But.clicked.connect(self.log_check)
-
+        
     def log_check(self):
         if not self.login_edit.text() or not self.password_edit.text():
             QtWidgets.QMessageBox.warning(self, "Warning", "Fill every fields please!")
@@ -175,15 +184,17 @@ class LoginWindow(QMainWindow):
                 result = SqliteDB.authenticate_user(user_name, password)
 
                 if result[0]:
-                     QtWidgets.QMessageBox.warning(self, "Welcome!", "Succesfuly!")
-                     self.u_profile_window = QtWidgets.QWidget()
-                     self.u_profile = U_profile.Ui_Form()
-                     self.u_profile.setupUi(self.u_profile_window)
-                     self.u_profile_window.show()
-                     self.hide()
+                    self.controller = control.Control()
+                    self.controller.show_profile()
+                    self.close()
                 else:
-                     QtWidgets.QMessageBox.warning(self, "Error", "Something went wrong. Please, try again")
+                    QtWidgets.QMessageBox.warning(self, "Error", "Something went wrong. Please, try again")
 
+
+    def show_sign_in(self,event):
+        self.controller = control.Control()
+        self.controller.show_sign_in()
+        self.close()
 import Backgrounds
 if __name__ == '__main__':
     app = QApplication(sys.argv)
