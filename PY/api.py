@@ -47,7 +47,7 @@ async def add_group_data(group_data: GroupDataModel):
         SqliteDB.update_penels_group(Id_PanelGroup, Person_id, Panels_amount, Panels_adress, performance, voltage, power, id)
         get_weather_from_api(Panels_adress, Id_PanelGroup)
     else:
-        #if in database is`t exist data about some panels group save this data to add their in future
+        #if in database does`t exist data about some panels group save this data to add their in future
         global new_group
         new_group['id'] =  id
         new_group['performance'] =  performance
