@@ -17,7 +17,7 @@ class LoginWindow(QMainWindow):
 
         #Logo name(SOLAR CONTROL)
         self.logo_name_lab = QtWidgets.QLabel(self)
-        self.logo_name_lab.setGeometry(QtCore.QRect(240, 60, 101, 31))
+        self.logo_name_lab.setGeometry(QtCore.QRect(230, 60, 101, 31))
         self.logo_name_lab.setToolTip("")
         self.logo_name_lab.setAutoFillBackground(False)
         self.logo_name_lab.setStyleSheet("border: 0px; background-color:rgba(0,0,0,0%);")
@@ -77,23 +77,34 @@ class LoginWindow(QMainWindow):
 
 
         #Link lable to register window
-        self.link_lab = QtWidgets.QLabel(self)
-        self.link_lab.setGeometry(QtCore.QRect(170, 370, 171, 31))
-        self.link_lab.setToolTip("")
-        self.link_lab.setAutoFillBackground(False)
-        self.link_lab.setStyleSheet("border: 0px; background-color:rgba(0,0,0,0%);")
-        self.link_lab.setObjectName("link_lab")
-        self.link_lab.setText("<html><head/><body><p align=\"center\">Don`t have an account?</p></body></html>")
+        self.link_reg = QtWidgets.QLabel(self)
+        self.link_reg.setGeometry(QtCore.QRect(170, 370, 171, 31))
+        self.link_reg.setToolTip("")
+        self.link_reg.setAutoFillBackground(False)
+        self.link_reg.setStyleSheet("border: 0px; background-color:rgba(0,0,0,0%);")
+        self.link_reg.setObjectName("link_reg")
+        self.link_reg.setText("<html><head/><body><p align=\"center\">Don`t have an account?</p></body></html>")
 
-        self.link_lab_2 = QtWidgets.QLabel(self)
-        self.link_lab_2.setGeometry(QtCore.QRect(253, 370, 171, 31))
-        self.link_lab_2.setToolTip("")
-        self.link_lab_2.setAutoFillBackground(False)
-        self.link_lab_2.setStyleSheet("border: 0px; background-color:rgba(0,0,0,0%);")
-        self.link_lab_2.setObjectName("link_lab_2")
-        self.link_lab_2.setText("<html><head/><body><p style=\" color:#FFFFFF;\" align=\"center\">Sign in </p></body></html>")
-        self.link_lab_2.mousePressEvent = self.show_sign_in
+        self.link_reg_2 = QtWidgets.QLabel(self)
+        self.link_reg_2.setGeometry(QtCore.QRect(253, 370, 171, 31))
+        self.link_reg_2.setToolTip("")
+        self.link_reg_2.setAutoFillBackground(False)
+        self.link_reg_2.setStyleSheet("border: 0px; background-color:rgba(0,0,0,0%);")
+        self.link_reg_2.setObjectName("link_reg_2")
+        self.link_reg_2.setText("<html><head/><body><p style=\" color:#FFFFFF;\" align=\"center\">Sign in </p></body></html>")
+        self.link_reg_2.mousePressEvent = self.show_sign_in
 
+
+
+        #Link lable to register window
+        self.link_forg = QtWidgets.QLabel(self)
+        self.link_forg.setGeometry(QtCore.QRect(190, 350, 171, 31))
+        self.link_forg.setToolTip("")
+        self.link_forg.setAutoFillBackground(False)
+        self.link_forg.setStyleSheet("border: 0px; background-color:rgba(0,0,0,0%);")
+        self.link_forg.setObjectName("link_forg")
+        self.link_forg.setText("<html><head/><body><p style=\" color:#FFFFFF;\" align=\"center\">Forgot password?</p></body></html>")
+        self.link_forg.mousePressEvent = self.show_forgot_pass
 
 
         #Log in button 
@@ -184,7 +195,7 @@ class LoginWindow(QMainWindow):
                 result = SqliteDB.authenticate_user(user_name, password)
 
                 if result[0]:
-                    self.controller = control.Control()
+                    self.controller = control.ControlWindow()
                     self.controller.show_profile()
                     self.close()
                 else:
@@ -192,8 +203,19 @@ class LoginWindow(QMainWindow):
 
 
     def show_sign_in(self,event):
-        self.controller = control.Control()
+        self.login_edit.setText("")
+        self.password_edit.setText("")
+
+        self.controller = control.ControlWindow()
         self.controller.show_sign_in()
+        self.close()
+
+    def show_forgot_pass(self,event):
+        self.login_edit.setText("")
+        self.password_edit.setText("")
+        
+        self.controller = control.ControlWindow()
+        self.controller.show_forgot_pass()
         self.close()
 import Backgrounds
 if __name__ == '__main__':
