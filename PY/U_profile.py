@@ -1,4 +1,3 @@
-import typing
 from PyQt5.QtWidgets import QWidget
 import control
 from PyQt5 import QtCore, QtGui, QtWidgets
@@ -11,6 +10,8 @@ class ProfileWindow(QtWidgets.QMainWindow):
         self.resize(1180, 727)
         self.setMinimumSize(QtCore.QSize(1180, 727))
         self.setStyleSheet("background-color: qlineargradient(spread:pad, x1:0.482198, y1:0.971, x2:0.497, y2:0.023, stop:0.0338983 rgba(46, 46, 46, 255), stop:1 rgba(168, 168, 168, 255));")
+        self.horizontalLayout = QtWidgets.QHBoxLayout(self)
+        self.horizontalLayout.setObjectName("horizontalLayout")
 
 
 #create  Tab Widget
@@ -845,10 +846,15 @@ class ProfileWindow(QtWidgets.QMainWindow):
                         "}")
         self.Ch_log_but.setObjectName("Ch_log_but")
         self.Ch_log_but.setText("Change Login")
+        self.Ch_log_but.clicked.connect(self.show_change_login)
+
 #add to layout
         self.gridLayout_2.addWidget(self.Ch_log_but, 3, 1, 1, 1)
         spacerItem9 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
         self.gridLayout_2.addItem(spacerItem9, 2, 1, 1, 1)
+
+
+
 
 #Username label(settings)
         self.U_name_set = QtWidgets.QLabel(self.U_settings)
@@ -938,8 +944,10 @@ class ProfileWindow(QtWidgets.QMainWindow):
                         "}")
         self.Ch_pass_butt.setObjectName("Ch_pass_butt")
         self.Ch_pass_butt.setText("Change Password")
+        self.Ch_pass_butt.clicked.connect(self.show_change_pass)
 #add to layout
         self.gridLayout_2.addWidget(self.Ch_pass_butt, 5, 1, 1, 3)
+
 
 #label for user photo(settings)
         self.U_photo_set = QtWidgets.QLabel(self.U_settings)
@@ -1355,6 +1363,7 @@ class ProfileWindow(QtWidgets.QMainWindow):
 #add to layout
         self.gridLayout_3.addWidget(self.add_pan_lab, 0, 2, 1, 1)
         self.tabWidget.addTab(self.U_settings, "")
+        self.horizontalLayout.addWidget(self.tabWidget)
 
         self.tabWidget.setCurrentIndex(0)
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.U_profile_tab), "Profile")
@@ -1362,10 +1371,24 @@ class ProfileWindow(QtWidgets.QMainWindow):
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.U_chart), "Chart")
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.U_settings), "Settings")
 
+    
+    def show_change_login(self):
+        self.controller = control.ControlWindow()
+        self.controller.show_change_login()
+        self.close()
+
+    def show_change_pass(self):
+        self.controller = control.ControlWindow()
+        self.controller.show_change_pass()
+        self.close()
+
+    
     def log_out(self):
-        self.controller = control.Control()
+        self.controller = control.ControlWindow()
         self.controller.show_login()
         self.close()
+
+
         
 import Backgrounds
 if __name__ == "__main__":
