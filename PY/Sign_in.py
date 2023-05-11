@@ -235,24 +235,41 @@ class RegistrationWindow(QMainWindow):
         self.logo_name_lab.setText("<html><head/><body><p align=\"center\">SOLAR CONTROL</p></body></html>")
 
 
-
-        #Link to Log in window
-        self.link_lab = QtWidgets.QLabel(self)
-        self.link_lab.setGeometry(QtCore.QRect(170, 400, 171, 31))
-        self.link_lab.setToolTip("")
-        self.link_lab.setAutoFillBackground(False)
-        self.link_lab.setStyleSheet("border: 0px; background-color:rgba(0,0,0,0%);")
-        self.link_lab.setObjectName("link_lab")
-        self.link_lab.setText("<html><head/><body><p align=\"center\">Alredy have an account?</p></body></html>")
-
-        self.link_lab_2 = QtWidgets.QLabel(self)
-        self.link_lab_2.setGeometry(QtCore.QRect(253, 400, 171, 31))
-        self.link_lab_2.setToolTip("")
-        self.link_lab_2.setAutoFillBackground(False)
-        self.link_lab_2.setStyleSheet("border: 0px; background-color:rgba(0,0,0,0%);")
-        self.link_lab_2.setObjectName("link_lab_2")
-        self.link_lab_2.setText("<html><head/><body><p style=\" color:#FFFFFF;\" align=\"center\">Log in </p></body></html>")
-        self.link_lab_2.mousePressEvent = self.show_login
+        #Back button 
+        self.back_but = QtWidgets.QPushButton(self)
+        self.back_but.setGeometry(QtCore.QRect(0, 0, 30, 30))
+        self.back_but.setAutoFillBackground(False)
+        self.back_but.setStyleSheet("QPushButton {\n"
+                        "color: #333;\n"
+                        "border: 2px solid #555;\n"
+                        "border-radius: 20px;\n"
+                        "border-style: outset;\n"
+                        "font: 12pt \"MS Shell Dlg 2\";\n"
+                        "max-width: 131px;\n"
+                        "background: qradialgradient(\n"
+                        "cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4,\n"
+                        "radius: 1.35, stop: 0 #fff, stop: 1 #888\n"
+                        ");\n"
+                        "padding: 5px;\n"
+                        "}\n"
+                        "\n"
+                        "QPushButton:hover {\n"
+                        "background: qradialgradient(\n"
+                        "cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4,\n"
+                        "radius: 1.35, stop: 0 #fff, stop: 1 #bbb\n"
+                        ");\n"
+                        "}\n"
+                        "\n"
+                        "QPushButton:pressed {\n"
+                        "border-style: inset;\n"
+                        "background: qradialgradient(\n"
+                        "cx: 0.4, cy: -0.1, fx: 0.4, fy: -0.1,\n"
+                        "radius: 1.35, stop: 0 #fff, stop: 1 #ddd\n"
+                        ");\n"
+                        "}")
+        self.back_but.setObjectName("back_but")
+        self.back_but.setText("<")
+        self.back_but.clicked.connect(self.show_login)
 
 
 
@@ -279,14 +296,14 @@ class RegistrationWindow(QMainWindow):
                 adress = self.adress_edit.text()
 
                 if SqliteDB.add_user(user_name, e_mail, adress, password):
-                    self.controller = control.Control()
+                    self.controller = control.ControlWindow()
                     self.controller.show_login()
                     self.close()
                 else:
                     QtWidgets.QMessageBox.warning(self, "Error", "Something went wrong. Please, try again")
 
     def show_login(self,event):
-        self.controller = control.Control()
+        self.controller = control.ControlWindow()
         self.controller.show_login()
         self.close()
 import Backgrounds
