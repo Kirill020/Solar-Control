@@ -340,21 +340,20 @@ class ForgotPassWindow(QMainWindow):
             
             code = int(random.randint(100000, 999999))
             
-            from_address = 'work.tanasiichuk@gmail.com'
+            from_address = 'my_email@gmail.com'
             to_address = login
             subject = 'Security Code'
             body = f'Your security code is: {code}'
             message = f'Subject: {subject}\n\n{body}'
             server = smtplib.SMTP('smtp.gmail.com', 587)
             server.starttls()
-            server.login(from_address, 'wilgfdzekbdoboxp')
+            server.login(from_address, 'my_password')
             server.sendmail(from_address, to_address, message)
             server.quit()
 
             QtWidgets.QMessageBox.information(self, "Security code", "Security code has been sendet on your email")
             print(f"sec_code in generate_code def: type = {type(code)} value = {code}")
             return code
-
 
 #close window
     def back_to_login(self):
