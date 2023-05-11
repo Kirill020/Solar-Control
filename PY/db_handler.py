@@ -25,6 +25,23 @@ class SqliteDB:
         return False, None
 
 
+    #get user data
+    @staticmethod
+    def get_user_data(login: str):
+        conn = sql.connect("C:\Solar Control\Solar-Control\PY\Solar_panels.db")
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM Users WHERE P_email_adress = ?", (login,))
+        
+        result = cursor.fetchone()
+        if result is None:
+            conn.close()
+            return None
+        else:
+            conn.close()
+            User_data = {}
+            User_data = {'Person_id':result[0], 'P_name':result[1], 'P_email_adress':result[2], 'P_adress':result[3]}
+            return User_data
+
     #get wetaher id
     @staticmethod
     def get_weather_id(id_panel_group: int) -> int:
@@ -55,7 +72,7 @@ class SqliteDB:
             return None
         else:
             conn.close()
-            Panels_Data = []
+            Panels_Data = {}
             for i in result:
                 Panels_Data = {'Id_PanelGroup':i[0], 'Person_id':i[1], 'Panels_amount':i[2], 'Panels_adress':i[3], 'Performance': i[4], 'Voltage': i[5], 'Power': i[6], 'Data': i[7], 'Control_id': i[8], 'Id': i[9]}
             return Panels_Data
