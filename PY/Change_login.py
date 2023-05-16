@@ -366,7 +366,6 @@ class ChangeLoginWindow(QMainWindow):
                     self.email_key.setText("")
                     self.send_code_but.setDisabled(False)
 
-#tanasiychukkirill@gmail.com
 
 #send security code to user`s email
     def send_code(self):
@@ -406,14 +405,14 @@ class ChangeLoginWindow(QMainWindow):
             
             code = int(random.randint(100000, 999999))
             
-            from_address = 'work.tanasiichuk@gmail.com'
+            from_address = 'my_email@gmail.com'
             to_address = login
             subject = 'Security Code'
             body = f'Your security code is: {code}'
             message = f'Subject: {subject}\n\n{body}'
             server = smtplib.SMTP('smtp.gmail.com', 587)
             server.starttls()
-            server.login(from_address, 'wilgfdzekbdoboxp')
+            server.login(from_address, 'my_password')
             server.sendmail(from_address, to_address, message)
             server.quit()
 
