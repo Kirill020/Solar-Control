@@ -1,5 +1,5 @@
 # import fasapi
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 
 # import db handler
 from db_handler import SqliteDB
@@ -24,6 +24,8 @@ async def index():
 
 @app.post("/check")
 async def auth(auth_data: CheckModel):
+    if not all(auth_data.dict().values()):
+        raise HTTPException(status_code=400, detail="Missing required fields in JSON")
     password = auth_data.password
     username = auth_data.username
     print(username)
@@ -33,26 +35,34 @@ async def auth(auth_data: CheckModel):
 #get data from Arduino Uno WiFi Rev2
 @app.post("/group_data")
 async def add_group_data(group_data: GroupDataModel):
-    id = group_data.id
-    performance = group_data.performance
-    voltage = group_data.voltage
-    power = group_data.power
-
-    Panels_Data = SqliteDB.get_panel_group_data_api(id)
-    if(Panels_Data is not None):
-        Id_PanelGroup = Panels_Data["Id_PanelGroup"]
-        Person_id = Panels_Data["Person_id"]
-        Panels_amount = Panels_Data["Panels_amount"]
-        Panels_adress = Panels_Data["Panels_adress"]
-        SqliteDB.update_penels_group(Id_PanelGroup, Person_id, Panels_amount, Panels_adress, performance, voltage, power, id)
-        get_weather_from_api(Panels_adress, Id_PanelGroup)
+    if not all(group_data.dict().values()):
+        id = None
+        performance = None
+        voltage = None
+        power = None
     else:
-        #if in database does`t exist data about some panels group save this data to add their in future
-        global new_group
-        new_group['id'] =  id
-        new_group['performance'] =  performance
-        new_group['voltage'] =  voltage
-        new_group['power'] =  power
+        id = group_data.id
+        performance = group_data.performance
+        voltage = group_data.voltage
+        power = group_data.power
+
+        Panels_Data = SqliteDB.get_panel_group_data_api(id)
+
+        if(Panels_Data is not None):
+            Id_PanelGroup = Panels_Data["Id_PanelGroup"]
+            Person_id = Panels_Data["Person_id"]
+            Panels_amount = Panels_Data["Panels_amount"]
+            Panels_adress = Panels_Data["Panels_adress"]
+            SqliteDB.update_penels_group(Id_PanelGroup, Person_id, Panels_amount, Panels_adress, performance, voltage, power, id)
+            get_weather_from_api(Panels_adress, Id_PanelGroup)
+        else:
+            #if in database does`t exist data about some panels group save this data to add their in future
+            global new_group
+            new_group['id'] =  id
+            new_group['performance'] =  performance
+            new_group['voltage'] =  voltage
+            new_group['power'] =  power
+        print(new_group['id'])
 
 
 
@@ -77,4 +87,3 @@ if __name__ == "__main__":
     import uvicorn
     
     uvicorn.run("api:app", host="0.0.0.0", port=8000, reload=True)
-    
