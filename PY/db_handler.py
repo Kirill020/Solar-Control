@@ -73,18 +73,22 @@ class SqliteDB:
     def get_panel_group_data(person_id: int, data: datetime):
         conn = sql.connect("C:\Solar Control\Solar-Control\PY\Solar_panels.db")
         cursor = conn.cursor()
-        cursor.execute("SELECT * FROM Panels WHERE Person_id = ? AND Date = ?", (person_id, data))
+        if person_id is not None:
+            cursor.execute("SELECT Id_PanelGroup, Panels_amount, Panels_adress, Performance, Voltage, Power, Date FROM Panels WHERE Person_id = ?", (person_id,))
+            result = cursor.fetchall()
+
+        elif data is not None:
+            cursor.execute("SELECT Id_PanelGroup, Panels_amount, Panels_adress, Performance, Voltage, Power, Date FROM Panels WHERE Data = ?", (data,))
+            result = cursor.fetchall()
+
+        else: result = None
+        conn.close()
         
-        result = cursor.fetchone()
         if result is None:
-            conn.close()
             return None
+        
         else:
-            conn.close()
-            Panels_Data = {}
-            for i in result:
-                Panels_Data = {'Id_PanelGroup':i[0], 'Person_id':i[1], 'Panels_amount':i[2], 'Panels_adress':i[3], 'Performance': i[4], 'Voltage': i[5], 'Power': i[6], 'Data': i[7], 'Control_id': i[8], 'Id': i[9]}
-            return Panels_Data
+            return result
 
 
     #get panels data for api
