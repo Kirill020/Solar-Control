@@ -318,6 +318,17 @@ class ProfileWindow(QtWidgets.QMainWindow):
         self.Objects_info_prof.setStyleSheet("background-color: rgb(168, 168, 168);\n""")
         self.Objects_info_prof.setColumnCount(4)
         self.Objects_info_prof.setObjectName("Objects_info_prof")
+        self.Objects_info_prof.setHorizontalHeaderLabels(["User name", "No", "Panel`s amount", "Panel`s adress"])
+
+        self.Objects_info_prof.setColumnWidth(0, 70)  # Замените на ваше значение ширины
+        self.Objects_info_prof.setColumnWidth(1, 20)  # Замените на ваше значение ширины
+        self.Objects_info_cap.horizontalHeader().setSectionResizeMode(0, QtWidgets.QHeaderView.Fixed)
+        self.Objects_info_cap.horizontalHeader().setSectionResizeMode(1, QtWidgets.QHeaderView.Fixed)
+        self.Objects_info_prof.horizontalHeader().setSectionResizeMode(2, QtWidgets.QHeaderView.Stretch)
+        self.Objects_info_prof.horizontalHeader().setSectionResizeMode(3, QtWidgets.QHeaderView.Stretch)
+        
+
+        
         self.Objects_info_prof.setRowCount(0)
 #add to layout
         self.gridLayout.addWidget(self.Objects_info_prof, 1, 2, 1, 1)
@@ -586,9 +597,29 @@ class ProfileWindow(QtWidgets.QMainWindow):
         self.Objects_info_cap.setMinimumSize(QtCore.QSize(1115, 421))
         self.Objects_info_cap.setMaximumSize(QtCore.QSize(1115, 421))
         self.Objects_info_cap.setStyleSheet("background-color: rgb(168, 168, 168);")
-        self.Objects_info_cap.setColumnCount(5)
+        self.Objects_info_cap.setColumnCount(7)
         self.Objects_info_cap.setObjectName("Objects_info_cap")
-        self.Objects_info_cap.setRowCount(0)
+        self.Objects_info_cap.setHorizontalHeaderLabels(["No", "Amount", "Panel`s adress", "Performance", "Voltage", "Power", "Date"])
+
+        data = SqliteDB.get_panel_group_data(self.controller.session_id, None)
+        print(data)
+        self.Objects_info_cap.setRowCount(len(data))
+        for row in range(len(data)):
+            for col in range(len(data[row])):
+                item = QtWidgets.QTableWidgetItem(str(data[row][col]))
+                self.Objects_info_cap.setItem(row, col, item)
+
+        self.Objects_info_cap.setColumnWidth(0, 20)  # Замените на ваше значение ширины
+        self.Objects_info_cap.setColumnWidth(1, 60)  # Замените на ваше значение ширины
+        self.Objects_info_cap.horizontalHeader().setSectionResizeMode(0, QtWidgets.QHeaderView.Fixed)
+        self.Objects_info_cap.horizontalHeader().setSectionResizeMode(1, QtWidgets.QHeaderView.Fixed)
+
+        self.Objects_info_cap.horizontalHeader().setSectionResizeMode(2, QtWidgets.QHeaderView.Stretch)
+        self.Objects_info_cap.horizontalHeader().setSectionResizeMode(3, QtWidgets.QHeaderView.Stretch)
+        self.Objects_info_cap.horizontalHeader().setSectionResizeMode(4, QtWidgets.QHeaderView.Stretch)
+        self.Objects_info_cap.horizontalHeader().setSectionResizeMode(5, QtWidgets.QHeaderView.Stretch)
+        self.Objects_info_cap.horizontalHeader().setSectionResizeMode(6, QtWidgets.QHeaderView.Stretch)
+        
 #add to layout
         self.U_perf_lay.addWidget(self.Objects_info_cap, 0, 1, 1, 1)
 
