@@ -62,7 +62,8 @@ async def add_group_data(group_data: GroupDataModel):
             new_group['performance'] =  performance
             new_group['voltage'] =  voltage
             new_group['power'] =  power
-        print(new_group['id'])
+        print(new_group["id"])
+        
 
 
 
