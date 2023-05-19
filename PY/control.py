@@ -58,6 +58,7 @@ class ControlAPI:
             self.new_goup = api.new_group
         else:
             self.new_goup = {"id": None, "performance": None, "voltage": None, "power": None}
+        print(self.new_goup["id"])
 
 
 
