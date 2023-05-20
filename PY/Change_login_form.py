@@ -63,7 +63,7 @@ class ChangeLoginWindow(QMainWindow):
         self.old_login_edit.setText("")
         self.old_login_edit.setObjectName("old_login_edit")
         self.old_login_edit.setWhatsThis("Edit for e-mail")
-        self.old_login_edit.setPlaceholderText("Old Email")
+        self.old_login_edit.setPlaceholderText("Old email")
 
 
         #Logo image
@@ -277,6 +277,13 @@ class ChangeLoginWindow(QMainWindow):
         self.password_edit.setWhatsThis("Edit for Password")
         self.password_edit.setPlaceholderText("Password")
         self.password_edit.setReadOnly(True)
+        self.password_edit.setEchoMode(QtWidgets.QLineEdit.Password)
+
+        self.show_password_checkbox = QtWidgets.QCheckBox(self)
+        self.show_password_checkbox.setText("Show")
+        self.show_password_checkbox.setGeometry(410,226,50,30)
+        self.show_password_checkbox.setStyleSheet("background-color: rgba(255, 255, 255, 0);\n")
+        self.show_password_checkbox.clicked.connect(self.show_password)
 
 
 
@@ -420,6 +427,13 @@ class ChangeLoginWindow(QMainWindow):
             QtWidgets.QMessageBox.information(self, "Security code", "Security code has been sendet on your email")
             print(f"sec_code in generate_code def: type = {type(code)} value = {code}")
             return code
+
+
+    def show_password(self):
+        if self.show_password_checkbox.isChecked():
+            self.password_edit.setEchoMode(QtWidgets.QLineEdit.Normal)
+        else:
+            self.password_edit.setEchoMode(QtWidgets.QLineEdit.Password)
 
 
 #close window
