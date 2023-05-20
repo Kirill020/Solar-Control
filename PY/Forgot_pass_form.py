@@ -239,6 +239,13 @@ class ForgotPassWindow(QMainWindow):
         self.password_edit.setWhatsThis("Edit for Password")
         self.password_edit.setPlaceholderText("New password")
         self.password_edit.setReadOnly(True)
+        self.password_edit.setEchoMode(QtWidgets.QLineEdit.Password)
+
+        self.show_password_checkbox = QtWidgets.QCheckBox(self)
+        self.show_password_checkbox.setText("Show")
+        self.show_password_checkbox.setGeometry(410,171,50,30)
+        self.show_password_checkbox.setStyleSheet("background-color: rgba(255, 255, 255, 0);\n")
+        self.show_password_checkbox.clicked.connect(self.show_password)
 
 
 
@@ -292,9 +299,9 @@ class ForgotPassWindow(QMainWindow):
             login = str(self.login_edit.text())
             code = int(self.email_key.text())
             if code == sec_code:
-                User_data = SqliteDB.get_user_data(login, None)
+                User_data = SqliteDB.get_user_data(login, None)[0]
                 Person_id = User_data["Person_id"]
-                if SqliteDB.update_user_data(Person_id, None, None, None, password):
+                if SqliteDB.update_user_data(Person_id, None, None, None, password, None):
                     QtWidgets.QMessageBox.information(self, "Succesful!", "Your password has been changed!")
                     self.login_edit.setReadOnly(False)
                     self.login_edit.setText("")
@@ -352,8 +359,15 @@ class ForgotPassWindow(QMainWindow):
             server.quit()
 
             QtWidgets.QMessageBox.information(self, "Security code", "Security code has been sendet on your email")
-            print(f"sec_code in generate_code def: type = {type(code)} value = {code}")
             return code
+
+#show password
+    def show_password(self):
+        if self.show_password_checkbox.isChecked():
+            self.password_edit.setEchoMode(QtWidgets.QLineEdit.Normal)
+        else:
+            self.password_edit.setEchoMode(QtWidgets.QLineEdit.Password)
+
 
 
 #close window
