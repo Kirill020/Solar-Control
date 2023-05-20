@@ -21,7 +21,7 @@ class ProfileWindow(QtWidgets.QMainWindow):
 
 
 #create  Tab Widget
-        self.tabWidget = QtWidgets.QTabWidget(self)
+        self.tabWidget = QtWidgets.QTabWidget(central_widget)
         self.tabWidget.setGeometry(QtCore.QRect(9, 9, 1162, 709))
         self.tabWidget.setStyleSheet("QTabBar::tab {\n"
                         "color: #333;\n"
@@ -270,6 +270,10 @@ class ProfileWindow(QtWidgets.QMainWindow):
         self.U_name_prof = QtWidgets.QLabel(self.U_profile_tab)
         self.U_name_prof.setMinimumSize(QtCore.QSize(250, 41))
         self.U_name_prof.setText(f"<html><head/><body><p align=\"center\">{self.controller.session_name}</p></body></html>")
+        font = QtGui.QFont()
+        font.setPointSize(15)
+        font.setFamily("MS Shell Dlg 2")
+        self.U_name_prof.setFont(font)
 
 
 
@@ -306,30 +310,39 @@ class ProfileWindow(QtWidgets.QMainWindow):
 
 
         self.U_name_prof.setPalette(palette)
-        self.U_name_prof.setStyleSheet("background-color: rgba(255, 255, 255, 10);")
+        self.U_name_prof.setStyleSheet("background-color: rgba(255, 255, 255, 0);")
         self.U_name_prof.setObjectName("U_name_prof")
-#add to layout
-        self.gridLayout.addWidget(self.U_name_prof, 3, 0, 1, 1)
+        
 
 #Table Widget for main information about solar panel`s group
         self.Objects_info_prof = QtWidgets.QTableWidget(self.U_profile_tab)
-        self.Objects_info_prof.setMinimumSize(QtCore.QSize(850, 391))
-        self.Objects_info_prof.setMaximumSize(QtCore.QSize(850, 391))
+        self.Objects_info_prof.setMinimumSize(QtCore.QSize(835, 391))
+        self.Objects_info_prof.setMaximumSize(QtCore.QSize(1234, 391))
         self.Objects_info_prof.setStyleSheet("background-color: rgb(168, 168, 168);\n""")
-        self.Objects_info_prof.setColumnCount(4)
+        self.Objects_info_prof.setColumnCount(5)
         self.Objects_info_prof.setObjectName("Objects_info_prof")
-        self.Objects_info_prof.setHorizontalHeaderLabels(["User name", "No", "Panel`s amount", "Panel`s adress"])
+        self.Objects_info_prof.setHorizontalHeaderLabels(["User name","No", "Amount", "Panel`s adress", "Performance"])
 
-        self.Objects_info_prof.setColumnWidth(0, 70)  # Замените на ваше значение ширины
-        self.Objects_info_prof.setColumnWidth(1, 20)  # Замените на ваше значение ширины
-        self.Objects_info_cap.horizontalHeader().setSectionResizeMode(0, QtWidgets.QHeaderView.Fixed)
-        self.Objects_info_cap.horizontalHeader().setSectionResizeMode(1, QtWidgets.QHeaderView.Fixed)
-        self.Objects_info_prof.horizontalHeader().setSectionResizeMode(2, QtWidgets.QHeaderView.Stretch)
+        data = SqliteDB.get_panel_group_data(self.controller.session_id, None)
+        self.Objects_info_prof.setRowCount(len(data))
+        for row in range(len(data)):
+            for col in range(5):
+                if col == 0:
+                    item = QtWidgets.QTableWidgetItem(str(self.controller.session_name))
+                else:
+                    item = QtWidgets.QTableWidgetItem(str(data[row][col-1]))
+                self.Objects_info_prof.setItem(row, col, item)
+
+
+        self.Objects_info_prof.setColumnWidth(0, 120)
+        self.Objects_info_prof.setColumnWidth(1, 30)
+        self.Objects_info_prof.setColumnWidth(2, 60)
+        self.Objects_info_prof.horizontalHeader().setSectionResizeMode(0, QtWidgets.QHeaderView.Fixed)
+        self.Objects_info_prof.horizontalHeader().setSectionResizeMode(1, QtWidgets.QHeaderView.Fixed)
+        self.Objects_info_prof.horizontalHeader().setSectionResizeMode(2, QtWidgets.QHeaderView.Fixed)
         self.Objects_info_prof.horizontalHeader().setSectionResizeMode(3, QtWidgets.QHeaderView.Stretch)
+        self.Objects_info_prof.horizontalHeader().setSectionResizeMode(4, QtWidgets.QHeaderView.Stretch)
         
-
-        
-        self.Objects_info_prof.setRowCount(0)
 #add to layout
         self.gridLayout.addWidget(self.Objects_info_prof, 1, 2, 1, 1)
 
@@ -338,24 +351,22 @@ class ProfileWindow(QtWidgets.QMainWindow):
         self.Photo_lay_prof = QtWidgets.QGridLayout()
         self.Photo_lay_prof.setObjectName("Photo_lay_prof")
         spacerItem1 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
-        self.Photo_lay_prof.addItem(spacerItem1, 1, 2, 1, 1)
+        self.Photo_lay_prof.addItem(spacerItem1, 0, 2, 1, 1)
 
 #label for user photo(profile)
         self.U_photo_prof = QtWidgets.QLabel(self.U_profile_tab)
         self.U_photo_prof.setMinimumSize(QtCore.QSize(169, 169))
         self.U_photo_prof.setMaximumSize(QtCore.QSize(169, 169))
-        self.U_photo_prof.setStyleSheet("border: 3px solid black;\n"
-                        "border-radius: 80px;\n"
-                        "background-color: rgba(255, 255, 255, 10);")
+        self.U_photo_prof.setStyleSheet("background-color: rgba(255, 255, 255, 0);")
         self.U_photo_prof.setObjectName("U_photo_prof")
-        self.U_photo_prof.setText("<html><head/><body><p align=\"center\">Photo</p></body></html>")
+        self.U_photo_prof.setPixmap(self.set_avatar(self.controller.session_binary_avatar))
+        self.U_photo_prof.repaint()
 #add to layout
-        self.Photo_lay_prof.addWidget(self.U_photo_prof, 0, 0, 2, 2)
+        self.Photo_lay_prof.addWidget(self.U_photo_prof, 0, 0, 2, 2, QtCore.Qt.AlignHCenter)
         spacerItem2 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
-        self.Photo_lay_prof.addItem(spacerItem2, 2, 0, 1, 1)
-        spacerItem3 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
-        self.Photo_lay_prof.addItem(spacerItem3, 0, 2, 1, 1)
+        self.Photo_lay_prof.addItem(spacerItem2, 3, 0, 1, 1)
         self.gridLayout.addLayout(self.Photo_lay_prof, 0, 0, 3, 2)
+        self.Photo_lay_prof.addWidget(self.U_name_prof, 2, 1, 1, 1)
 
 
 #layout for logo(profile)
@@ -580,7 +591,7 @@ class ProfileWindow(QtWidgets.QMainWindow):
         self.Search_ed_perf.setObjectName("Search_ed_perf")
 
 #add to layout
-        self.U_perf_lay.addWidget(self.Search_ed_perf, 1, 1, 1, 1)
+        self.U_perf_lay.addWidget(self.Search_ed_perf, 1, 0, 1, 1)
 
 #listView for support data(Performance)
         self.Support_data_cap = QtWidgets.QListView(self.U_Performance)
@@ -595,22 +606,28 @@ class ProfileWindow(QtWidgets.QMainWindow):
 #Table widget for all information about solar panels group
         self.Objects_info_cap = QtWidgets.QTableWidget(self.U_Performance)
         self.Objects_info_cap.setMinimumSize(QtCore.QSize(1115, 421))
-        self.Objects_info_cap.setMaximumSize(QtCore.QSize(1115, 421))
+        self.Objects_info_cap.setMaximumSize(QtCore.QSize(12345, 421))
         self.Objects_info_cap.setStyleSheet("background-color: rgb(168, 168, 168);")
-        self.Objects_info_cap.setColumnCount(7)
+        self.Objects_info_cap.setColumnCount(9)
         self.Objects_info_cap.setObjectName("Objects_info_cap")
-        self.Objects_info_cap.setHorizontalHeaderLabels(["No", "Amount", "Panel`s adress", "Performance", "Voltage", "Power", "Date"])
+        self.Objects_info_cap.setHorizontalHeaderLabels(["No", "Amount", "Panel`s adress", "Performance", "Voltage", "Power", "Date", "Weather", "°C"])
 
-        data = SqliteDB.get_panel_group_data(self.controller.session_id, None)
-        print(data)
+        panels_data = SqliteDB.get_panel_group_data(self.controller.session_id, None)
+        weather_data = SqliteDB.get_weather(panels_data[0][0])
         self.Objects_info_cap.setRowCount(len(data))
-        for row in range(len(data)):
-            for col in range(len(data[row])):
-                item = QtWidgets.QTableWidgetItem(str(data[row][col]))
+        for row in range(len(panels_data)):
+            for col in range(len(panels_data[row])+2):
+                if col == 7:
+                    item = QtWidgets.QTableWidgetItem(str(weather_data[row][1]))
+                elif col == 8:
+                    item = QtWidgets.QTableWidgetItem(str(weather_data[row][3]))
+                else:
+                    item = QtWidgets.QTableWidgetItem(str(panels_data[row][col]))
+
                 self.Objects_info_cap.setItem(row, col, item)
 
-        self.Objects_info_cap.setColumnWidth(0, 20)  # Замените на ваше значение ширины
-        self.Objects_info_cap.setColumnWidth(1, 60)  # Замените на ваше значение ширины
+        self.Objects_info_cap.setColumnWidth(0, 20)
+        self.Objects_info_cap.setColumnWidth(1, 60)
         self.Objects_info_cap.horizontalHeader().setSectionResizeMode(0, QtWidgets.QHeaderView.Fixed)
         self.Objects_info_cap.horizontalHeader().setSectionResizeMode(1, QtWidgets.QHeaderView.Fixed)
 
@@ -619,9 +636,12 @@ class ProfileWindow(QtWidgets.QMainWindow):
         self.Objects_info_cap.horizontalHeader().setSectionResizeMode(4, QtWidgets.QHeaderView.Stretch)
         self.Objects_info_cap.horizontalHeader().setSectionResizeMode(5, QtWidgets.QHeaderView.Stretch)
         self.Objects_info_cap.horizontalHeader().setSectionResizeMode(6, QtWidgets.QHeaderView.Stretch)
+        self.Objects_info_cap.horizontalHeader().setSectionResizeMode(7, QtWidgets.QHeaderView.Stretch)
+        self.Objects_info_cap.setColumnWidth(8, 30)
+        self.Objects_info_cap.horizontalHeader().setSectionResizeMode(8, QtWidgets.QHeaderView.Fixed)
         
 #add to layout
-        self.U_perf_lay.addWidget(self.Objects_info_cap, 0, 1, 1, 1)
+        self.U_perf_lay.addWidget(self.Objects_info_cap, 0, 0, 1, 5)
 
 #button for finding all information about solar panels group
         self.Search_but_perf = QtWidgets.QPushButton(self.U_Performance)
@@ -899,7 +919,7 @@ class ProfileWindow(QtWidgets.QMainWindow):
         self.U_login_set.setObjectName("U_login_set")
         self.U_login_set.setText(f"<html><head/><body><p align=\"center\">{self.controller.session_login}</p></body></html>")
         font = QtGui.QFont()
-        font.setPointSize(16)
+        font.setPointSize(15)
         font.setFamily("MS Shell Dlg 2")
         self.U_login_set.setFont(font)
 #add to layout
@@ -912,7 +932,7 @@ class ProfileWindow(QtWidgets.QMainWindow):
         self.U_name_set.setStyleSheet("background-color: rgba(255, 255, 255, 0);")
         self.U_name_set.setObjectName("U_name_set")
         self.U_name_set.setText(f"<html><head/><body><p align=\"center\">{self.controller.session_name}</p></body></html>")
-        font.setPointSize(16)
+        font.setPointSize(15)
         font.setFamily("MS Shell Dlg 2")
         self.U_name_set.setFont(font)
 #add to layout
@@ -1471,7 +1491,7 @@ class ProfileWindow(QtWidgets.QMainWindow):
         mask.fill(QtCore.Qt.transparent)
         painter = QtGui.QPainter(mask)
         path = QtGui.QPainterPath()
-        path.addRoundedRect(0, 0, mask.width(), mask.height(), 90, 90)
+        path.addRoundedRect(0, 0, mask.width(), mask.height(), 45, 45)
         painter.setBrush(QtGui.QBrush(QtCore.Qt.white))
         painter.drawPath(path)
         painter.end()
