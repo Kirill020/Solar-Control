@@ -239,6 +239,14 @@ class ChangePassWindow(QMainWindow):
         self.old_password_edit.setWhatsThis("Edit for Password")
         self.old_password_edit.setPlaceholderText("Old password")
         self.old_password_edit.setReadOnly(True)
+        self.old_password_edit.setEchoMode(QtWidgets.QLineEdit.Password)
+
+        self.show_password_checkbox = QtWidgets.QCheckBox(self)
+        self.show_password_checkbox.setText("Show")
+        self.show_password_checkbox.setGeometry(420,197,50,30)
+        self.show_password_checkbox.setStyleSheet("background-color: rgba(255, 255, 255, 0);\n")
+        self.show_password_checkbox.clicked.connect(self.show_password)
+
 
 
 
@@ -281,6 +289,7 @@ class ChangePassWindow(QMainWindow):
         self.new_password_edit.setWhatsThis("Edit for Password")
         self.new_password_edit.setPlaceholderText("New password")
         self.new_password_edit.setReadOnly(True)
+        self.new_password_edit.setEchoMode(QtWidgets.QLineEdit.Password)
 
 
 
@@ -405,6 +414,16 @@ class ChangePassWindow(QMainWindow):
             'code': code,
             'timestamp': time.time()
             }
+
+
+    def show_password(self):
+        if self.show_password_checkbox.isChecked():
+            self.old_password_edit.setEchoMode(QtWidgets.QLineEdit.Normal)
+            self.new_password_edit.setEchoMode(QtWidgets.QLineEdit.Normal)
+        else:
+            self.old_password_edit.setEchoMode(QtWidgets.QLineEdit.Password)
+            self.new_password_edit.setEchoMode(QtWidgets.QLineEdit.Normal)
+
 
 
 #close window
