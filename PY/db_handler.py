@@ -53,19 +53,17 @@ class SqliteDB:
 
     #get wetaher id
     @staticmethod
-    def get_weather_id(id_panel_group: int) -> int:
-        conn = sql.connect("Solar_panels.db")
+    def get_weather(id_panel_group: int):
+        conn = sql.connect("C:\Solar Control\Solar-Control\PY\Solar_panels.db")
         cursor = conn.cursor()
-        cursor.execute("SELECT Weather_id FROM Weather WHERE Id_PanelGroup = ?", (id_panel_group,))
-        conn.commit()
-        
-        result = cursor.fetchone()
+        cursor.execute("SELECT * FROM Weather WHERE Id_PanelGroup = ?", (id_panel_group,))
+        result = cursor.fetchall()
+        conn.close()
+
         if result is None:
-            conn.close()
             return None
         else:
-            conn.close()
-            return result[0]
+            return result
         
     
     #get panels group data
@@ -146,8 +144,8 @@ class SqliteDB:
         conn = sql.connect('C:\Solar Control\Solar-Control\PY\Solar_panels.db')
         cursor = conn.cursor()
         date = datetime.now()
-        date_str = date.strftime('%Y-%m-%d')
-        query = "INSERT INTO Weather (Id_PanelsGroup, Weather_type, Date, Temperature, Wind_speed) VALUES (?, ?, ?, ?, ?)"
+        date_str = date.strftime('%Y-%m-%d-%H')
+        query = "INSERT INTO Weather (Id_PanelGroup, Weather_type, Date, Temperature, Wind_speed) VALUES (?, ?, ?, ?, ?)"
         values = (id_panels_group, weather_type, date_str, temperature, wind_speed)
         cursor.execute(query, values)
         conn.commit()
@@ -200,7 +198,7 @@ class SqliteDB:
         conn = sql.connect('C:\Solar Control\Solar-Control\PY\Solar_panels.db')
         cursor = conn.cursor()
         date = datetime.now()
-        date_str = date.strftime('%Y-%m-%d')
+        date_str = date.strftime('%Y-%m-%d-%H')
         query = "INSERT INTO Panels (Id_PanelGroup, Person_id, Panels_amount, Panels_adress, Performance, Voltage, Power, Date, Control_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)"
         values = (panels_id, person_id, panels_amount, panels_adress, performance, voltage, power, date_str, control_id)
         cursor.execute(query, values)
