@@ -187,6 +187,20 @@ class LoginWindow(QMainWindow):
         self.password_edit.setObjectName("password_edit")
         self.password_edit.setWhatsThis("Edit for Password")
         self.password_edit.setPlaceholderText("Password")
+        self.password_edit.setEchoMode(QtWidgets.QLineEdit.Password)
+
+        self.show_password_checkbox = QtWidgets.QCheckBox(self)
+        self.show_password_checkbox.setText("Show")
+        self.show_password_checkbox.setGeometry(420,215,50,30)
+        self.show_password_checkbox.setStyleSheet("background-color: rgba(255, 255, 255, 0);\n")
+        self.show_password_checkbox.clicked.connect(self.show_password)
+
+    def show_password(self):
+        if self.show_password_checkbox.isChecked():
+            self.password_edit.setEchoMode(QtWidgets.QLineEdit.Normal)
+        else:
+            self.password_edit.setEchoMode(QtWidgets.QLineEdit.Password)
+
 
 
     def log_check(self):
