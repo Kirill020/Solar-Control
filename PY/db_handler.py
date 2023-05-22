@@ -51,7 +51,7 @@ class SqliteDB:
             return User_data, result[5]
 
 
-    #get wetaher id
+    #get wetaher data
     @staticmethod
     def get_weather(id_panel_group: int):
         conn = sql.connect("C:\Solar Control\Solar-Control\PY\Solar_panels.db")
@@ -68,21 +68,25 @@ class SqliteDB:
     
     #get panels group data
     @staticmethod
-    def get_panel_group_data(person_id: int, data: datetime):
+    def get_panel_group_data(person_id: int, id_panel_group: int, date: datetime):
         conn = sql.connect("C:\Solar Control\Solar-Control\PY\Solar_panels.db")
         cursor = conn.cursor()
-        if person_id is not None:
-            cursor.execute("SELECT Id_PanelGroup, Panels_amount, Panels_adress, Performance, Voltage, Power, Date FROM Panels WHERE Person_id = ?", (person_id,))
+        if id_panel_group is not None:
+            cursor.execute("SELECT Id_PanelGroup, Panels_amount, Panels_adress, Performance, Voltage, Power, Date FROM Panels WHERE Id_PanelGroup = ? AND Person_id = ?", (id_panel_group, person_id,))
             result = cursor.fetchall()
 
-        elif data is not None:
-            cursor.execute("SELECT Id_PanelGroup, Panels_amount, Panels_adress, Performance, Voltage, Power, Date FROM Panels WHERE Data = ?", (data,))
+        elif date is not None:
+            cursor.execute("SELECT Id_PanelGroup, Panels_amount, Panels_adress, Performance, Voltage, Power, Date FROM Panels WHERE Date LIKE ? || '%' AND Person_id = ?", (date, person_id))
+            result = cursor.fetchall()
+
+        elif person_id is not None:
+            cursor.execute("SELECT Id_PanelGroup, Panels_amount, Panels_adress, Performance, Voltage, Power, Date FROM Panels WHERE Person_id = ?", (person_id,))
             result = cursor.fetchall()
 
         else: result = None
         conn.close()
         
-        if result is None:
+        if result is None or len(result) == 0:
             return None
         
         else:
@@ -211,7 +215,7 @@ class SqliteDB:
         conn = sql.connect('C:\Solar Control\Solar-Control\PY\Solar_panels.db')
         cursor = conn.cursor()
         date = datetime.now()
-        date_str = date.strftime('%Y-%m-%d')
+        date_str = date.strftime('%Y-%m-%d-%H')
         query = "INSERT INTO Weather (Id_PanelGroup, Weather_type, Date, Temperature, Wind_speed) VALUES (?, ?, ?, ?, ?)"
         values = (id_panels_group, weather_type, date_str, temperature, wind_speed)
         cursor.execute(query, values)
