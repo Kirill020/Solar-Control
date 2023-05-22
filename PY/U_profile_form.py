@@ -1,6 +1,7 @@
 from PyQt5.QtWidgets import QWidget
 from db_handler import SqliteDB
 import control
+from datetime import datetime
 from PyQt5 import QtCore, QtGui, QtWidgets
 
 class ProfileWindow(QtWidgets.QMainWindow):
@@ -77,7 +78,7 @@ class ProfileWindow(QtWidgets.QMainWindow):
         self.Support_data_prof.setMaximumSize(QtCore.QSize(250, 135))
         self.Support_data_prof.setStyleSheet("background-color: rgb(168, 168, 168);\n""")
         self.Support_data_prof.setObjectName("Support_data_prof")
-        self.Check_lay_prof.addWidget(self.Support_data_prof, 2, 1, 1, 1)
+        self.Check_lay_prof.addWidget(self.Support_data_prof, 2, 2, 1, 1)
 
 
 #Edit for finding information about solar panels group (Profile)
@@ -199,7 +200,7 @@ class ProfileWindow(QtWidgets.QMainWindow):
                         "border: 2px solid #555;\n"
                         "border-radius: 10px;\n"
                         "border-style: inset;\n"
-                        "font: 12pt \"MS Shell Dlg 2\";\n"
+                        "font: 10pt \"MS Shell Dlg 2\";\n"
                         "min-width: 8em;\n"
                         "background: qradialgradient(\n"
                         "cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4,\n"
@@ -223,6 +224,7 @@ class ProfileWindow(QtWidgets.QMainWindow):
                         ");\n"
                         "}")
         self.Search_ed_prof.setObjectName("Search_ed_prof")
+        self.Search_ed_prof.setPlaceholderText("№")
 #add to layout
         self.Check_lay_prof.addWidget(self.Search_ed_prof, 1, 0, 1, 1)
 
@@ -261,8 +263,10 @@ class ProfileWindow(QtWidgets.QMainWindow):
                         "}")
         self.Search_but_prof.setObjectName("Search_but_prof")
         self.Search_but_prof.setText("Search")
+        self.Search_but_prof.clicked.connect(self.find_data_prof)
+
 #add to layout
-        self.Check_lay_prof.addWidget(self.Search_but_prof, 1, 1, 1, 1)
+        self.Check_lay_prof.addWidget(self.Search_but_prof, 1, 2, 1, 1)
 
 
 #Label for username(profile)
@@ -321,30 +325,74 @@ class ProfileWindow(QtWidgets.QMainWindow):
         self.Objects_info_prof.setStyleSheet("background-color: rgb(168, 168, 168);\n""")
         self.Objects_info_prof.setColumnCount(5)
         self.Objects_info_prof.setObjectName("Objects_info_prof")
-        self.Objects_info_prof.setHorizontalHeaderLabels(["User name","No", "Amount", "Panel`s adress", "Performance"])
+        self.Objects_info_prof.setHorizontalHeaderLabels(["№", "Amount", "Panel`s adress", "Performance", "Weather"])
 
-        data = SqliteDB.get_panel_group_data(self.controller.session_id, None)
+        data = SqliteDB.get_panel_group_data(self.controller.session_id, None, None)
+        weather_data = SqliteDB.get_weather(data[0][0])
         self.Objects_info_prof.setRowCount(len(data))
         for row in range(len(data)):
             for col in range(5):
-                if col == 0:
-                    item = QtWidgets.QTableWidgetItem(str(self.controller.session_name))
+                if col == 4:
+                    item = QtWidgets.QTableWidgetItem(str(weather_data[row][1]))
                 else:
-                    item = QtWidgets.QTableWidgetItem(str(data[row][col-1]))
+                    item = QtWidgets.QTableWidgetItem(str(data[row][col]))
                 self.Objects_info_prof.setItem(row, col, item)
 
 
-        self.Objects_info_prof.setColumnWidth(0, 120)
-        self.Objects_info_prof.setColumnWidth(1, 30)
-        self.Objects_info_prof.setColumnWidth(2, 60)
+        
+        self.Objects_info_prof.setColumnWidth(0, 30)
+        self.Objects_info_prof.setColumnWidth(1, 60)
+        self.Objects_info_prof.setColumnWidth(4, 120)
         self.Objects_info_prof.horizontalHeader().setSectionResizeMode(0, QtWidgets.QHeaderView.Fixed)
         self.Objects_info_prof.horizontalHeader().setSectionResizeMode(1, QtWidgets.QHeaderView.Fixed)
-        self.Objects_info_prof.horizontalHeader().setSectionResizeMode(2, QtWidgets.QHeaderView.Fixed)
+        self.Objects_info_prof.horizontalHeader().setSectionResizeMode(2, QtWidgets.QHeaderView.Stretch)
         self.Objects_info_prof.horizontalHeader().setSectionResizeMode(3, QtWidgets.QHeaderView.Stretch)
-        self.Objects_info_prof.horizontalHeader().setSectionResizeMode(4, QtWidgets.QHeaderView.Stretch)
+        self.Objects_info_prof.horizontalHeader().setSectionResizeMode(4, QtWidgets.QHeaderView.Fixed)
+        header = self.Objects_info_prof.verticalHeader()
+        header.setSectionResizeMode(QtWidgets.QHeaderView.Fixed)
         
 #add to layout
         self.gridLayout.addWidget(self.Objects_info_prof, 1, 2, 1, 1)
+
+
+#update data button (profile)
+        self.update_but_prof = QtWidgets.QPushButton(self.U_profile_tab)
+        self.update_but_prof.setMinimumSize(QtCore.QSize(30, 30))
+        self.update_but_prof.setMaximumSize(QtCore.QSize(30, 30))
+        self.update_but_prof.setStyleSheet("QPushButton {\n"
+                        "alignment: right;\n"
+                        "color: #333;\n"
+                        "border: 2px solid #555;\n"
+                        "border-radius: 20px;\n"
+                        "border-style: outset;\n"
+                        "font: 12pt \"MS Shell Dlg 2\";\n"
+                        "background: qradialgradient(\n"
+                        "cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4,\n"
+                        "radius: 1.35, stop: 0 #fff, stop: 1 #888\n"
+                        ");\n"
+                        "padding: 5px;\n"
+                        "}\n"
+                        "\n"
+                        "QPushButton:hover {\n"
+                        "background: qradialgradient(\n"
+                        "cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4,\n"
+                        "radius: 1.35, stop: 0 #fff, stop: 1 #bbb\n"
+                        ");\n"
+                        "}\n"
+                        "\n"
+                        "QPushButton:pressed {\n"
+                        "border-style: inset;\n"
+                        "background: qradialgradient(\n"
+                        "cx: 0.4, cy: -0.1, fx: 0.4, fy: -0.1,\n"
+                        "radius: 1.35, stop: 0 #fff, stop: 1 #ddd\n"
+                        ");\n"
+                        "}")
+        self.update_but_prof.setObjectName("update_but_prof")
+        self.update_but_prof.setText("↻")
+        self.update_but_prof.clicked.connect(self.update_data_prof)
+        self.Check_lay_prof.addWidget(self.update_but_prof, 1, 1, 1, 1)
+
+
 
 
 #layout for user photo(profile)
@@ -565,7 +613,7 @@ class ProfileWindow(QtWidgets.QMainWindow):
                         "border: 2px solid #555;\n"
                         "border-radius: 10px;\n"
                         "border-style: inset;\n"
-                        "font: 12pt \"MS Shell Dlg 2\";\n"
+                        "font: 10pt \"MS Shell Dlg 2\";\n"
                         "min-width: 8em;\n"
                         "background: qradialgradient(\n"
                         "cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4,\n"
@@ -589,6 +637,8 @@ class ProfileWindow(QtWidgets.QMainWindow):
                         ");\n"
                         "}")
         self.Search_ed_perf.setObjectName("Search_ed_perf")
+        self.Search_ed_perf.setPlaceholderText("yyyy-mm-dd or №")
+
 
 #add to layout
         self.U_perf_lay.addWidget(self.Search_ed_perf, 1, 0, 1, 1)
@@ -601,26 +651,28 @@ class ProfileWindow(QtWidgets.QMainWindow):
         self.Support_data_cap.setObjectName("Support_data_cap")
 
 #add to layout
-        self.U_perf_lay.addWidget(self.Support_data_cap, 3, 4, 1, 1)
+        self.U_perf_lay.addWidget(self.Support_data_cap, 2, 4, 1, 1)
 
 #Table widget for all information about solar panels group
         self.Objects_info_cap = QtWidgets.QTableWidget(self.U_Performance)
         self.Objects_info_cap.setMinimumSize(QtCore.QSize(1115, 421))
         self.Objects_info_cap.setMaximumSize(QtCore.QSize(12345, 421))
         self.Objects_info_cap.setStyleSheet("background-color: rgb(168, 168, 168);")
-        self.Objects_info_cap.setColumnCount(9)
+        self.Objects_info_cap.setColumnCount(10)
         self.Objects_info_cap.setObjectName("Objects_info_cap")
-        self.Objects_info_cap.setHorizontalHeaderLabels(["No", "Amount", "Panel`s adress", "Performance", "Voltage", "Power", "Date", "Weather", "°C"])
+        self.Objects_info_cap.setHorizontalHeaderLabels(["№", "Amount", "Panel`s adress", "Performance", "Voltage", "Power", "Date", "Weather", "°C", "Wind speed"])
 
-        panels_data = SqliteDB.get_panel_group_data(self.controller.session_id, None)
+        panels_data = SqliteDB.get_panel_group_data(self.controller.session_id, None, None)
         weather_data = SqliteDB.get_weather(panels_data[0][0])
-        self.Objects_info_cap.setRowCount(len(data))
+        self.Objects_info_cap.setRowCount(len(panels_data))
         for row in range(len(panels_data)):
-            for col in range(len(panels_data[row])+2):
+            for col in range(len(panels_data[row])+3):
                 if col == 7:
                     item = QtWidgets.QTableWidgetItem(str(weather_data[row][1]))
                 elif col == 8:
                     item = QtWidgets.QTableWidgetItem(str(weather_data[row][3]))
+                elif col == 9:
+                    item = QtWidgets.QTableWidgetItem(str(weather_data[row][4]))
                 else:
                     item = QtWidgets.QTableWidgetItem(str(panels_data[row][col]))
 
@@ -631,6 +683,9 @@ class ProfileWindow(QtWidgets.QMainWindow):
         self.Objects_info_cap.horizontalHeader().setSectionResizeMode(0, QtWidgets.QHeaderView.Fixed)
         self.Objects_info_cap.horizontalHeader().setSectionResizeMode(1, QtWidgets.QHeaderView.Fixed)
 
+        header = self.Objects_info_cap.verticalHeader()
+        header.setSectionResizeMode(QtWidgets.QHeaderView.Fixed)
+
         self.Objects_info_cap.horizontalHeader().setSectionResizeMode(2, QtWidgets.QHeaderView.Stretch)
         self.Objects_info_cap.horizontalHeader().setSectionResizeMode(3, QtWidgets.QHeaderView.Stretch)
         self.Objects_info_cap.horizontalHeader().setSectionResizeMode(4, QtWidgets.QHeaderView.Stretch)
@@ -639,6 +694,7 @@ class ProfileWindow(QtWidgets.QMainWindow):
         self.Objects_info_cap.horizontalHeader().setSectionResizeMode(7, QtWidgets.QHeaderView.Stretch)
         self.Objects_info_cap.setColumnWidth(8, 30)
         self.Objects_info_cap.horizontalHeader().setSectionResizeMode(8, QtWidgets.QHeaderView.Fixed)
+        self.Objects_info_cap.horizontalHeader().setSectionResizeMode(9, QtWidgets.QHeaderView.Stretch)
         
 #add to layout
         self.U_perf_lay.addWidget(self.Objects_info_cap, 0, 0, 1, 5)
@@ -648,6 +704,7 @@ class ProfileWindow(QtWidgets.QMainWindow):
         self.Search_but_perf.setMinimumSize(QtCore.QSize(150, 41))
         self.Search_but_perf.setMaximumSize(QtCore.QSize(131, 41))
         self.Search_but_perf.setStyleSheet("QPushButton {\n"
+                        "alignment: right;\n"
                         "color: #333;\n"
                         "border: 2px solid #555;\n"
                         "border-radius: 20px;\n"
@@ -677,9 +734,50 @@ class ProfileWindow(QtWidgets.QMainWindow):
                         "}")
         self.Search_but_perf.setObjectName("Search_but_perf")
         self.Search_but_perf.setText("Search")
+        self.Search_but_perf.clicked.connect(self.find_data_perf)
 
 #add to layout
         self.U_perf_lay.addWidget(self.Search_but_perf, 1, 4, 1, 1)
+
+
+#update button
+        self.update_but_perf = QtWidgets.QPushButton(self.U_Performance)
+        self.update_but_perf.setMinimumSize(QtCore.QSize(30, 30))
+        self.update_but_perf.setMaximumSize(QtCore.QSize(30, 30))
+        self.update_but_perf.setStyleSheet("QPushButton {\n"
+                        "alignment: left;\n"
+                        "color: #333;\n"
+                        "border: 2px solid #555;\n"
+                        "border-radius: 20px;\n"
+                        "border-style: outset;\n"
+                        "font: 12pt \"MS Shell Dlg 2\";\n"
+                        "background: qradialgradient(\n"
+                        "cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4,\n"
+                        "radius: 1.35, stop: 0 #fff, stop: 1 #888\n"
+                        ");\n"
+                        "padding: 5px;\n"
+                        "}\n"
+                        "\n"
+                        "QPushButton:hover {\n"
+                        "background: qradialgradient(\n"
+                        "cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4,\n"
+                        "radius: 1.35, stop: 0 #fff, stop: 1 #bbb\n"
+                        ");\n"
+                        "}\n"
+                        "\n"
+                        "QPushButton:pressed {\n"
+                        "border-style: inset;\n"
+                        "background: qradialgradient(\n"
+                        "cx: 0.4, cy: -0.1, fx: 0.4, fy: -0.1,\n"
+                        "radius: 1.35, stop: 0 #fff, stop: 1 #ddd\n"
+                        ");\n"
+                        "}")
+        self.update_but_perf.setObjectName("update_but_perf")
+        self.update_but_perf.setText("↻")
+        self.update_but_perf.clicked.connect(self.update_data_perf)
+        self.U_perf_lay.addWidget(self.update_but_perf, 1, 3, 1, 1)
+
+
 
 #layouts
         self.Perf_logo_lay = QtWidgets.QGridLayout()
@@ -1533,24 +1631,147 @@ class ProfileWindow(QtWidgets.QMainWindow):
             else:
                 QtWidgets.QMessageBox.warning(self, "Warning", "Incorrect login or password!")
         
+
+    def find_data_perf(self):
+        if self.Search_ed_perf.text():
+            text = self.Search_ed_perf.text()
+            if text.isdigit():
+                
+                panels_data = SqliteDB.get_panel_group_data(self.controller.session_id, text, None)
+                if panels_data is not None:    
+                    
+                    weather_data = SqliteDB.get_weather(panels_data[0][0])
+                    self.Objects_info_cap.setRowCount(len(panels_data))
+                    for row in range(len(panels_data)):
+                        for col in range(len(panels_data[row])+3):
+                            if col == 7:
+                                item = QtWidgets.QTableWidgetItem(str(weather_data[row][1]))
+                            elif col == 8:
+                                item = QtWidgets.QTableWidgetItem(str(weather_data[row][3]))
+                            elif col == 9:
+                                item = QtWidgets.QTableWidgetItem(str(weather_data[row][4]))
+                            else:
+                                item = QtWidgets.QTableWidgetItem(str(panels_data[row][col]))
+                            self.Objects_info_cap.setItem(row, col, item)
+                    header = self.Objects_info_cap.verticalHeader()
+                    header.setSectionResizeMode(QtWidgets.QHeaderView.Fixed)
+                else:
+                    QtWidgets.QMessageBox.warning(self, "Error", "Something went wrong")
+                self.Search_ed_perf.setText("")
+            else:
+                try:
+                    
+                    date_ch = datetime.strptime(text, '%Y-%m-%d')
+                    date = date_ch.date()
+                    panels_data = SqliteDB.get_panel_group_data(self.controller.session_id, None, date)
+                    if panels_data is not None:   
+                        
+                        weather_data = SqliteDB.get_weather(panels_data[0][0])
+                        self.Objects_info_cap.setRowCount(len(panels_data))
+                        for row in range(len(panels_data)):
+                            for col in range(len(panels_data[row])+3):
+                                if col == 7:
+                                    item = QtWidgets.QTableWidgetItem(str(weather_data[row][1]))
+                                elif col == 8:
+                                    item = QtWidgets.QTableWidgetItem(str(weather_data[row][3]))
+                                elif col == 9:
+                                    item = QtWidgets.QTableWidgetItem(str(weather_data[row][4]))
+                                else:
+                                    item = QtWidgets.QTableWidgetItem(str(panels_data[row][col]))
+                                self.Objects_info_cap.setItem(row, col, item)
+                        header = self.Objects_info_cap.verticalHeader()
+                        header.setSectionResizeMode(QtWidgets.QHeaderView.Fixed)
+                    else:
+                        QtWidgets.QMessageBox.warning(self, "Error", "Something went wrong")
+
+                except ValueError:
+                    QtWidgets.QMessageBox.warning(self, "Error", "Input right date format")
+                self.Search_ed_perf.setText("")
+        else:
+            QtWidgets.QMessageBox.warning(self, "Error", "Fill every fields please")
+
+
+    def update_data_perf(self):
+        panels_data = SqliteDB.get_panel_group_data(self.controller.session_id, None, None)
+        weather_data = SqliteDB.get_weather(panels_data[0][0])
+        self.Objects_info_cap.setRowCount(len(panels_data))
+        for row in range(len(panels_data)):
+            for col in range(len(panels_data[row])+3):
+                if col == 7:
+                    item = QtWidgets.QTableWidgetItem(str(weather_data[row][1]))
+                elif col == 8:
+                    item = QtWidgets.QTableWidgetItem(str(weather_data[row][3]))
+                elif col == 9:
+                    item = QtWidgets.QTableWidgetItem(str(weather_data[row][4]))
+                else:
+                    item = QtWidgets.QTableWidgetItem(str(panels_data[row][col]))
+
+                self.Objects_info_cap.setItem(row, col, item)
+        header = self.Objects_info_cap.verticalHeader()
+        header.setSectionResizeMode(QtWidgets.QHeaderView.Fixed)
+        self.Search_ed_perf.setText("")
+
+
+    def find_data_prof(self):
+        if self.Search_ed_prof.text():
+            text = self.Search_ed_prof.text()
+            if text.isdigit():
+                
+                panels_data = SqliteDB.get_panel_group_data(self.controller.session_id, text, None)
+                if panels_data is not None:    
+                    
+                    weather_data = SqliteDB.get_weather(panels_data[0][0])
+                    self.Objects_info_prof.setRowCount(len(panels_data))
+                    for row in range(len(panels_data)):
+                        for col in range(5):
+                            if col == 4:
+                                item = QtWidgets.QTableWidgetItem(str(weather_data[row][1]))
+                            else:
+                                item = QtWidgets.QTableWidgetItem(str(panels_data[row][col]))
+                            self.Objects_info_prof.setItem(row, col, item)
+                    header = self.Objects_info_prof.verticalHeader()
+                    header.setSectionResizeMode(QtWidgets.QHeaderView.Fixed)
+                else:
+                    QtWidgets.QMessageBox.warning(self, "Error", "Something went wrong")
+                self.Search_ed_prof.setText("")
+            else:
+                QtWidgets.QMessageBox.warning(self, "Error", "Input correct value")
+                self.Search_ed_prof.setText("")
+        else:
+            QtWidgets.QMessageBox.warning(self, "Error", "Fill every fields please")
+
+
+    def update_data_prof(self):
+        data = SqliteDB.get_panel_group_data(self.controller.session_id, None, None)
+        weather_data = SqliteDB.get_weather(data[0][0])
+        self.Objects_info_prof.setRowCount(len(data))
+        for row in range(len(data)):
+            for col in range(5):
+                if col == 4:
+                    item = QtWidgets.QTableWidgetItem(str(weather_data[row][1]))
+                else:
+                    item = QtWidgets.QTableWidgetItem(str(data[row][col]))
+                self.Objects_info_prof.setItem(row, col, item)
+        self.Search_ed_prof.setText("")
+        header = self.Objects_info_prof.verticalHeader()
+        header.setSectionResizeMode(QtWidgets.QHeaderView.Fixed)
+
+
     def show_change_name(self):
         self.controller.show_change_name()
         self.close()
 
 
     def show_change_login(self):
-        
         self.controller.show_change_login()
         self.close()
 
     def show_change_pass(self):
-        
         self.controller.show_change_pass()
         self.close()
 
     
     def log_out(self):
-        
         self.controller.show_login()
         self.close()
 
