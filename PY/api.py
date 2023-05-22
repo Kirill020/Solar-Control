@@ -48,7 +48,7 @@ async def add_group_data(group_data: GroupDataModel):
 
         Panels_Data = SqliteDB.get_panel_group_data_api(id)
 
-        if(Panels_Data is not None):
+        if Panels_Data is not None:
             Id_PanelGroup = Panels_Data["Id_PanelGroup"]
             Person_id = Panels_Data["Person_id"]
             Panels_amount = Panels_Data["Panels_amount"]
