@@ -3,6 +3,7 @@ import random
 import smtplib
 import control
 from db_handler import SqliteDB
+from PyQt5.QtGui import QFontDatabase, QFont
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QApplication, QMainWindow
 sec_code = None
@@ -11,18 +12,34 @@ class ForgotPassWindow(QMainWindow):
     def __init__(self):
         super().__init__()
         self.setWindowTitle("New password")
-        self.setFixedSize(555,440)
+        self.setFixedSize(555,400)
         self.setStyleSheet("background-color: qlineargradient(spread:pad, x1:0.482198, y1:0.971, x2:0.497, y2:0.023, stop:0.0338983 rgba(46, 46, 46, 255), stop:1 rgba(168, 168, 168, 255));")
+
+
+        comfortaa_font_id = QFontDatabase.addApplicationFont("C:\\Solar Control\\Solar-Control\\fonts\\Comfortaa-Bold.ttf")
+        opensans_font_id = QFontDatabase.addApplicationFont("C:\\Solar Control\\Solar-Control\\fonts\\OpenSans-SemiBold.ttf")
+        if comfortaa_font_id != -1 and opensans_font_id != -1:
+            comfortaa_font_fam = QFontDatabase.applicationFontFamilies(comfortaa_font_id)
+            opensans_font_fam = QFontDatabase.applicationFontFamilies(opensans_font_id)
+            if comfortaa_font_fam and opensans_font_fam:
+
+                self.comfortaa_font = comfortaa_font_fam[0]
+                self.opensans_font = opensans_font_fam[0]
+                self.logo_font = QFont(self.comfortaa_font, 15)
+                self.button_font = QFont(self.comfortaa_font, 11)
+                self.edit_font = QFont(self.comfortaa_font, 9)
+                self.label_font = QFont(self.opensans_font, 10)
 
 
 
         #Logo name(SOLAR CONTROL)
         self.logo_name_lab = QtWidgets.QLabel(self)
-        self.logo_name_lab.setGeometry(QtCore.QRect(240, 60, 101, 31))
+        self.logo_name_lab.setGeometry(QtCore.QRect(190, 60, 180, 31))
         self.logo_name_lab.setToolTip("")
         self.logo_name_lab.setAutoFillBackground(False)
         self.logo_name_lab.setStyleSheet("border: 0px; background-color:rgba(0,0,0,0%);")
         self.logo_name_lab.setObjectName("logo_name_lab")
+        self.logo_name_lab.setFont(self.logo_font)
         self.logo_name_lab.setText("<html><head/><body><p align=\"center\">SOLAR CONTROL</p></body></html>")
 
 
@@ -35,7 +52,6 @@ class ForgotPassWindow(QMainWindow):
                         "border: 2px solid #555;\n"
                         "border-radius: 10px;\n"
                         "border-style: inset;\n"
-                        "font: 9pt \"MS Shell Dlg 2\";\n"
                         "min-width: 8em;\n"
                         "background: qradialgradient(\n"
                         "cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4,\n"
@@ -63,13 +79,14 @@ class ForgotPassWindow(QMainWindow):
         self.login_edit.setText("")
         self.login_edit.setPlaceholderText("")
         self.login_edit.setObjectName("login_edit")
+        self.login_edit.setFont(self.edit_font)
         self.login_edit.setWhatsThis("Edit for e-mail")
         self.login_edit.setPlaceholderText("Email")
 
 
         #Logo image
         self.logo_Login = QtWidgets.QLabel(self)
-        self.logo_Login.setGeometry(QtCore.QRect(130, 40, 91, 61))
+        self.logo_Login.setGeometry(QtCore.QRect(100, 40, 91, 61))
         self.logo_Login.setMinimumSize(QtCore.QSize(82, 45))
         self.logo_Login.setStyleSheet("background-color: rgba(255, 255, 255, 0);\n"
                         "image: url(:/newPrefix/images/backgrounds/PsLYIQ01.svg);")
@@ -88,7 +105,6 @@ class ForgotPassWindow(QMainWindow):
                         "border: 2px solid #555;\n"
                         "border-radius: 10px;\n"
                         "border-style: outset;\n"
-                        "font: 11pt \"MS Shell Dlg 2\";\n"
                         "max-width: 131px;\n"
                         "background: qradialgradient(\n"
                         "cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4,\n"
@@ -111,7 +127,8 @@ class ForgotPassWindow(QMainWindow):
                         "radius: 1.35, stop: 0 #fff, stop: 1 #ddd\n"
                         ");\n"
                         "}")
-        self.send_code_but.setObjectName("ch_pass_but")
+        self.send_code_but.setObjectName("send_code_but")
+        self.send_code_but.setFont(self.button_font)
         self.send_code_but.setText("Send")
         self.send_code_but.clicked.connect(self.send_code)
 
@@ -130,7 +147,6 @@ class ForgotPassWindow(QMainWindow):
                         "border: 2px solid #555;\n"
                         "border-radius: 20px;\n"
                         "border-style: outset;\n"
-                        "font: 12pt \"MS Shell Dlg 2\";\n"
                         "max-width: 131px;\n"
                         "background: qradialgradient(\n"
                         "cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4,\n"
@@ -154,6 +170,7 @@ class ForgotPassWindow(QMainWindow):
                         ");\n"
                         "}")
         self.ch_pass_but.setObjectName("ch_pass_but")
+        self.ch_pass_but.setFont(self.button_font)
         self.ch_pass_but.setText("Change")
         self.ch_pass_but.clicked.connect(self.change_pass)
 
@@ -170,7 +187,6 @@ class ForgotPassWindow(QMainWindow):
                         "border: 2px solid #555;\n"
                         "border-radius: 20px;\n"
                         "border-style: outset;\n"
-                        "font: 12pt \"MS Shell Dlg 2\";\n"
                         "max-width: 131px;\n"
                         "background: qradialgradient(\n"
                         "cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4,\n"
@@ -195,6 +211,7 @@ class ForgotPassWindow(QMainWindow):
                         "}")
         self.back_but.setObjectName("back_but")
         self.back_but.setText("<")
+        self.back_but.setFont(self.button_font)
         self.back_but.clicked.connect(self.back_to_login)
 
 
@@ -208,7 +225,6 @@ class ForgotPassWindow(QMainWindow):
                         "border: 2px solid #555;\n"
                         "border-radius: 10px;\n"
                         "border-style: inset;\n"
-                        "font: 10pt \"MS Shell Dlg 2\";\n"
                         "min-width: 8em;\n"
                         "background: qradialgradient(\n"
                         "cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4,\n"
@@ -236,6 +252,7 @@ class ForgotPassWindow(QMainWindow):
         self.password_edit.setText("")
         self.password_edit.setPlaceholderText("")
         self.password_edit.setObjectName("password_edit")
+        self.password_edit.setFont(self.edit_font)
         self.password_edit.setWhatsThis("Edit for Password")
         self.password_edit.setPlaceholderText("New password")
         self.password_edit.setReadOnly(True)
@@ -243,7 +260,8 @@ class ForgotPassWindow(QMainWindow):
 
         self.show_password_checkbox = QtWidgets.QCheckBox(self)
         self.show_password_checkbox.setText("Show")
-        self.show_password_checkbox.setGeometry(410,171,50,30)
+        self.show_password_checkbox.setGeometry(410,171,57,30)
+        self.show_password_checkbox.setFont(self.label_font)
         self.show_password_checkbox.setStyleSheet("background-color: rgba(255, 255, 255, 0);\n")
         self.show_password_checkbox.clicked.connect(self.show_password)
 
@@ -257,7 +275,6 @@ class ForgotPassWindow(QMainWindow):
                         "border: 2px solid #555;\n"
                         "border-radius: 10px;\n"
                         "border-style: inset;\n"
-                        "font: 10pt \"MS Shell Dlg 2\";\n"
                         "min-width: 8em;\n"
                         "background: qradialgradient(\n"
                         "cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4,\n"
@@ -285,6 +302,7 @@ class ForgotPassWindow(QMainWindow):
         self.email_key.setText("")
         self.email_key.setPlaceholderText("")
         self.email_key.setObjectName("email_key")
+        self.email_key.setFont(self.edit_font)
         self.email_key.setWhatsThis("Edit for Email key")
         self.email_key.setPlaceholderText("Email key")
         self.email_key.setReadOnly(True)
@@ -344,7 +362,7 @@ class ForgotPassWindow(QMainWindow):
 
 #generate security code
     def generate_code(self,login) -> int:
-            
+        try:
             code = int(random.randint(100000, 999999))
             
             from_address = 'work.tanasiichuk@gmail.com'
@@ -360,6 +378,9 @@ class ForgotPassWindow(QMainWindow):
 
             QtWidgets.QMessageBox.information(self, "Security code", "Security code has been sendet on your email")
             return code
+        except Exception as e:
+            QtWidgets.QMessageBox.critical(self, "Error", f"An error occurred: {str(e)}")
+            self.back_to_login()
 
 #show password
     def show_password(self):
