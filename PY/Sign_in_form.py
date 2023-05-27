@@ -4,6 +4,7 @@ import smtplib
 import time
 import control
 from db_handler import SqliteDB
+from PyQt5.QtGui import QFontDatabase, QFont
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QApplication, QMainWindow
 sec_code = None
@@ -18,6 +19,21 @@ class RegistrationWindow(QMainWindow):
         self.setStyleSheet("background-color: qlineargradient(spread:pad, x1:0.482198, y1:0.971, x2:0.497, y2:0.023, stop:0.0338983 rgba(46, 46, 46, 255), stop:1 rgba(168, 168, 168, 255));")
 
 
+        comfortaa_font_id = QFontDatabase.addApplicationFont("C:\\Solar Control\\Solar-Control\\fonts\\Comfortaa-Bold.ttf")
+        opensans_font_id = QFontDatabase.addApplicationFont("C:\\Solar Control\\Solar-Control\\fonts\\OpenSans-SemiBold.ttf")
+        if comfortaa_font_id != -1 and opensans_font_id != -1:
+            comfortaa_font_fam = QFontDatabase.applicationFontFamilies(comfortaa_font_id)
+            opensans_font_fam = QFontDatabase.applicationFontFamilies(opensans_font_id)
+            if comfortaa_font_fam and opensans_font_fam:
+
+                self.comfortaa_font = comfortaa_font_fam[0]
+                self.opensans_font = opensans_font_fam[0]
+                self.logo_font = QFont(self.comfortaa_font, 15)
+                self.button_font = QFont(self.comfortaa_font, 11)
+                self.edit_font = QFont(self.comfortaa_font, 9)
+                self.label_font = QFont(self.opensans_font, 10)
+
+
 
         #Register button
         self.reg_but = QtWidgets.QPushButton(self)
@@ -30,7 +46,6 @@ class RegistrationWindow(QMainWindow):
                         "border: 2px solid #555;\n"
                         "border-radius: 20px;\n"
                         "border-style: outset;\n"
-                        "font: 12pt \"MS Shell Dlg 2\";\n"
                         "max-width: 131px;\n"
                         "background: qradialgradient(\n"
                         "cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4,\n"
@@ -54,6 +69,7 @@ class RegistrationWindow(QMainWindow):
                         ");\n"
                         "}")
         self.reg_but.setObjectName("reg_but")
+        self.reg_but.setFont(self.button_font)
         self.reg_but.setText("Sign up")
         self.reg_but.clicked.connect(self.reg_check)
         self.reg_but.setDisabled(True)
@@ -69,7 +85,6 @@ class RegistrationWindow(QMainWindow):
                         "border: 2px solid #555;\n"
                         "border-radius: 10px;\n"
                         "border-style: inset;\n"
-                        "font: 9pt \"MS Shell Dlg 2\";\n"
                         "min-width: 8em;\n"
                         "background: qradialgradient(\n"
                         "cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4,\n"
@@ -93,6 +108,7 @@ class RegistrationWindow(QMainWindow):
                         ");\n"
                         "}")
         self.email_edit.setInputMask("")
+        self.email_edit.setFont(self.edit_font)
         self.email_edit.setToolTip("Your E-mail adress")
         self.email_edit.setText("")
         self.email_edit.setObjectName("e_mail_edit")
@@ -110,7 +126,6 @@ class RegistrationWindow(QMainWindow):
                         "border: 2px solid #555;\n"
                         "border-radius: 10px;\n"
                         "border-style: outset;\n"
-                        "font: 11pt \"MS Shell Dlg 2\";\n"
                         "max-width: 131px;\n"
                         "background: qradialgradient(\n"
                         "cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4,\n"
@@ -134,6 +149,7 @@ class RegistrationWindow(QMainWindow):
                         ");\n"
                         "}")
         self.send_code_but.setObjectName("send_code_but")
+        self.send_code_but.setFont(self.button_font)
         self.send_code_but.setText("Send")
         self.send_code_but.clicked.connect(self.send_code)
 
@@ -147,7 +163,6 @@ class RegistrationWindow(QMainWindow):
                         "border: 2px solid #555;\n"
                         "border-radius: 10px;\n"
                         "border-style: inset;\n"
-                        "font: 10pt \"MS Shell Dlg 2\";\n"
                         "min-width: 8em;\n"
                         "background: qradialgradient(\n"
                         "cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4,\n"
@@ -171,6 +186,7 @@ class RegistrationWindow(QMainWindow):
                         ");\n"
                         "}")
         self.login_edit.setInputMask("")
+        self.login_edit.setFont(self.edit_font)
         self.login_edit.setToolTip("Your name")
         self.login_edit.setText("")
         self.login_edit.setObjectName("login_edit")
@@ -188,7 +204,6 @@ class RegistrationWindow(QMainWindow):
                         "border: 2px solid #555;\n"
                         "border-radius: 10px;\n"
                         "border-style: inset;\n"
-                        "font: 10pt \"MS Shell Dlg 2\";\n"
                         "min-width: 8em;\n"
                         "background: qradialgradient(\n"
                         "cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4,\n"
@@ -215,6 +230,7 @@ class RegistrationWindow(QMainWindow):
         self.email_key_edit.setToolTip("Security code")
         self.email_key_edit.setText("")
         self.email_key_edit.setObjectName("email_key_edit")
+        self.email_key_edit.setFont(self.edit_font)
         self.email_key_edit.setWhatsThis("Edit for security code")
         self.email_key_edit.setPlaceholderText("Code")
         self.email_key_edit.setReadOnly(True)
@@ -229,7 +245,6 @@ class RegistrationWindow(QMainWindow):
                         "border: 2px solid #555;\n"
                         "border-radius: 10px;\n"
                         "border-style: inset;\n"
-                        "font: 10pt \"MS Shell Dlg 2\";\n"
                         "min-width: 8em;\n"
                         "background: qradialgradient(\n"
                         "cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4,\n"
@@ -257,6 +272,7 @@ class RegistrationWindow(QMainWindow):
         self.adress_edit.setText("")
         self.adress_edit.setPlaceholderText("")
         self.adress_edit.setObjectName("adress_edit")
+        self.adress_edit.setFont(self.edit_font)
         self.adress_edit.setWhatsThis("Edit for adress")
         self.adress_edit.setPlaceholderText("Adress")
         self.adress_edit.setReadOnly(True)
@@ -271,7 +287,6 @@ class RegistrationWindow(QMainWindow):
                         "border: 2px solid #555;\n"
                         "border-radius: 10px;\n"
                         "border-style: inset;\n"
-                        "font: 10pt \"MS Shell Dlg 2\";\n"
                         "min-width: 8em;\n"
                         "background: qradialgradient(\n"
                         "cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4,\n"
@@ -299,6 +314,7 @@ class RegistrationWindow(QMainWindow):
         self.password_edit.setText("")
         
         self.password_edit.setObjectName("password_edit")
+        self.password_edit.setFont(self.edit_font)
         self.password_edit.setWhatsThis("Edit for login")
         self.password_edit.setPlaceholderText("Password")
         self.password_edit.setReadOnly(True)
@@ -306,15 +322,17 @@ class RegistrationWindow(QMainWindow):
 
         self.show_password_checkbox = QtWidgets.QCheckBox(self)
         self.show_password_checkbox.setText("Show")
-        self.show_password_checkbox.setGeometry(400,327,50,30)
+        self.show_password_checkbox.setFont(self.label_font)
+        self.show_password_checkbox.setGeometry(400,327,57,30)
         self.show_password_checkbox.setStyleSheet("background-color: rgba(255, 255, 255, 0);\n")
         self.show_password_checkbox.clicked.connect(self.show_password)
 
 
         #Logo name(SOLAR CONTROL)
         self.logo_name_lab = QtWidgets.QLabel(self)
-        self.logo_name_lab.setGeometry(QtCore.QRect(230, 30, 101, 31))
+        self.logo_name_lab.setGeometry(QtCore.QRect(185, 30, 180, 31))
         self.logo_name_lab.setToolTip("")
+        self.logo_name_lab.setFont(self.logo_font)
         self.logo_name_lab.setAutoFillBackground(False)
         self.logo_name_lab.setStyleSheet("border: 0px; background-color:rgba(0,0,0,0%);")
         self.logo_name_lab.setObjectName("logo_name_lab")
@@ -330,7 +348,6 @@ class RegistrationWindow(QMainWindow):
                         "border: 2px solid #555;\n"
                         "border-radius: 20px;\n"
                         "border-style: outset;\n"
-                        "font: 12pt \"MS Shell Dlg 2\";\n"
                         "max-width: 131px;\n"
                         "background: qradialgradient(\n"
                         "cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4,\n"
@@ -354,6 +371,7 @@ class RegistrationWindow(QMainWindow):
                         ");\n"
                         "}")
         self.back_but.setObjectName("back_but")
+        self.back_but.setFont(self.button_font)
         self.back_but.setText("<")
         self.back_but.clicked.connect(self.show_login)
 
@@ -362,7 +380,7 @@ class RegistrationWindow(QMainWindow):
 
         #Logo image
         self.logo_sign_in = QtWidgets.QLabel(self)
-        self.logo_sign_in.setGeometry(QtCore.QRect(130, 20, 91, 61))
+        self.logo_sign_in.setGeometry(QtCore.QRect(100, 20, 91, 61))
         self.logo_sign_in.setMinimumSize(QtCore.QSize(82, 45))
         self.logo_sign_in.setStyleSheet("background-color: rgba(255, 255, 255, 0);\n"
                         "image: url(:/newPrefix/images/backgrounds/PsLYIQ01.svg);")
@@ -438,25 +456,28 @@ class RegistrationWindow(QMainWindow):
 
 #generate security code
     def generate_code(self,email) -> int:
-     
-        code = int(random.randint(100000, 999999))
-            
-        from_address = 'work.tanasiichuk@gmail.com'
-        to_address = email
-        subject = 'Security Code'
-        body = f'Your security code is: {code}'
-        message = f'Subject: {subject}\n\n{body}'
-        server = smtplib.SMTP('smtp.gmail.com', 587)
-        server.starttls()
-        server.login(from_address, 'wilgfdzekbdoboxp')
-        server.sendmail(from_address, to_address, message)
-        server.quit()
+        try:
+            code = int(random.randint(100000, 999999))
+                
+            from_address = 'work.tanasiichuk@gmail.com'
+            to_address = email
+            subject = 'Security Code'
+            body = f'Your security code is: {code}'
+            message = f'Subject: {subject}\n\n{body}'
+            server = smtplib.SMTP('smtp.gmail.com', 587)
+            server.starttls()
+            server.login(from_address, 'wilgfdzekbdoboxp')
+            server.sendmail(from_address, to_address, message)
+            server.quit()
 
-        QtWidgets.QMessageBox.information(self, "Security code", "Security code has been sendet on your email")
-        return {
-        'code': code,
-        'timestamp': time.time()
-        }
+            QtWidgets.QMessageBox.information(self, "Security code", "Security code has been sendet on your email")
+            return {
+            'code': code,
+            'timestamp': time.time()
+            }
+        except Exception as e:
+            QtWidgets.QMessageBox.critical(self, "Error", f"An error occurred: {str(e)}")
+            self.show_login()
     
     def show_password(self):
         if self.show_password_checkbox.isChecked():
