@@ -1,14 +1,38 @@
-from PyQt5.QtWidgets import QWidget
+import folium
+from PyQt5.QtCore import QUrl
+from geopy.geocoders import Nominatim
+
+from PyQt5.QtGui import QFontDatabase, QFont
 from db_handler import SqliteDB
 import control
-from datetime import datetime
-from PyQt5 import QtCore, QtGui, QtWidgets
+from datetime import datetime, timedelta
+from PyQt5 import QtCore, QtGui, QtWidgets, QtChart, QtWebEngineWidgets
 
 class ProfileWindow(QtWidgets.QMainWindow):
     def __init__(self):
         super().__init__()
         self.controller = control.ControlWindow()
         self.controllerAPI = control.ControlAPI()
+        
+        comfortaa_font_id = QFontDatabase.addApplicationFont("C:\\Solar Control\\Solar-Control\\fonts\\Comfortaa-Bold.ttf")
+        opensans_font_id = QFontDatabase.addApplicationFont("C:\\Solar Control\\Solar-Control\\fonts\\OpenSans-SemiBold.ttf")
+        if comfortaa_font_id != -1 and opensans_font_id != -1:
+            comfortaa_font_fam = QFontDatabase.applicationFontFamilies(comfortaa_font_id)
+            opensans_font_fam = QFontDatabase.applicationFontFamilies(opensans_font_id)
+            if comfortaa_font_fam and opensans_font_fam:
+                self.comfortaa_font = comfortaa_font_fam[0]
+                self.opensans_font = opensans_font_fam[0]
+                self.tab_widget_font = QFont(self.comfortaa_font, 10)
+                self.button_font = QFont(self.comfortaa_font, 11)
+                self.button_font_2 = QFont(self.comfortaa_font, 10)
+
+                self.edit_font = QFont(self.comfortaa_font, 10)
+                self.label_font = QFont(self.opensans_font, 13)
+                self.label_font_2 = QFont(self.opensans_font, 19)
+
+                self.table_widget_font = QFont(self.comfortaa_font, 10)
+
+
 
         self.setWindowTitle("SOLAR CONTROL")
         self.resize(1180, 727)
@@ -20,7 +44,6 @@ class ProfileWindow(QtWidgets.QMainWindow):
         central_widget.setLayout(self.horizontalLayout)
         self.setCentralWidget(central_widget)
 
-
 #create  Tab Widget
         self.tabWidget = QtWidgets.QTabWidget(central_widget)
         self.tabWidget.setGeometry(QtCore.QRect(9, 9, 1162, 709))
@@ -28,7 +51,6 @@ class ProfileWindow(QtWidgets.QMainWindow):
                         "color: #333;\n"
                         "border: 2px solid #555;\n"
                         "border-style: outset;\n"
-                        "font: 10pt \"MS Shell Dlg 2\";\n"
                         "background: qradialgradient(\n"
                         "cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4,\n"
                         "radius: 1.35, stop: 0 #fff, stop: 1 #888);\n"
@@ -53,6 +75,7 @@ class ProfileWindow(QtWidgets.QMainWindow):
                         ");\n"
                         "}")
         self.tabWidget.setObjectName("tabWidget")
+        self.tabWidget.setFont(self.tab_widget_font)
         self.horizontalLayout.addWidget(self.tabWidget)
 
 
@@ -71,13 +94,14 @@ class ProfileWindow(QtWidgets.QMainWindow):
         spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.Check_lay_prof.addItem(spacerItem, 2, 0, 1, 1)
 
-
+        
 #create listView for support information 
         self.Support_data_prof = QtWidgets.QListView(self.U_profile_tab)
         self.Support_data_prof.setMinimumSize(QtCore.QSize(250, 135))
         self.Support_data_prof.setMaximumSize(QtCore.QSize(250, 135))
         self.Support_data_prof.setStyleSheet("background-color: rgb(168, 168, 168);\n""")
         self.Support_data_prof.setObjectName("Support_data_prof")
+        self.Support_data_prof.setFont(self.label_font)
         self.Check_lay_prof.addWidget(self.Support_data_prof, 2, 2, 1, 1)
 
 
@@ -200,7 +224,6 @@ class ProfileWindow(QtWidgets.QMainWindow):
                         "border: 2px solid #555;\n"
                         "border-radius: 10px;\n"
                         "border-style: inset;\n"
-                        "font: 10pt \"MS Shell Dlg 2\";\n"
                         "min-width: 8em;\n"
                         "background: qradialgradient(\n"
                         "cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4,\n"
@@ -225,6 +248,8 @@ class ProfileWindow(QtWidgets.QMainWindow):
                         "}")
         self.Search_ed_prof.setObjectName("Search_ed_prof")
         self.Search_ed_prof.setPlaceholderText("№")
+        self.Search_ed_prof.setFont(self.edit_font)
+        
 #add to layout
         self.Check_lay_prof.addWidget(self.Search_ed_prof, 1, 0, 1, 1)
 
@@ -238,7 +263,6 @@ class ProfileWindow(QtWidgets.QMainWindow):
                         "border: 2px solid #555;\n"
                         "border-radius: 20px;\n"
                         "border-style: outset;\n"
-                        "font: 12pt \"MS Shell Dlg 2\";\n"
                         "min-width: 8em;\n"
                         "background: qradialgradient(\n"
                         "cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4,\n"
@@ -264,6 +288,7 @@ class ProfileWindow(QtWidgets.QMainWindow):
         self.Search_but_prof.setObjectName("Search_but_prof")
         self.Search_but_prof.setText("Search")
         self.Search_but_prof.clicked.connect(self.find_data_prof)
+        self.Search_but_prof.setFont(self.button_font)
 
 #add to layout
         self.Check_lay_prof.addWidget(self.Search_but_prof, 1, 2, 1, 1)
@@ -274,10 +299,7 @@ class ProfileWindow(QtWidgets.QMainWindow):
         self.U_name_prof = QtWidgets.QLabel(self.U_profile_tab)
         self.U_name_prof.setMinimumSize(QtCore.QSize(250, 41))
         self.U_name_prof.setText(f"<html><head/><body><p align=\"center\">{self.controller.session_name}</p></body></html>")
-        font = QtGui.QFont()
-        font.setPointSize(15)
-        font.setFamily("MS Shell Dlg 2")
-        self.U_name_prof.setFont(font)
+        self.U_name_prof.setFont(self.label_font)
 
 
 
@@ -325,6 +347,7 @@ class ProfileWindow(QtWidgets.QMainWindow):
         self.Objects_info_prof.setStyleSheet("background-color: rgb(168, 168, 168);\n""")
         self.Objects_info_prof.setColumnCount(5)
         self.Objects_info_prof.setObjectName("Objects_info_prof")
+        self.Objects_info_prof.setFont(self.table_widget_font)
         self.Objects_info_prof.setHorizontalHeaderLabels(["№", "Amount", "Panel`s adress", "Performance", "Weather"])
 
         data = SqliteDB.get_panel_group_data(self.controller.session_id, None, None)
@@ -339,15 +362,16 @@ class ProfileWindow(QtWidgets.QMainWindow):
                 self.Objects_info_prof.setItem(row, col, item)
 
 
-        
+        self.Objects_info_prof.horizontalHeader().setFont(self.table_widget_font)
         self.Objects_info_prof.setColumnWidth(0, 30)
-        self.Objects_info_prof.setColumnWidth(1, 60)
+        self.Objects_info_prof.setColumnWidth(1, 67)
         self.Objects_info_prof.setColumnWidth(4, 120)
         self.Objects_info_prof.horizontalHeader().setSectionResizeMode(0, QtWidgets.QHeaderView.Fixed)
         self.Objects_info_prof.horizontalHeader().setSectionResizeMode(1, QtWidgets.QHeaderView.Fixed)
         self.Objects_info_prof.horizontalHeader().setSectionResizeMode(2, QtWidgets.QHeaderView.Stretch)
         self.Objects_info_prof.horizontalHeader().setSectionResizeMode(3, QtWidgets.QHeaderView.Stretch)
         self.Objects_info_prof.horizontalHeader().setSectionResizeMode(4, QtWidgets.QHeaderView.Fixed)
+        
         header = self.Objects_info_prof.verticalHeader()
         header.setSectionResizeMode(QtWidgets.QHeaderView.Fixed)
         
@@ -365,7 +389,6 @@ class ProfileWindow(QtWidgets.QMainWindow):
                         "border: 2px solid #555;\n"
                         "border-radius: 20px;\n"
                         "border-style: outset;\n"
-                        "font: 12pt \"MS Shell Dlg 2\";\n"
                         "background: qradialgradient(\n"
                         "cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4,\n"
                         "radius: 1.35, stop: 0 #fff, stop: 1 #888\n"
@@ -388,6 +411,7 @@ class ProfileWindow(QtWidgets.QMainWindow):
                         ");\n"
                         "}")
         self.update_but_prof.setObjectName("update_but_prof")
+        self.update_but_prof.setFont(self.button_font)
         self.update_but_prof.setText("↻")
         self.update_but_prof.clicked.connect(self.update_data_prof)
         self.Check_lay_prof.addWidget(self.update_but_prof, 1, 1, 1, 1)
@@ -438,18 +462,12 @@ class ProfileWindow(QtWidgets.QMainWindow):
         self.Log_out_but_prof = QtWidgets.QPushButton(self.U_profile_tab)
         self.Log_out_but_prof.setMinimumSize(QtCore.QSize(145, 41))
         self.Log_out_but_prof.setMaximumSize(QtCore.QSize(145, 41))
-        font = QtGui.QFont()
-        font.setFamily("MS Shell Dlg 2")
-        font.setPointSize(12)
-        font.setBold(False)
-        font.setItalic(False)
-        self.Log_out_but_prof.setFont(font)
+        self.Log_out_but_prof.setFont(self.button_font)
         self.Log_out_but_prof.setStyleSheet("QPushButton {\n"
                         "color: #333;\n"
                         "border: 2px solid #555;\n"
                         "border-radius: 20px;\n"
                         "border-style: outset;\n"
-                        "font: 12pt \"MS Shell Dlg 2\";\n"
                         "min-width:131px;\n"
                         "max-width:131px;\n"
                         "background: qradialgradient(\n"
@@ -488,7 +506,7 @@ class ProfileWindow(QtWidgets.QMainWindow):
 #add U_profile_tab to TabWidget
         self.tabWidget.addTab(self.U_profile_tab, "")
 
-
+        
 #User performance tab
         self.U_Performance = QtWidgets.QWidget()
         self.U_Performance.setObjectName("U_Performance")
@@ -613,7 +631,6 @@ class ProfileWindow(QtWidgets.QMainWindow):
                         "border: 2px solid #555;\n"
                         "border-radius: 10px;\n"
                         "border-style: inset;\n"
-                        "font: 10pt \"MS Shell Dlg 2\";\n"
                         "min-width: 8em;\n"
                         "background: qradialgradient(\n"
                         "cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4,\n"
@@ -637,6 +654,7 @@ class ProfileWindow(QtWidgets.QMainWindow):
                         ");\n"
                         "}")
         self.Search_ed_perf.setObjectName("Search_ed_perf")
+        self.Search_ed_perf.setFont(self.edit_font)
         self.Search_ed_perf.setPlaceholderText("yyyy-mm-dd or №")
 
 
@@ -659,6 +677,7 @@ class ProfileWindow(QtWidgets.QMainWindow):
         self.Objects_info_cap.setMaximumSize(QtCore.QSize(12345, 421))
         self.Objects_info_cap.setStyleSheet("background-color: rgb(168, 168, 168);")
         self.Objects_info_cap.setColumnCount(10)
+        self.Objects_info_cap.setFont(self.tab_widget_font)
         self.Objects_info_cap.setObjectName("Objects_info_cap")
         self.Objects_info_cap.setHorizontalHeaderLabels(["№", "Amount", "Panel`s adress", "Performance", "Voltage", "Power", "Date", "Weather", "°C", "Wind speed"])
 
@@ -678,8 +697,9 @@ class ProfileWindow(QtWidgets.QMainWindow):
 
                 self.Objects_info_cap.setItem(row, col, item)
 
+        self.Objects_info_cap.horizontalHeader().setFont(self.tab_widget_font)
         self.Objects_info_cap.setColumnWidth(0, 20)
-        self.Objects_info_cap.setColumnWidth(1, 60)
+        self.Objects_info_cap.setColumnWidth(1, 67)
         self.Objects_info_cap.horizontalHeader().setSectionResizeMode(0, QtWidgets.QHeaderView.Fixed)
         self.Objects_info_cap.horizontalHeader().setSectionResizeMode(1, QtWidgets.QHeaderView.Fixed)
 
@@ -692,7 +712,7 @@ class ProfileWindow(QtWidgets.QMainWindow):
         self.Objects_info_cap.horizontalHeader().setSectionResizeMode(5, QtWidgets.QHeaderView.Stretch)
         self.Objects_info_cap.horizontalHeader().setSectionResizeMode(6, QtWidgets.QHeaderView.Stretch)
         self.Objects_info_cap.horizontalHeader().setSectionResizeMode(7, QtWidgets.QHeaderView.Stretch)
-        self.Objects_info_cap.setColumnWidth(8, 30)
+        self.Objects_info_cap.setColumnWidth(8, 40)
         self.Objects_info_cap.horizontalHeader().setSectionResizeMode(8, QtWidgets.QHeaderView.Fixed)
         self.Objects_info_cap.horizontalHeader().setSectionResizeMode(9, QtWidgets.QHeaderView.Stretch)
         
@@ -709,7 +729,6 @@ class ProfileWindow(QtWidgets.QMainWindow):
                         "border: 2px solid #555;\n"
                         "border-radius: 20px;\n"
                         "border-style: outset;\n"
-                        "font: 12pt \"MS Shell Dlg 2\";\n"
                         "min-width: 8em;\n"
                         "background: qradialgradient(\n"
                         "cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4,\n"
@@ -733,6 +752,7 @@ class ProfileWindow(QtWidgets.QMainWindow):
                         ");\n"
                         "}")
         self.Search_but_perf.setObjectName("Search_but_perf")
+        self.Search_but_perf.setFont(self.button_font)
         self.Search_but_perf.setText("Search")
         self.Search_but_perf.clicked.connect(self.find_data_perf)
 
@@ -750,7 +770,6 @@ class ProfileWindow(QtWidgets.QMainWindow):
                         "border: 2px solid #555;\n"
                         "border-radius: 20px;\n"
                         "border-style: outset;\n"
-                        "font: 12pt \"MS Shell Dlg 2\";\n"
                         "background: qradialgradient(\n"
                         "cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4,\n"
                         "radius: 1.35, stop: 0 #fff, stop: 1 #888\n"
@@ -774,6 +793,7 @@ class ProfileWindow(QtWidgets.QMainWindow):
                         "}")
         self.update_but_perf.setObjectName("update_but_perf")
         self.update_but_perf.setText("↻")
+        self.update_but_perf.setFont(self.button_font)
         self.update_but_perf.clicked.connect(self.update_data_perf)
         self.U_perf_lay.addWidget(self.update_but_perf, 1, 3, 1, 1)
 
@@ -789,18 +809,12 @@ class ProfileWindow(QtWidgets.QMainWindow):
         self.Log_out_but_perf = QtWidgets.QPushButton(self.U_Performance)
         self.Log_out_but_perf.setMinimumSize(QtCore.QSize(145, 41))
         self.Log_out_but_perf.setMaximumSize(QtCore.QSize(145, 41))
-        font = QtGui.QFont()
-        font.setFamily("MS Shell Dlg 2")
-        font.setPointSize(12)
-        font.setBold(False)
-        font.setItalic(False)
-        self.Log_out_but_perf.setFont(font)
+        self.Log_out_but_perf.setFont(self.button_font)
         self.Log_out_but_perf.setStyleSheet("QPushButton {\n"
                         "color: #333;\n"
                         "border: 2px solid #555;\n"
                         "border-radius: 20px;\n"
                         "border-style: outset;\n"
-                        "font: 12pt \"MS Shell Dlg 2\";\n"
                         "min-width:131px;\n"
                         "max-width:131px;\n"
                         "background: qradialgradient(\n"
@@ -851,20 +865,258 @@ class ProfileWindow(QtWidgets.QMainWindow):
 #add U_performance to Tab Widget
         self.tabWidget.addTab(self.U_Performance, "")
 
+
+
+#-------------------------------------------------------------------------------
 #Tab Widget about User chart 
         self.U_chart = QtWidgets.QWidget()
         self.U_chart.setObjectName("U_chart")
 #layouts
-        self.horizontalLayout_5 = QtWidgets.QHBoxLayout(self.U_chart)
-        self.horizontalLayout_5.setObjectName("horizontalLayout_5")
-#button
-        self.pushButton = QtWidgets.QPushButton(self.U_chart)
-        self.pushButton.setObjectName("pushButton")
-        self.pushButton.setText("Check chart")
-        self.horizontalLayout_5.addWidget(self.pushButton)
+        self.u_chart_lay = QtWidgets.QHBoxLayout(self.U_chart)
+        self.gridLayout_5 = QtWidgets.QGridLayout() 
+        self.gridLayout_5.setObjectName("gridLayout_5")
+
+
+        base_group = SqliteDB.get_panel_group_data(self.controller.session_id, None, None)[0][0]
+
+        #edit for finding all information about solar panels group
+        self.Search_ed_chart = QtWidgets.QLineEdit(self.U_chart)
+        self.Search_ed_chart.setMinimumSize(QtCore.QSize(90, 41))
+        self.Search_ed_chart.setMaximumSize(QtCore.QSize(90, 41))
+        self.Search_ed_chart.setPalette(palette)
+        self.Search_ed_chart.setStyleSheet("QLineEdit {\n"
+                        "color: #333;\n"
+                        "border: 2px solid #555;\n"
+                        "border-radius: 10px;\n"
+                        "border-style: inset;\n"
+                        "min-width: 8em;\n"
+                        "background: qradialgradient(\n"
+                        "cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4,\n"
+                        "radius: 1.35, stop: 0 #fff, stop: 1 #a6a6a6\n"
+                        ");\n"
+                        "padding: 5px;\n"
+                        "}\n"
+                        "\n"
+                        "QLineEdit:hover {\n"
+                        "background: qradialgradient(\n"
+                        "cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4,\n"
+                        "radius: 1.35, stop: 0 #b4b4b4, stop: 1 #969696\n"
+                        ");\n"
+                        "}\n"
+                        "\n"
+                        "QLineEdit:pressed {\n"
+                        "border-style: inset;\n"
+                        "background: qradialgradient(\n"
+                        "cx: 0.4, cy: -0.1, fx: 0.4, fy: -0.1,\n"
+                        "radius: 1.35, stop: 0 #fff, stop: 1 #ddd\n"
+                        ");\n"
+                        "}")
+        self.Search_ed_chart.setObjectName("Search_ed_chart")
+        self.Search_ed_chart.setFont(self.edit_font)
+        self.Search_ed_chart.setPlaceholderText("№")
+
+#chart
+
+        self.group_id = self.Search_ed_chart.text()
+        self.chart = QtChart.QChart()
+        self.series = QtChart.QLineSeries()
+        self.chart.addSeries(self.series)
+        
+        self.chart.setTitle("Panels performance for all time")
+
+        self.axisX = QtChart.QDateTimeAxis()
+        self.axisX.setTitleText("Time") 
+
+        self.chart.addAxis(self.axisX, QtCore.Qt.AlignBottom)
+        self.series.attachAxis(self.axisX)
+
+        self.axisY = QtChart.QValueAxis()
+        self.axisY.setLabelFormat("%f")
+        self.axisY.setTitleText("Performance")
+        self.axisY.setTickCount(10)
+        self.chart.addAxis(self.axisY, QtCore.Qt.AlignLeft)
+        self.series.attachAxis(self.axisY)
+        
+        now_axis = datetime.now()
+        data = SqliteDB.get_panel_group_data(self.controller.session_id,base_group,None)
+        
+        oldest_row = min(data, key=lambda x: datetime.strptime(x[-1], '%Y-%m-%d-%H'))
+        oldest_date = datetime.strptime(oldest_row[-1], '%Y-%m-%d-%H')
+        date_difference = now_axis - oldest_date
+        days_difference = date_difference.days
+        
+        if days_difference >= 1:
+            self.axisX.setTickCount(days_difference)
+            self.axisX.setFormat("yyyy/MM/dd")  
+            self.axisX.setRange(oldest_date, now_axis)  
+        else:
+            self.axisX.setTickCount(24)  
+            self.axisX.setFormat("HH")  
+            self.axisX.setRange(oldest_date, now_axis)  
+
+
+        now = QtCore.QDateTime.currentDateTime()
+        start_time = now.addSecs(-(days_difference*24) * 3600)
+        self.series.clear()  
+        self.chart.removeSeries(self.series)  
+        #get data for axis_y
+        max_y = 0
+        for i in range((days_difference * 24)+1):
+            
+            hour_ago = start_time.addSecs(i * 3600)
+            data_row = SqliteDB.get_panel_group_data(self.controller.session_id, base_group, hour_ago.toPyDateTime().strftime('%Y-%m-%d-%H'))
+            performance = 0
+            if data_row is not None:
+                data = []
+                data.extend(data_row)
+                for row in data:
+                    performance = float(row[3])
+                    max_y = max(max_y, performance)
+            else:
+                performance = float(0)
+            self.series.append(hour_ago.toMSecsSinceEpoch(), performance)
+        
+        self.axisY.setRange(0, max_y)  
+
+        self.chart.addSeries(self.series)
+        
+
+        
+        self.chartView = QtChart.QChartView(self.chart)
+        self.chartView.setRenderHint(QtGui.QPainter.Antialiasing)
+        self.chartView.setMinimumSize(QtCore.QSize(750, 625))
+
+
+
+        self.chart_time_combobox = QtWidgets.QComboBox(self.U_chart)
+        self.chart_time_combobox.addItem("Last 24 hours")
+        self.chart_time_combobox.addItem("Last 30 days")
+        self.chart_time_combobox.addItem("All the time")
+        self.chart_time_combobox.setStyleSheet("QComboBox {\n"
+                        "color: #333;\n"
+                        "border: 2px solid #555;\n"
+                        "border-radius: 10px;\n"
+                        "border-style: outset;\n"
+                        "min-width: 8em;\n"
+                        "background: qradialgradient(\n"
+                        "    cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4,\n"
+                        "    radius: 1.35, stop: 0 #fff, stop: 1 #888\n"
+                        ");\n"
+                        "padding: 5px;\n"
+                        "}\n"
+                        "\n"
+                        "QComboBox:hover {\n"
+                        "    background: qradialgradient(\n"
+                        "        cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4,\n"
+                        "        radius: 1.35, stop: 0 #fff, stop: 1 #bbb\n"
+                        "    );\n"
+                        "}\n"
+                        "\n"
+                        "QComboBox:pressed {\n"
+                        "    border-style: inset;\n"
+                        "    background: qradialgradient(\n"
+                        "        cx: 0.4, cy: -0.1, fx: 0.4, fy: -0.1,\n"
+                        "        radius: 1.35, stop: 0 #fff, stop: 1 #ddd\n"
+                        "    );\n"
+                        "}\n"
+                        "\n"
+                        "QComboBox QAbstractItemView {\n"
+                        "    background-color: #fff;\n"
+                        "    border: 2px solid #555;\n"
+                        "    selection-background-color: #bbb;\n"
+                        "    outline: none;\n"
+                        "}")
+
+        self.chart_time_combobox.setFont(self.label_font)
+        self.chart_time_combobox.setCurrentIndex(2)
+
+        self.check_chart_but = QtWidgets.QPushButton(self.U_chart)
+        self.check_chart_but.setMinimumSize(QtCore.QSize(90, 41))
+        self.check_chart_but.setMaximumSize(QtCore.QSize(90, 41))
+        self.check_chart_but.setStyleSheet("QPushButton {\n"
+                        "color: #333;\n"
+                        "border: 2px solid #555;\n"
+                        "border-radius: 20px;\n"
+                        "border-style: outset;\n"
+                        "min-width: 8em;\n"
+                        "background: qradialgradient(\n"
+                        "cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4,\n"
+                        "radius: 1.35, stop: 0 #fff, stop: 1 #888\n"
+                        ");\n"
+                        "padding: 5px;\n"
+                        "}\n"
+                        "\n"
+                        "QPushButton:hover {\n"
+                        "background: qradialgradient(\n"
+                        "cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4,\n"
+                        "radius: 1.35, stop: 0 #fff, stop: 1 #bbb\n"
+                        ");\n"
+                        "}\n"
+                        "\n"
+                        "QPushButton:pressed {\n"
+                        "border-style: inset;\n"
+                        "background: qradialgradient(\n"
+                        "cx: 0.4, cy: -0.1, fx: 0.4, fy: -0.1,\n"
+                        "radius: 1.35, stop: 0 #fff, stop: 1 #ddd\n"
+                        ");\n"
+                        "}")
+        self.check_chart_but.setObjectName("check_chart_but")
+        self.check_chart_but.setText("Check")
+        self.check_chart_but.setFont(self.button_font)
+        self.check_chart_but.clicked.connect(self.chart_time_change)
+
+        
+
+        
+        
+        self.gridLayout_5.addWidget(self.chartView, 0, 0, 3, 1)
+        self.gridLayout_5.addWidget(self.Search_ed_chart, 0, 2, 1, 1)
+        self.gridLayout_5.addWidget(self.chart_time_combobox, 1, 2, 1, 1)
+        self.gridLayout_5.addWidget(self.check_chart_but, 2, 2, 1, 1)
+        self.u_chart_lay.addLayout(self.gridLayout_5)
+        
+        
+        
+
 #add tab to tab widget
         self.tabWidget.addTab(self.U_chart, "")
+#-------------------------------------------------------------------------------
 
+        self.U_panels_map = QtWidgets.QWidget()
+        self.U_panels_map.setObjectName("U_panels_map")
+#layouts
+        self.u_map_lay = QtWidgets.QVBoxLayout(self.U_panels_map)
+
+        m = folium.Map(location=[0, 0], zoom_start=2)
+        geolocator = Nominatim(user_agent="my_app")
+        addresses = []
+        data = SqliteDB.get_panel_group_data(self.controller.session_id, None, None)
+        if data is not None:
+            existing_addresses = set(addresses)
+            for i in data:
+                if i[2] not in existing_addresses:
+                    addresses.append(i[2])
+                    existing_addresses.add(i[2])
+
+        
+        for index, address in enumerate(addresses):
+            location = geolocator.geocode(address)
+            if location is not None:
+                group_number = data[index][0]  
+                panel_count = data[index][1]
+                popup_text = f"Address: {address}<br>Group Number: {group_number}<br>Panel Count: {panel_count}"
+                folium.Marker([location.latitude, location.longitude], popup=popup_text).add_to(m)
+
+        map_file = "C:\Solar Control\Solar-Control\map.html"
+        m.save(map_file)
+
+
+        self.webview = QtWebEngineWidgets.QWebEngineView(self)
+        self.webview.load(QUrl.fromLocalFile(map_file)) 
+        self.u_map_lay.addWidget(self.webview)
+
+        self.tabWidget.addTab(self.U_panels_map, "")
+#-------------------------------------------------------------------------------
 
 #user settings widget
         self.U_settings = QtWidgets.QWidget()
@@ -873,228 +1125,174 @@ class ProfileWindow(QtWidgets.QMainWindow):
 #layouts
         self.gridLayout_3 = QtWidgets.QGridLayout(self.U_settings)
         self.gridLayout_3.setObjectName("gridLayout_3")
-        self.gridLayout_2 = QtWidgets.QGridLayout()
-        self.gridLayout_2.setObjectName("gridLayout_2")
 
-#logo lable
-        self.Logo_set = QtWidgets.QLabel(self.U_settings)
-        self.Logo_set.setMinimumSize(QtCore.QSize(82, 45))
-        self.Logo_set.setStyleSheet("background-color: rgba(255, 255, 255, 0);\n"
-                        "image: url(:/newPrefix/images/backgrounds/PsLYIQ01.svg);\n""")
-        self.Logo_set.setObjectName("Logo_set")
-        self.Logo_set.setText("<html><head/><body><p align=\"center\"><br/></p></body></html>")
-#add to layout        
-        self.gridLayout_2.addWidget(self.Logo_set, 8, 0, 1, 1)
 
-#logout button(settings)
-        self.Log_out_but_set = QtWidgets.QPushButton(self.U_settings)
-        self.Log_out_but_set.setMinimumSize(QtCore.QSize(0, 41))
-        self.Log_out_but_set.setMaximumSize(QtCore.QSize(145, 41))
-        font = QtGui.QFont()
-        font.setFamily("MS Shell Dlg 2")
-        font.setPointSize(12)
-        font.setBold(False)
-        font.setItalic(False)
-        self.Log_out_but_set.setFont(font)
-        self.Log_out_but_set.setStyleSheet("QPushButton {\n"
+
+        self.verticalLayout_4 = QtWidgets.QVBoxLayout()
+        self.verticalLayout_4.setObjectName("verticalLayout_4")
+        spacerItem6 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.verticalLayout_4.addItem(spacerItem6)
+        spacerItem7 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.verticalLayout_4.addItem(spacerItem7)
+
+#labels for add panels label(panels data)
+        self.add_pan_dat_lab = QtWidgets.QLabel(self.U_settings)
+        self.add_pan_dat_lab.setStyleSheet("background-color: rgba(255, 255, 255, 0);")
+        self.add_pan_dat_lab.setObjectName("add_pan_dat_lab")
+        self.add_pan_dat_lab.setFont(self.label_font)
+        self.add_pan_dat_lab.setText("<html><head/><body><p align=\"center\"><span style=\" font-size:14pt; color:#f5f5dc;\">Panels data</span></p></body></html>")
+
+
+        self.verticalLayout_4.addWidget(self.add_pan_dat_lab)
+        spacerItem8 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.verticalLayout_4.addItem(spacerItem8)
+
+#new panels adress edit
+        self.U_new_panels_adress = QtWidgets.QLineEdit(self.U_settings)
+        self.U_new_panels_adress.setMinimumSize(QtCore.QSize(234, 41))
+        self.U_new_panels_adress.setMaximumSize(QtCore.QSize(220, 41))
+        self.U_new_panels_adress.setStyleSheet("QLineEdit {\n"
                         "color: #333;\n"
                         "border: 2px solid #555;\n"
-                        "border-radius: 20px;\n"
-                        "border-style: outset;\n"
-                        "font: 12pt \"MS Shell Dlg 2\";\n"
-                        "max-width: 131px;\n"
+                        "border-radius: 10px;\n"
+                        "border-style: inset;\n"
+                        "min-width: 220px;\n"
                         "background: qradialgradient(\n"
                         "cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4,\n"
-                        "radius: 1.35, stop: 0 #fff, stop: 1 #888\n"
+                        "radius: 1.35, stop: 0 #fff, stop: 1 #a6a6a6\n"
                         ");\n"
                         "padding: 5px;\n"
                         "}\n"
                         "\n"
-                        "QPushButton:hover {\n"
+                        "QLineEdit:hover {\n"
                         "background: qradialgradient(\n"
                         "cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4,\n"
-                        "radius: 1.35, stop: 0 #fff, stop: 1 #bbb\n"
+                        "radius: 1.35, stop: 0 #b4b4b4, stop: 1 #969696\n"
                         ");\n"
                         "}\n"
                         "\n"
-                        "QPushButton:pressed {\n"
+                        "QLineEdit:pressed {\n"
                         "border-style: inset;\n"
                         "background: qradialgradient(\n"
                         "cx: 0.4, cy: -0.1, fx: 0.4, fy: -0.1,\n"
                         "radius: 1.35, stop: 0 #fff, stop: 1 #ddd\n"
                         ");\n"
                         "}")
-        self.Log_out_but_set.setObjectName("Log_out_but_set")
-        self.Log_out_but_set.setText("Log out")
-        self.Log_out_but_set.clicked.connect(self.log_out)
-#add to layout
-        self.gridLayout_2.addWidget(self.Log_out_but_set, 8, 1, 1, 1)
+        self.U_new_panels_adress.setInputMask("")
+        self.U_new_panels_adress.setText("")
+        self.U_new_panels_adress.setFont(self.button_font)
+        self.U_new_panels_adress.setObjectName("U_new_panels_adress")
+        self.U_new_panels_adress.setWhatsThis("New Adress")
+        self.U_new_panels_adress.setPlaceholderText("Adress")
 
-#change photo button
-        self.Ch_photo_but = QtWidgets.QPushButton(self.U_settings)
-        self.Ch_photo_but.setMinimumSize(QtCore.QSize(145, 41))
-        self.Ch_photo_but.setMaximumSize(QtCore.QSize(145, 41))
-        self.Ch_photo_but.setStyleSheet("QPushButton {\n"
-                        "color: #333;\n"
-                        "border: 2px solid #555;\n"
-                        "border-radius: 20px;\n"
-                        "border-style: outset;\n"
-                        "font: 12pt \"MS Shell Dlg 2\";\n"
-                        "min-width: 131px;\n"
-                        "max-width: 131px;\n"
-                        "background: qradialgradient(\n"
-                        "cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4,\n"
-                        "radius: 1.35, stop: 0 #fff, stop: 1 #888\n"
-                        ");\n"
-                        "padding: 5px;\n"
-                        "}\n"
-                        "\n"
-                        "QPushButton:hover {\n"
-                        "background: qradialgradient(\n"
-                        "cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4,\n"
-                        "radius: 1.35, stop: 0 #fff, stop: 1 #bbb\n"
-                        ");\n"
-                        "}\n"
-                        "\n"
-                        "QPushButton:pressed {\n"
-                        "border-style: inset;\n"
-                        "background: qradialgradient(\n"
-                        "cx: 0.4, cy: -0.1, fx: 0.4, fy: -0.1,\n"
-                        "radius: 1.35, stop: 0 #fff, stop: 1 #ddd\n"
-                        ");\n"
-                        "}")
-        self.Ch_photo_but.setObjectName("Ch_photo_but")
-        self.Ch_photo_but.setText("Change")
-        self.Ch_photo_but.clicked.connect(self.select_avatar)
-#add to layout
-        self.gridLayout_2.addWidget(self.Ch_photo_but, 0, 2, 1, 1)
-
-#change login button
-        self.Ch_log_but = QtWidgets.QPushButton(self.U_settings)
-        self.Ch_log_but.setMinimumSize(QtCore.QSize(145, 41))
-        self.Ch_log_but.setMaximumSize(QtCore.QSize(145, 41))
-        self.Ch_log_but.setStyleSheet("QPushButton {\n"
-                        "color: #333;\n"
-                        "border: 2px solid #555;\n"
-                        "border-radius: 20px;\n"
-                        "border-style: outset;\n"
-                        "font: 12pt \"MS Shell Dlg 2\";\n"
-                        "max-width: 131px;\n"
-                        "background: qradialgradient(\n"
-                        "cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4,\n"
-                        "radius: 1.35, stop: 0 #fff, stop: 1 #888\n"
-                        ");\n"
-                        "padding: 5px;\n"
-                        "}\n"
-                        "\n"
-                        "QPushButton:hover {\n"
-                        "background: qradialgradient(\n"
-                        "cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4,\n"
-                        "radius: 1.35, stop: 0 #fff, stop: 1 #bbb\n"
-                        ");\n"
-                        "}\n"
-                        "\n"
-                        "QPushButton:pressed {\n"
-                        "border-style: inset;\n"
-                        "background: qradialgradient(\n"
-                        "cx: 0.4, cy: -0.1, fx: 0.4, fy: -0.1,\n"
-                        "radius: 1.35, stop: 0 #fff, stop: 1 #ddd\n"
-                        ");\n"
-                        "}")
-        self.Ch_log_but.setObjectName("Ch_log_but")
-        self.Ch_log_but.setText("Change Login")
-        self.Ch_log_but.clicked.connect(self.show_change_login)
-
-#add to layout
-        self.gridLayout_2.addWidget(self.Ch_log_but, 3, 2, 1, 1)
+        self.verticalLayout_4.addWidget(self.U_new_panels_adress, 0, QtCore.Qt.AlignHCenter)
         spacerItem9 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
-        self.gridLayout_2.addItem(spacerItem9, 2, 1, 1, 1)
-
-#User login(email) label
-        self.U_login_set = QtWidgets.QLabel(self.U_settings)
-        self.U_login_set.setMinimumSize(QtCore.QSize(147, 41))
-        self.U_login_set.setStyleSheet("background-color: rgba(255, 255, 255, 0);")
-        self.U_login_set.setObjectName("U_login_set")
-        self.U_login_set.setText(f"<html><head/><body><p align=\"center\">{self.controller.session_login}</p></body></html>")
-        font = QtGui.QFont()
-        font.setPointSize(15)
-        font.setFamily("MS Shell Dlg 2")
-        self.U_login_set.setFont(font)
-#add to layout
-        self.gridLayout_2.addWidget(self.U_login_set, 3, 0, 1, 2)
+        self.verticalLayout_4.addItem(spacerItem9)
 
 
-#Username label(settings)
-        self.U_name_set = QtWidgets.QLabel(self.U_settings)
-        self.U_name_set.setMinimumSize(QtCore.QSize(147, 41))
-        self.U_name_set.setStyleSheet("background-color: rgba(255, 255, 255, 0);")
-        self.U_name_set.setObjectName("U_name_set")
-        self.U_name_set.setText(f"<html><head/><body><p align=\"center\">{self.controller.session_name}</p></body></html>")
-        font.setPointSize(15)
-        font.setFamily("MS Shell Dlg 2")
-        self.U_name_set.setFont(font)
-#add to layout
-        self.gridLayout_2.addWidget(self.U_name_set, 1, 0, 1, 2)
 
-#change name button
-        self.Ch_name_but = QtWidgets.QPushButton(self.U_settings)
-        self.Ch_name_but.setMinimumSize(QtCore.QSize(145, 41))
-        self.Ch_name_but.setMaximumSize(QtCore.QSize(145, 41))
-        self.Ch_name_but.setStyleSheet("QPushButton {\n"
+#U_settings add panels - new panels amount
+        self.U_panels_amount = QtWidgets.QLineEdit(self.U_settings)
+        self.U_panels_amount.setMinimumSize(QtCore.QSize(234, 41))
+        self.U_panels_amount.setMaximumSize(QtCore.QSize(220, 41))
+        self.U_panels_amount.setStyleSheet("QLineEdit {\n"
                         "color: #333;\n"
                         "border: 2px solid #555;\n"
-                        "border-radius: 20px;\n"
-                        "border-style: outset;\n"
-                        "font: 12pt \"MS Shell Dlg 2\";\n"
-                        "max-width: 131px;\n"
+                        "border-radius: 10px;\n"
+                        "border-style: inset;\n"
+                        "min-width: 220px;\n"
                         "background: qradialgradient(\n"
                         "cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4,\n"
-                        "radius: 1.35, stop: 0 #fff, stop: 1 #888\n"
+                        "radius: 1.35, stop: 0 #fff, stop: 1 #a6a6a6\n"
                         ");\n"
                         "padding: 5px;\n"
                         "}\n"
                         "\n"
-                        "QPushButton:hover {\n"
+                        "QLineEdit:hover {\n"
                         "background: qradialgradient(\n"
                         "cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4,\n"
-                        "radius: 1.35, stop: 0 #fff, stop: 1 #bbb\n"
+                        "radius: 1.35, stop: 0 #b4b4b4, stop: 1 #969696\n"
                         ");\n"
                         "}\n"
                         "\n"
-                        "QPushButton:pressed {\n"
+                        "QLineEdit:pressed {\n"
                         "border-style: inset;\n"
                         "background: qradialgradient(\n"
                         "cx: 0.4, cy: -0.1, fx: 0.4, fy: -0.1,\n"
                         "radius: 1.35, stop: 0 #fff, stop: 1 #ddd\n"
                         ");\n"
                         "}")
-        self.Ch_name_but.setObjectName("Ch_name_but")
-        self.Ch_name_but.setText("Change")
-        self.Ch_name_but.clicked.connect(self.show_change_name)
+        self.U_panels_amount.setInputMask("")
+        self.U_panels_amount.setText("")
+        self.U_panels_amount.setFont(self.edit_font)
+        self.U_panels_amount.setObjectName("U_panels_amount")
+        self.U_panels_amount.setWhatsThis("Amount")
+        self.U_panels_amount.setPlaceholderText("Amount")
 
 
-#add to layout
-        self.gridLayout_2.addWidget(self.Ch_name_but, 1, 2, 1, 1)
+        self.verticalLayout_4.addWidget(self.U_panels_amount, 0, QtCore.Qt.AlignHCenter)
         spacerItem10 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
-        self.gridLayout_2.addItem(spacerItem10, 4, 1, 1, 1)
+        self.verticalLayout_4.addItem(spacerItem10)
 
-#change password button
-        self.Ch_pass_butt = QtWidgets.QPushButton(self.U_settings)
-        self.Ch_pass_butt.setMinimumSize(QtCore.QSize(145, 41))
-        self.Ch_pass_butt.setMaximumSize(QtCore.QSize(145, 41))
-        font = QtGui.QFont()
-        font.setFamily("MS Shell Dlg 2")
-        font.setPointSize(11)
-        font.setBold(False)
-        font.setItalic(False)
-        self.Ch_pass_butt.setFont(font)
-        self.Ch_pass_butt.setStyleSheet("QPushButton {\n"
+
+#edit for panels group key
+        self.U_panels_key = QtWidgets.QLineEdit(self.U_settings)
+        self.U_panels_key.setMinimumSize(QtCore.QSize(234, 41))
+        self.U_panels_key.setMaximumSize(QtCore.QSize(220, 41))
+        self.U_panels_key.setStyleSheet("QLineEdit {\n"
+                        "color: #333;\n"
+                        "border: 2px solid #555;\n"
+                        "border-radius: 10px;\n"
+                        "border-style: inset;\n"
+                        "min-width: 220px;\n"
+                        "background: qradialgradient(\n"
+                        "cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4,\n"
+                        "radius: 1.35, stop: 0 #fff, stop: 1 #a6a6a6\n"
+                        ");\n"
+                        "padding: 5px;\n"
+                        "}\n"
+                        "\n"
+                        "QLineEdit:hover {\n"
+                        "background: qradialgradient(\n"
+                        "cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4,\n"
+                        "radius: 1.35, stop: 0 #b4b4b4, stop: 1 #969696\n"
+                        ");\n"
+                        "}\n"
+                        "\n"
+                        "QLineEdit:pressed {\n"
+                        "border-style: inset;\n"
+                        "background: qradialgradient(\n"
+                        "cx: 0.4, cy: -0.1, fx: 0.4, fy: -0.1,\n"
+                        "radius: 1.35, stop: 0 #fff, stop: 1 #ddd\n"
+                        ");\n"
+                        "}")
+        self.U_panels_key.setInputMask("")
+        self.U_panels_key.setText("")
+        self.U_panels_key.setFont(self.edit_font)
+        self.U_panels_key.setObjectName("U_panels_key")
+        self.U_panels_key.setWhatsThis("Key")
+        self.U_panels_key.setPlaceholderText("Panels key")
+
+
+        self.verticalLayout_4.addWidget(self.U_panels_key, 0, QtCore.Qt.AlignHCenter)
+        spacerItem11 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.verticalLayout_4.addItem(spacerItem11)
+        spacerItem12 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.verticalLayout_4.addItem(spacerItem12)
+
+
+#button for clearing fields
+        self.U_clear_panels_but = QtWidgets.QPushButton(self.U_settings)
+        self.U_clear_panels_but.setMinimumSize(QtCore.QSize(145, 41))
+        self.U_clear_panels_but.setMaximumSize(QtCore.QSize(145, 41))
+        self.U_clear_panels_but.setFont(self.button_font)
+        self.U_clear_panels_but.setStyleSheet("QPushButton {\n"
                         "color: #333;\n"
                         "border: 2px solid #555;\n"
                         "border-radius: 20px;\n"
                         "border-style: outset;\n"
-                        "font: 11pt \"MS Shell Dlg 2\";\n"
-                        "max-width: 131px;\n"
+                        "min-width:131px;\n"
+                        "max-width:131px;\n"
                         "background: qradialgradient(\n"
                         "cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4,\n"
                         "radius: 1.35, stop: 0 #fff, stop: 1 #888\n"
@@ -1116,65 +1314,46 @@ class ProfileWindow(QtWidgets.QMainWindow):
                         "radius: 1.35, stop: 0 #fff, stop: 1 #ddd\n"
                         ");\n"
                         "}")
-        self.Ch_pass_butt.setObjectName("Ch_pass_butt")
-        self.Ch_pass_butt.setText("Change Password")
-        self.Ch_pass_butt.clicked.connect(self.show_change_pass)
-#add to layout
-        self.gridLayout_2.addWidget(self.Ch_pass_butt, 5, 1, 1, 3)
+        self.U_clear_panels_but.setObjectName("U_clear_panels_but")
+        self.U_clear_panels_but.setText("Clear data")
 
+        self.verticalLayout_4.addWidget(self.U_clear_panels_but, 0, QtCore.Qt.AlignHCenter)
+        spacerItem13 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.verticalLayout_4.addItem(spacerItem13)
 
-#label for user photo(settings)
-        self.U_photo_set = QtWidgets.QLabel(self.U_settings)
-        self.U_photo_set.setMinimumSize(QtCore.QSize(169, 169))
-        self.U_photo_set.setMaximumSize(QtCore.QSize(169, 169))
-        self.U_photo_set.setStyleSheet("border-radius: 80px;\n"
-                        "background-color: rgba(255, 255, 255, 0);\n"
-                        )
-        self.U_photo_set.setObjectName("U_photo_set")
+        self.gridLayout_3.addLayout(self.verticalLayout_4, 1, 4, 1, 1)
 
-        self.U_photo_set.setPixmap(self.set_avatar(self.controller.session_binary_avatar))
-        self.U_photo_set.repaint()
-        
-
-#add to layout
-        self.gridLayout_2.addWidget(self.U_photo_set, 0, 0, 1, 2)
-        spacerItem11 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
-        self.gridLayout_2.addItem(spacerItem11, 6, 1, 1, 1)
-        self.gridLayout_3.addLayout(self.gridLayout_2, 0, 0, 3, 1)
         self.verticalLayout_2 = QtWidgets.QVBoxLayout()
         self.verticalLayout_2.setObjectName("verticalLayout_2")
-        spacerItem12 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
-        self.verticalLayout_2.addItem(spacerItem12)
-        spacerItem13 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
-        self.verticalLayout_2.addItem(spacerItem13)
+        spacerItem14 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.verticalLayout_2.addItem(spacerItem14)
+        spacerItem15 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.verticalLayout_2.addItem(spacerItem15)
+
 
 #label for add new panels(user info)
         self.add_pan_us_lab = QtWidgets.QLabel(self.U_settings)
         self.add_pan_us_lab.setStyleSheet("background-color: rgba(255, 255, 255, 0);")
         self.add_pan_us_lab.setObjectName("add_pan_lab")
-        self.add_pan_us_lab.setToolTip("<html><head/><body><p><br/></p></body></html>")
+        self.add_pan_us_lab.setFont(self.label_font)
         self.add_pan_us_lab.setText("<html><head/><body><p align=\"center\"><span style=\" font-size:14pt; color:#f5f5dc;\">User data</span></p></body></html>")
-#add to layout
+
+
         self.verticalLayout_2.addWidget(self.add_pan_us_lab)
-        spacerItem14 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
-        self.verticalLayout_2.addItem(spacerItem14)
+        spacerItem16 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.verticalLayout_2.addItem(spacerItem16)
+
 
 #name edit for add new panels
         self.U_name_add_panels = QtWidgets.QLineEdit(self.U_settings)
         self.U_name_add_panels.setMinimumSize(QtCore.QSize(234, 41))
         self.U_name_add_panels.setMaximumSize(QtCore.QSize(220, 41))
-        font = QtGui.QFont()
-        font.setFamily("MS Shell Dlg 2")
-        font.setPointSize(12)
-        font.setBold(False)
-        font.setItalic(False)
-        self.U_name_add_panels.setFont(font)
+        self.U_name_add_panels.setFont(self.edit_font)
         self.U_name_add_panels.setStyleSheet("QLineEdit {\n"
                         "color: #333;\n"
                         "border: 2px solid #555;\n"
                         "border-radius: 10px;\n"
                         "border-style: inset;\n"
-                        "font: 12pt \"MS Shell Dlg 2\";\n"
                         "min-width: 220px;\n"
                         "background: qradialgradient(\n"
                         "cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4,\n"
@@ -1202,10 +1381,12 @@ class ProfileWindow(QtWidgets.QMainWindow):
         self.U_name_add_panels.setObjectName("U_name_add_panels")
         self.U_name_add_panels.setWhatsThis("Name")
         self.U_name_add_panels.setPlaceholderText("Name")
-#add to layout
+
+
         self.verticalLayout_2.addWidget(self.U_name_add_panels, 0, QtCore.Qt.AlignHCenter)
-        spacerItem15 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
-        self.verticalLayout_2.addItem(spacerItem15)
+        spacerItem17 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.verticalLayout_2.addItem(spacerItem17)
+
 
 #email edit for add new panels
         self.U_email_add_panels = QtWidgets.QLineEdit(self.U_settings)
@@ -1216,7 +1397,6 @@ class ProfileWindow(QtWidgets.QMainWindow):
                         "border: 2px solid #555;\n"
                         "border-radius: 10px;\n"
                         "border-style: inset;\n"
-                        "font: 12pt \"MS Shell Dlg 2\";\n"
                         "min-width: 220px;\n"
                         "background: qradialgradient(\n"
                         "cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4,\n"
@@ -1241,13 +1421,16 @@ class ProfileWindow(QtWidgets.QMainWindow):
                         "}")
         self.U_email_add_panels.setInputMask("")
         self.U_email_add_panels.setText("")
+        self.U_email_add_panels.setFont(self.edit_font)
         self.U_email_add_panels.setObjectName("U_email_add_panels")
         self.U_email_add_panels.setWhatsThis("Email")
         self.U_email_add_panels.setPlaceholderText("E-mail")
-#add to layout
+
+
         self.verticalLayout_2.addWidget(self.U_email_add_panels, 0, QtCore.Qt.AlignHCenter)
-        spacerItem16 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
-        self.verticalLayout_2.addItem(spacerItem16)
+        spacerItem18 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.verticalLayout_2.addItem(spacerItem18)
+
 
 #user password edit for add new panels
         self.U_pass_add_panels = QtWidgets.QLineEdit(self.U_settings)
@@ -1258,7 +1441,6 @@ class ProfileWindow(QtWidgets.QMainWindow):
                         "border: 2px solid #555;\n"
                         "border-radius: 10px;\n"
                         "border-style: inset;\n"
-                        "font: 12pt \"MS Shell Dlg 2\";\n"
                         "min-width: 220px;\n"
                         "background: qradialgradient(\n"
                         "cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4,\n"
@@ -1283,32 +1465,30 @@ class ProfileWindow(QtWidgets.QMainWindow):
                         "}")
         self.U_pass_add_panels.setInputMask("")
         self.U_pass_add_panels.setText("")
+        self.U_pass_add_panels.setFont(self.edit_font)
         self.U_pass_add_panels.setObjectName("U_pass_add_panels")
         self.U_pass_add_panels.setWhatsThis("Password")
         self.U_pass_add_panels.setPlaceholderText("Password")
-#add to layout
+
+
         self.verticalLayout_2.addWidget(self.U_pass_add_panels, 0, QtCore.Qt.AlignHCenter)
-        spacerItem17 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
-        self.verticalLayout_2.addItem(spacerItem17)
-        spacerItem18 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
-        self.verticalLayout_2.addItem(spacerItem18)
+        spacerItem19 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.verticalLayout_2.addItem(spacerItem19)
+        spacerItem20 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.verticalLayout_2.addItem(spacerItem20)
+
+
 
 #button add panels
         self.U_add_panels_but = QtWidgets.QPushButton(self.U_settings)
         self.U_add_panels_but.setMinimumSize(QtCore.QSize(145, 41))
         self.U_add_panels_but.setMaximumSize(QtCore.QSize(145, 41))
-        font = QtGui.QFont()
-        font.setFamily("MS Shell Dlg 2")
-        font.setPointSize(12)
-        font.setBold(False)
-        font.setItalic(False)
-        self.U_add_panels_but.setFont(font)
+        self.U_add_panels_but.setFont(self.button_font)
         self.U_add_panels_but.setStyleSheet("QPushButton {\n"
                         "color: #333;\n"
                         "border: 2px solid #555;\n"
                         "border-radius: 20px;\n"
                         "border-style: outset;\n"
-                        "font: 12pt \"MS Shell Dlg 2\";\n"
                         "min-width:131px;\n"
                         "max-width:131px;\n"
                         "background: qradialgradient(\n"
@@ -1336,175 +1516,42 @@ class ProfileWindow(QtWidgets.QMainWindow):
         self.U_add_panels_but.setText("Add Panels")
         self.U_add_panels_but.clicked.connect(self.add_panels)
 
-#add to layout
+
         self.verticalLayout_2.addWidget(self.U_add_panels_but, 0, QtCore.Qt.AlignHCenter)
-        spacerItem19 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
-        self.verticalLayout_2.addItem(spacerItem19)
-        self.gridLayout_3.addLayout(self.verticalLayout_2, 1, 1, 2, 1)
-        self.verticalLayout_4 = QtWidgets.QVBoxLayout()
-        self.verticalLayout_4.setObjectName("verticalLayout_4")
-        spacerItem20 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
-        self.verticalLayout_4.addItem(spacerItem20)
         spacerItem21 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
-        self.verticalLayout_4.addItem(spacerItem21)
-
-#labels for add panels label(panels data)
-        self.add_pan_dat_lab = QtWidgets.QLabel(self.U_settings)
-        self.add_pan_dat_lab.setStyleSheet("background-color: rgba(255, 255, 255, 0);")
-        self.add_pan_dat_lab.setObjectName("add_pan_dat_lab")
-        self.add_pan_dat_lab.setToolTip("<html><head/><body><p><br/></p></body></html>")
-        self.add_pan_dat_lab.setText("<html><head/><body><p align=\"center\"><span style=\" font-size:14pt; color:#f5f5dc;\">Panels data</span></p></body></html>")
-#add to layout
-        self.verticalLayout_4.addWidget(self.add_pan_dat_lab)
-        spacerItem22 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
-        self.verticalLayout_4.addItem(spacerItem22)
-
-#new panels adress edit
-        self.U_new_panels_adress = QtWidgets.QLineEdit(self.U_settings)
-        self.U_new_panels_adress.setMinimumSize(QtCore.QSize(234, 41))
-        self.U_new_panels_adress.setMaximumSize(QtCore.QSize(220, 41))
-        self.U_new_panels_adress.setStyleSheet("QLineEdit {\n"
-                        "color: #333;\n"
-                        "border: 2px solid #555;\n"
-                        "border-radius: 10px;\n"
-                        "border-style: inset;\n"
-                        "font: 12pt \"MS Shell Dlg 2\";\n"
-                        "min-width: 220px;\n"
-                        "background: qradialgradient(\n"
-                        "cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4,\n"
-                        "radius: 1.35, stop: 0 #fff, stop: 1 #a6a6a6\n"
-                        ");\n"
-                        "padding: 5px;\n"
-                        "}\n"
-                        "\n"
-                        "QLineEdit:hover {\n"
-                        "background: qradialgradient(\n"
-                        "cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4,\n"
-                        "radius: 1.35, stop: 0 #b4b4b4, stop: 1 #969696\n"
-                        ");\n"
-                        "}\n"
-                        "\n"
-                        "QLineEdit:pressed {\n"
-                        "border-style: inset;\n"
-                        "background: qradialgradient(\n"
-                        "cx: 0.4, cy: -0.1, fx: 0.4, fy: -0.1,\n"
-                        "radius: 1.35, stop: 0 #fff, stop: 1 #ddd\n"
-                        ");\n"
-                        "}")
-        self.U_new_panels_adress.setInputMask("")
-        self.U_new_panels_adress.setText("")
-        self.U_new_panels_adress.setObjectName("U_new_panels_adress")
-        self.U_new_panels_adress.setWhatsThis("New Adress")
-        self.U_new_panels_adress.setPlaceholderText("Adress")
-#add to layout
-        self.verticalLayout_4.addWidget(self.U_new_panels_adress, 0, QtCore.Qt.AlignHCenter)
-        spacerItem23 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
-        self.verticalLayout_4.addItem(spacerItem23)
+        self.verticalLayout_2.addItem(spacerItem21)
+        self.gridLayout_3.addLayout(self.verticalLayout_2, 1, 2, 3, 1)
 
 
-        self.U_panels_amount = QtWidgets.QLineEdit(self.U_settings)
-        self.U_panels_amount.setMinimumSize(QtCore.QSize(234, 41))
-        self.U_panels_amount.setMaximumSize(QtCore.QSize(220, 41))
-        self.U_panels_amount.setStyleSheet("QLineEdit {\n"
-                        "color: #333;\n"
-                        "border: 2px solid #555;\n"
-                        "border-radius: 10px;\n"
-                        "border-style: inset;\n"
-                        "font: 12pt \"MS Shell Dlg 2\";\n"
-                        "min-width: 220px;\n"
-                        "background: qradialgradient(\n"
-                        "cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4,\n"
-                        "radius: 1.35, stop: 0 #fff, stop: 1 #a6a6a6\n"
-                        ");\n"
-                        "padding: 5px;\n"
-                        "}\n"
-                        "\n"
-                        "QLineEdit:hover {\n"
-                        "background: qradialgradient(\n"
-                        "cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4,\n"
-                        "radius: 1.35, stop: 0 #b4b4b4, stop: 1 #969696\n"
-                        ");\n"
-                        "}\n"
-                        "\n"
-                        "QLineEdit:pressed {\n"
-                        "border-style: inset;\n"
-                        "background: qradialgradient(\n"
-                        "cx: 0.4, cy: -0.1, fx: 0.4, fy: -0.1,\n"
-                        "radius: 1.35, stop: 0 #fff, stop: 1 #ddd\n"
-                        ");\n"
-                        "}")
-        self.U_panels_amount.setInputMask("")
-        self.U_panels_amount.setText("")
-        self.U_panels_amount.setObjectName("U_panels_amount")
-        self.U_panels_amount.setWhatsThis("Amount")
-        self.U_panels_amount.setPlaceholderText("Amount")
-        self.verticalLayout_4.addWidget(self.U_panels_amount, 0, QtCore.Qt.AlignHCenter)
-#add to layout
-        spacerItem24 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
-        self.verticalLayout_4.addItem(spacerItem24)
 
-#edit for panels group key
-        self.U_panels_key = QtWidgets.QLineEdit(self.U_settings)
-        self.U_panels_key.setMinimumSize(QtCore.QSize(234, 41))
-        self.U_panels_key.setMaximumSize(QtCore.QSize(220, 41))
-        self.U_panels_key.setStyleSheet("QLineEdit {\n"
-                        "color: #333;\n"
-                        "border: 2px solid #555;\n"
-                        "border-radius: 10px;\n"
-                        "border-style: inset;\n"
-                        "font: 12pt \"MS Shell Dlg 2\";\n"
-                        "min-width: 220px;\n"
-                        "background: qradialgradient(\n"
-                        "cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4,\n"
-                        "radius: 1.35, stop: 0 #fff, stop: 1 #a6a6a6\n"
-                        ");\n"
-                        "padding: 5px;\n"
-                        "}\n"
-                        "\n"
-                        "QLineEdit:hover {\n"
-                        "background: qradialgradient(\n"
-                        "cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4,\n"
-                        "radius: 1.35, stop: 0 #b4b4b4, stop: 1 #969696\n"
-                        ");\n"
-                        "}\n"
-                        "\n"
-                        "QLineEdit:pressed {\n"
-                        "border-style: inset;\n"
-                        "background: qradialgradient(\n"
-                        "cx: 0.4, cy: -0.1, fx: 0.4, fy: -0.1,\n"
-                        "radius: 1.35, stop: 0 #fff, stop: 1 #ddd\n"
-                        ");\n"
-                        "}")
-        self.U_panels_key.setInputMask("")
-        self.U_panels_key.setText("")
-        self.U_panels_key.setObjectName("U_panels_key")
-        self.U_panels_key.setWhatsThis("Key")
-        self.U_panels_key.setPlaceholderText("Panels key")
-#add to layout
-        self.verticalLayout_4.addWidget(self.U_panels_key, 0, QtCore.Qt.AlignHCenter)
-        spacerItem25 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
-        self.verticalLayout_4.addItem(spacerItem25)
-        spacerItem26 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
-        self.verticalLayout_4.addItem(spacerItem26)
 
-#button for clearing fields
-        self.U_clear_panels_but = QtWidgets.QPushButton(self.U_settings)
-        self.U_clear_panels_but.setMinimumSize(QtCore.QSize(145, 41))
-        self.U_clear_panels_but.setMaximumSize(QtCore.QSize(145, 41))
-        font = QtGui.QFont()
-        font.setFamily("MS Shell Dlg 2")
-        font.setPointSize(12)
-        font.setBold(False)
-        font.setItalic(False)
-        self.U_clear_panels_but.setFont(font)
-        self.U_clear_panels_but.setStyleSheet("QPushButton {\n"
+
+#add panels label
+        self.add_pan_lab = QtWidgets.QLabel(self.U_settings)
+        self.add_pan_lab.setStyleSheet("background-color: rgba(255, 255, 255, 0);")
+        self.add_pan_lab.setObjectName("add_pan_lab")
+        self.add_pan_lab.setFont(self.label_font_2)
+        self.add_pan_lab.setText("<html><head/><body><p align=\"center\"><span style=\" color:#f5f5dc;\">Add Panels</span></p></body></html>")
+
+
+        self.gridLayout_3.addWidget(self.add_pan_lab, 0, 3, 1, 1)
+
+        self.gridLayout_2 = QtWidgets.QGridLayout()
+        self.gridLayout_2.setObjectName("gridLayout_2")
+
+
+
+#change photo button
+        self.Ch_photo_but = QtWidgets.QPushButton(self.U_settings)
+        self.Ch_photo_but.setMinimumSize(QtCore.QSize(145, 41))
+        self.Ch_photo_but.setMaximumSize(QtCore.QSize(145, 41))
+        self.Ch_photo_but.setStyleSheet("QPushButton {\n"
                         "color: #333;\n"
                         "border: 2px solid #555;\n"
                         "border-radius: 20px;\n"
                         "border-style: outset;\n"
-                        "font: 12pt \"MS Shell Dlg 2\";\n"
-                        "min-width:131px;\n"
-                        "max-width:131px;\n"
+                        "min-width: 131px;\n"
+                        "max-width: 131px;\n"
                         "background: qradialgradient(\n"
                         "cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4,\n"
                         "radius: 1.35, stop: 0 #fff, stop: 1 #888\n"
@@ -1526,22 +1573,243 @@ class ProfileWindow(QtWidgets.QMainWindow):
                         "radius: 1.35, stop: 0 #fff, stop: 1 #ddd\n"
                         ");\n"
                         "}")
-        self.U_clear_panels_but.setObjectName("U_clear_panels_but")
-        self.U_clear_panels_but.setText("Clear data")
-#add to layout
-        self.verticalLayout_4.addWidget(self.U_clear_panels_but, 0, QtCore.Qt.AlignHCenter)
-        spacerItem27 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
-        self.verticalLayout_4.addItem(spacerItem27)
-        self.gridLayout_3.addLayout(self.verticalLayout_4, 1, 3, 1, 1)
+        self.Ch_photo_but.setObjectName("Ch_photo_but")
+        self.Ch_photo_but.setFont(self.button_font)
+        self.Ch_photo_but.setText("Change")
+        self.Ch_photo_but.clicked.connect(self.select_avatar)
 
-#add panels label
-        self.add_pan_lab = QtWidgets.QLabel(self.U_settings)
-        self.add_pan_lab.setStyleSheet("background-color: rgba(255, 255, 255, 0);")
-        self.add_pan_lab.setObjectName("add_pan_lab")
-        self.add_pan_lab.setToolTip("<html><head/><body><p><br/></p></body></html>")
-        self.add_pan_lab.setText("<html><head/><body><p align=\"center\"><span style=\" font-size:14pt; color:#f5f5dc;\">Add Panels</span></p></body></html>")
+        self.gridLayout_2.addWidget(self.Ch_photo_but, 1, 3, 1, 1)
+
+#logo lable
+        self.Logo_set = QtWidgets.QLabel(self.U_settings)
+        self.Logo_set.setMinimumSize(QtCore.QSize(82, 45))
+        self.Logo_set.setStyleSheet("background-color: rgba(255, 255, 255, 0);\n"
+                        "image: url(:/newPrefix/images/backgrounds/PsLYIQ01.svg);\n""")
+        self.Logo_set.setObjectName("Logo_set")
+        self.Logo_set.setText("<html><head/><body><p align=\"center\"><br/></p></body></html>")
+#add to layout        
+        self.gridLayout_2.addWidget(self.Logo_set, 9, 1, 1, 1)
+        spacerItem22 = QtWidgets.QSpacerItem(20, 13, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
+        self.gridLayout_2.addItem(spacerItem22, 0, 1, 1, 1)
+
+
+#Username label(settings)
+        self.U_name_set = QtWidgets.QLabel(self.U_settings)
+        self.U_name_set.setMinimumSize(QtCore.QSize(147, 41))
+        self.U_name_set.setStyleSheet("background-color: rgba(255, 255, 255, 0);")
+        self.U_name_set.setObjectName("U_name_set")
+        self.U_name_set.setText(f"<html><head/><body><p align=\"center\">{self.controller.session_name}</p></body></html>")
+        self.U_name_set.setFont(self.label_font)
 #add to layout
-        self.gridLayout_3.addWidget(self.add_pan_lab, 0, 2, 1, 1)
+        self.gridLayout_2.addWidget(self.U_name_set, 2, 1, 1, 2)
+        spacerItem23 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.gridLayout_2.addItem(spacerItem23, 3, 2, 1, 1)
+        spacerItem24 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.gridLayout_2.addItem(spacerItem24, 7, 2, 1, 1)
+        spacerItem25 = QtWidgets.QSpacerItem(20, 13, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
+        self.gridLayout_2.addItem(spacerItem25, 1, 0, 1, 1)
+        spacerItem26 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.gridLayout_2.addItem(spacerItem26, 5, 2, 1, 1)
+
+
+
+#label for user photo(settings)
+        self.U_photo_set = QtWidgets.QLabel(self.U_settings)
+        self.U_photo_set.setMinimumSize(QtCore.QSize(169, 169))
+        self.U_photo_set.setMaximumSize(QtCore.QSize(169, 169))
+        self.U_photo_set.setStyleSheet("border-radius: 80px;\n"
+                        "background-color: rgba(255, 255, 255, 0);\n"
+                        )
+        self.U_photo_set.setObjectName("U_photo_set")
+
+        self.U_photo_set.setPixmap(self.set_avatar(self.controller.session_binary_avatar))
+        self.U_photo_set.repaint()
+
+        self.gridLayout_2.addWidget(self.U_photo_set, 1, 1, 1, 2, QtCore.Qt.AlignHCenter)
+
+
+#logout button(settings)
+        self.Log_out_but_set = QtWidgets.QPushButton(self.U_settings)
+        self.Log_out_but_set.setMinimumSize(QtCore.QSize(0, 41))
+        self.Log_out_but_set.setMaximumSize(QtCore.QSize(145, 41))
+        self.Log_out_but_set.setFont(self.button_font)
+        self.Log_out_but_set.setStyleSheet("QPushButton {\n"
+                        "color: #333;\n"
+                        "border: 2px solid #555;\n"
+                        "border-radius: 20px;\n"
+                        "border-style: outset;\n"
+                        "max-width: 131px;\n"
+                        "background: qradialgradient(\n"
+                        "cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4,\n"
+                        "radius: 1.35, stop: 0 #fff, stop: 1 #888\n"
+                        ");\n"
+                        "padding: 5px;\n"
+                        "}\n"
+                        "\n"
+                        "QPushButton:hover {\n"
+                        "background: qradialgradient(\n"
+                        "cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4,\n"
+                        "radius: 1.35, stop: 0 #fff, stop: 1 #bbb\n"
+                        ");\n"
+                        "}\n"
+                        "\n"
+                        "QPushButton:pressed {\n"
+                        "border-style: inset;\n"
+                        "background: qradialgradient(\n"
+                        "cx: 0.4, cy: -0.1, fx: 0.4, fy: -0.1,\n"
+                        "radius: 1.35, stop: 0 #fff, stop: 1 #ddd\n"
+                        ");\n"
+                        "}")
+        self.Log_out_but_set.setObjectName("Log_out_but_set")
+        self.Log_out_but_set.setText("Log out")
+        self.Log_out_but_set.clicked.connect(self.log_out)
+#add to layout
+        self.gridLayout_2.addWidget(self.Log_out_but_set, 9, 2, 1, 1)
+
+#change login button
+        self.Ch_log_but = QtWidgets.QPushButton(self.U_settings)
+        self.Ch_log_but.setMinimumSize(QtCore.QSize(145, 41))
+        self.Ch_log_but.setMaximumSize(QtCore.QSize(145, 41))
+        self.Ch_log_but.setStyleSheet("QPushButton {\n"
+                        "color: #333;\n"
+                        "border: 2px solid #555;\n"
+                        "border-radius: 20px;\n"
+                        "border-style: outset;\n"
+                        "max-width: 131px;\n"
+                        "background: qradialgradient(\n"
+                        "cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4,\n"
+                        "radius: 1.35, stop: 0 #fff, stop: 1 #888\n"
+                        ");\n"
+                        "padding: 5px;\n"
+                        "}\n"
+                        "\n"
+                        "QPushButton:hover {\n"
+                        "background: qradialgradient(\n"
+                        "cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4,\n"
+                        "radius: 1.35, stop: 0 #fff, stop: 1 #bbb\n"
+                        ");\n"
+                        "}\n"
+                        "\n"
+                        "QPushButton:pressed {\n"
+                        "border-style: inset;\n"
+                        "background: qradialgradient(\n"
+                        "cx: 0.4, cy: -0.1, fx: 0.4, fy: -0.1,\n"
+                        "radius: 1.35, stop: 0 #fff, stop: 1 #ddd\n"
+                        ");\n"
+                        "}")
+        self.Ch_log_but.setObjectName("Ch_log_but")
+        self.Ch_log_but.setFont(self.button_font)
+        self.Ch_log_but.setText("Change Login")
+        self.Ch_log_but.clicked.connect(self.show_change_login)
+
+#add to layout
+        self.gridLayout_2.addWidget(self.Ch_log_but, 4, 3, 1, 1)
+
+
+
+#change password button
+        self.Ch_pass_butt = QtWidgets.QPushButton(self.U_settings)
+        self.Ch_pass_butt.setMinimumSize(QtCore.QSize(145, 41))
+        self.Ch_pass_butt.setMaximumSize(QtCore.QSize(145, 41))
+        self.Ch_pass_butt.setFont(self.button_font_2)
+        self.Ch_pass_butt.setStyleSheet("QPushButton {\n"
+                        "color: #333;\n"
+                        "border: 2px solid #555;\n"
+                        "border-radius: 20px;\n"
+                        "border-style: outset;\n"
+                        "max-width: 131px;\n"
+                        "background: qradialgradient(\n"
+                        "cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4,\n"
+                        "radius: 1.35, stop: 0 #fff, stop: 1 #888\n"
+                        ");\n"
+                        "padding: 5px;\n"
+                        "}\n"
+                        "\n"
+                        "QPushButton:hover {\n"
+                        "background: qradialgradient(\n"
+                        "cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4,\n"
+                        "radius: 1.35, stop: 0 #fff, stop: 1 #bbb\n"
+                        ");\n"
+                        "}\n"
+                        "\n"
+                        "QPushButton:pressed {\n"
+                        "border-style: inset;\n"
+                        "background: qradialgradient(\n"
+                        "cx: 0.4, cy: -0.1, fx: 0.4, fy: -0.1,\n"
+                        "radius: 1.35, stop: 0 #fff, stop: 1 #ddd\n"
+                        ");\n"
+                        "}")
+        self.Ch_pass_butt.setObjectName("Ch_pass_butt")
+        self.Ch_pass_butt.setText("Change Password")
+        self.Ch_pass_butt.clicked.connect(self.show_change_pass)
+#add to layout
+        self.gridLayout_2.addWidget(self.Ch_pass_butt, 6, 3, 1, 1)
+
+
+#change name button
+        self.Ch_name_but = QtWidgets.QPushButton(self.U_settings)
+        self.Ch_name_but.setMinimumSize(QtCore.QSize(145, 41))
+        self.Ch_name_but.setMaximumSize(QtCore.QSize(145, 41))
+        self.Ch_name_but.setStyleSheet("QPushButton {\n"
+                        "color: #333;\n"
+                        "border: 2px solid #555;\n"
+                        "border-radius: 20px;\n"
+                        "border-style: outset;\n"
+                        "max-width: 131px;\n"
+                        "background: qradialgradient(\n"
+                        "cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4,\n"
+                        "radius: 1.35, stop: 0 #fff, stop: 1 #888\n"
+                        ");\n"
+                        "padding: 5px;\n"
+                        "}\n"
+                        "\n"
+                        "QPushButton:hover {\n"
+                        "background: qradialgradient(\n"
+                        "cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4,\n"
+                        "radius: 1.35, stop: 0 #fff, stop: 1 #bbb\n"
+                        ");\n"
+                        "}\n"
+                        "\n"
+                        "QPushButton:pressed {\n"
+                        "border-style: inset;\n"
+                        "background: qradialgradient(\n"
+                        "cx: 0.4, cy: -0.1, fx: 0.4, fy: -0.1,\n"
+                        "radius: 1.35, stop: 0 #fff, stop: 1 #ddd\n"
+                        ");\n"
+                        "}")
+        self.Ch_name_but.setObjectName("Ch_name_but")
+        self.Ch_name_but.setFont(self.button_font)
+        self.Ch_name_but.setText("Change")
+        self.Ch_name_but.clicked.connect(self.show_change_name)
+
+
+#add to layout
+        self.gridLayout_2.addWidget(self.Ch_name_but, 2, 3, 1, 1)
+
+
+#User login(email) label
+        self.U_login_set = QtWidgets.QLabel(self.U_settings)
+        self.U_login_set.setMinimumSize(QtCore.QSize(147, 41))
+        self.U_login_set.setStyleSheet("background-color: rgba(255, 255, 255, 0);")
+        self.U_login_set.setObjectName("U_login_set")
+        self.U_login_set.setText(f"<html><head/><body><p align=\"center\">{self.controller.session_login}</p></body></html>")
+        self.U_login_set.setFont(self.label_font)
+#add to layout
+        self.gridLayout_2.addWidget(self.U_login_set, 4, 1, 1, 2)
+        self.gridLayout_3.addLayout(self.gridLayout_2, 0, 0, 4, 1)
+        self.line_separator_set = QtWidgets.QFrame(self.U_settings)
+        self.line_separator_set.setMinimumSize(QtCore.QSize(5, 0))
+        self.line_separator_set.setMaximumSize(QtCore.QSize(5, 1000))
+        self.line_separator_set.setStyleSheet("background-color: qlineargradient(spread:repeat, x1:0.495, y1:0.573864, x2:0.497, y2:0, stop:0 rgba(11, 11, 11, 255), stop:1 rgba(168, 168, 168, 255));\n"
+"\n"
+"\n"
+"")
+        self.line_separator_set.setFrameShape(QtWidgets.QFrame.NoFrame)
+        self.line_separator_set.setFrameShadow(QtWidgets.QFrame.Plain)
+        self.line_separator_set.setObjectName("line_separator_set")
+        self.gridLayout_3.addWidget(self.line_separator_set, 1, 1, 1, 1)
+
+
         self.tabWidget.addTab(self.U_settings, "")
         self.horizontalLayout.addWidget(self.tabWidget)
 
@@ -1549,6 +1817,7 @@ class ProfileWindow(QtWidgets.QMainWindow):
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.U_profile_tab), "Profile")
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.U_Performance), "Performance")
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.U_chart), "Chart")
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.U_panels_map), "Map")
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.U_settings), "Settings")
 
 
@@ -1559,6 +1828,8 @@ class ProfileWindow(QtWidgets.QMainWindow):
         )
         if file_name:
             pixmap = QtGui.QPixmap(file_name)
+            if pixmap.width() > 400 or pixmap.height() > 400:
+                pixmap = pixmap.scaled(500, 500, QtCore.Qt.AspectRatioMode.KeepAspectRatio)
 
             mask = QtGui.QPixmap(pixmap.size())
             mask.fill(QtCore.Qt.transparent)
@@ -1571,8 +1842,6 @@ class ProfileWindow(QtWidgets.QMainWindow):
             pixmap.setMask(mask.createMaskFromColor(QtCore.Qt.transparent))
             pixmap.scaled(169,169)
 
-            print(pixmap.width)
-            print(pixmap.height)
             buffer = QtCore.QBuffer()
             buffer.open(QtCore.QIODevice.ReadWrite)
             pixmap.toImage().save(buffer, "PNG")
@@ -1755,6 +2024,130 @@ class ProfileWindow(QtWidgets.QMainWindow):
         self.Search_ed_prof.setText("")
         header = self.Objects_info_prof.verticalHeader()
         header.setSectionResizeMode(QtWidgets.QHeaderView.Fixed)
+
+
+    def chart_time_change(self):
+        index = self.chart_time_combobox.currentIndex()
+        if self.Search_ed_chart.text() is not None:
+            group_id_ed = SqliteDB.get_panel_group_data(self.controller.session_id,self.Search_ed_chart.text(), None)
+            if group_id_ed is not None:
+                group_id = self.Search_ed_chart.text()
+            
+                if index == 0:
+                    self.chart.setTitle("Panels performance for last day")
+                    now = QtCore.QDateTime.currentDateTime()
+                    start_time = now.addSecs(-24 * 3600)
+                    self.series.clear()  
+                    self.chart.removeSeries(self.series) 
+                    self.axisX.setTickCount(24)
+                    self.axisX.setFormat("HH")
+                    #get data for axis_y
+                    max_y = 0
+                    for i in range(25):
+                        
+                        hour_ago = start_time.addSecs(i * 3600)
+                        data_row = SqliteDB.get_panel_group_data(self.controller.session_id, None, hour_ago.toPyDateTime().strftime('%Y-%m-%d-%H'))
+                        performance = 0
+                        if data_row is not None:
+                            data = []
+                            data.extend(data_row)
+                            for row in data:
+                                performance = float(row[3])
+                                max_y = max(max_y, performance)
+                        else:
+                            performance = float(0)
+                        self.series.append(hour_ago.toMSecsSinceEpoch(), performance)
+                    
+                    self.axisY.setRange(0, max_y)
+                    self.axisX.setRange(start_time, now)
+
+
+                    self.chart.addSeries(self.series)
+
+
+                elif index == 1:
+                    self.chart.setTitle("Panels performance for last month")
+                    now = QtCore.QDateTime.currentDateTime()
+                    start_time = now.addSecs(-(30*24) * 3600)
+                    self.series.clear()  
+                    self.chart.removeSeries(self.series)  
+                    self.axisX.setTickCount(30)
+                    self.axisX.setFormat("MM/dd")
+                    #get data for axis_y
+                    max_y = 0
+                    for i in range((30*24)+1):
+                        
+                        hour_ago = start_time.addSecs(i * 3600)
+                        data_row = SqliteDB.get_panel_group_data(self.controller.session_id, None, hour_ago.toPyDateTime().strftime('%Y-%m-%d-%H'))
+                
+                        performance = 0
+                        if data_row is not None:
+                            data = []
+                            data.extend(data_row)
+                            for row in data:
+                                performance = float(row[3])
+                                max_y = max(max_y, performance)
+                        else:
+                            performance = float(0)
+                        self.series.append(hour_ago.toMSecsSinceEpoch(), performance)
+                    
+                    self.axisY.setRange(0, max_y)  
+                    self.axisX.setRange(start_time, now)
+                    self.chart.addSeries(self.series)
+
+                
+                elif index == 2:
+                    self.chart.setTitle("Panels performance for all time")
+                    now_axis = datetime.now()
+                    data = SqliteDB.get_panel_group_data(self.controller.session_id,group_id,None)
+                    
+                    oldest_row = min(data, key=lambda x: datetime.strptime(x[-1], '%Y-%m-%d-%H'))
+                    oldest_date = datetime.strptime(oldest_row[-1], '%Y-%m-%d-%H')
+                    date_difference = now_axis - oldest_date
+                    days_difference = date_difference.days
+                    
+                    if days_difference >= 1:
+                        self.axisX.setTickCount(days_difference)
+                        self.axisX.setFormat("yyyy/MM/dd")  
+                        self.axisX.setRange(oldest_date, now_axis)  
+                    else:
+                        self.axisX.setTickCount(24)  
+                        self.axisX.setFormat("HH")  
+                        self.axisX.setRange(oldest_date, now_axis)  
+
+                        
+                    now = QtCore.QDateTime.currentDateTime()
+                    start_time = now.addSecs(-(days_difference * 24) * 3600)
+                    self.series.clear()  
+                    self.chart.removeSeries(self.series)  
+                    #get data for axis_y
+                    max_y = 0
+                    for i in range((days_difference * 24)+1):
+                        
+                        hour_ago = start_time.addSecs(i * 3600)
+                        data_row = SqliteDB.get_panel_group_data(self.controller.session_id, None, hour_ago.toPyDateTime().strftime('%Y-%m-%d-%H'))
+                        
+                        performance = 0
+                        if data_row is not None:
+                            data = []
+                            data.extend(data_row)
+                            for row in data:
+                                performance = float(row[3])
+                                max_y = max(max_y, performance)
+                        else:
+                            performance = float(0)
+                        self.series.append(hour_ago.toMSecsSinceEpoch(), performance)
+                    
+                    self.axisY.setRange(0, max_y)  
+
+                    self.chart.addSeries(self.series)
+
+            else:
+                QtWidgets.QMessageBox.warning(self, "Error", "Input correct group number")
+        else:
+            QtWidgets.QMessageBox.warning(self, "Error", "Input the group number")
+
+        
 
 
     def show_change_name(self):
