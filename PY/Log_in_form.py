@@ -1,6 +1,7 @@
 import sys
 import control
 from db_handler import SqliteDB
+from PyQt5.QtGui import QFontDatabase, QFont
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QApplication, QMainWindow
 
@@ -11,6 +12,23 @@ session_binary_avatar = None
 class LoginWindow(QMainWindow):
     def __init__(self):
         super().__init__()
+
+
+        comfortaa_font_id = QFontDatabase.addApplicationFont("C:\\Solar Control\\Solar-Control\\fonts\\Comfortaa-Bold.ttf")
+        opensans_font_id = QFontDatabase.addApplicationFont("C:\\Solar Control\\Solar-Control\\fonts\\OpenSans-SemiBold.ttf")
+        if comfortaa_font_id != -1 and opensans_font_id != -1:
+            comfortaa_font_fam = QFontDatabase.applicationFontFamilies(comfortaa_font_id)
+            opensans_font_fam = QFontDatabase.applicationFontFamilies(opensans_font_id)
+            if comfortaa_font_fam and opensans_font_fam:
+
+                self.comfortaa_font = comfortaa_font_fam[0]
+                self.opensans_font = opensans_font_fam[0]
+                self.logo_font = QFont(self.comfortaa_font, 15)
+                self.button_font = QFont(self.comfortaa_font, 11)
+                self.edit_font = QFont(self.comfortaa_font, 9)
+                self.label_font = QFont(self.opensans_font, 10)
+        
+
         self.controller = control.ControlWindow()
         self.setWindowTitle("Authorisation")
         self.setFixedSize(555,440)
@@ -20,12 +38,23 @@ class LoginWindow(QMainWindow):
 
         #Logo name(SOLAR CONTROL)
         self.logo_name_lab = QtWidgets.QLabel(self)
-        self.logo_name_lab.setGeometry(QtCore.QRect(230, 60, 101, 31))
+        self.logo_name_lab.setGeometry(QtCore.QRect(180, 60, 200, 31))
         self.logo_name_lab.setToolTip("")
         self.logo_name_lab.setAutoFillBackground(False)
         self.logo_name_lab.setStyleSheet("border: 0px; background-color:rgba(0,0,0,0%);")
         self.logo_name_lab.setObjectName("logo_name_lab")
+        self.logo_name_lab.setFont(self.logo_font)
         self.logo_name_lab.setText("<html><head/><body><p align=\"center\">SOLAR CONTROL</p></body></html>")
+
+        
+        #Logo image
+        self.logo_Login = QtWidgets.QLabel(self)
+        self.logo_Login.setGeometry(QtCore.QRect(100, 40, 91, 61))
+        self.logo_Login.setMinimumSize(QtCore.QSize(82, 45))
+        self.logo_Login.setStyleSheet("background-color: rgba(255, 255, 255, 0);\n"
+                        "image: url(:/newPrefix/images/backgrounds/PsLYIQ01.svg);")
+        self.logo_Login.setObjectName("logo_Login")
+        self.logo_Login.setText("<html><head/><body><p align=\"center\"><br/></p></body></html>")
 
 
 
@@ -37,7 +66,6 @@ class LoginWindow(QMainWindow):
                         "border: 2px solid #555;\n"
                         "border-radius: 10px;\n"
                         "border-style: inset;\n"
-                        "font: 9pt \"MS Shell Dlg 2\";\n"
                         "min-width: 8em;\n"
                         "background: qradialgradient(\n"
                         "cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4,\n"
@@ -61,6 +89,7 @@ class LoginWindow(QMainWindow):
                         ");\n"
                         "}")
         self.login_edit.setInputMask("")
+        self.login_edit.setFont(self.edit_font)
         self.login_edit.setToolTip("Your E-mail adress")
         self.login_edit.setText("")
         self.login_edit.setPlaceholderText("")
@@ -68,15 +97,6 @@ class LoginWindow(QMainWindow):
         self.login_edit.setWhatsThis("Edit for e-mail")
         self.login_edit.setPlaceholderText("Email")
 
-
-        #Logo image
-        self.logo_Login = QtWidgets.QLabel(self)
-        self.logo_Login.setGeometry(QtCore.QRect(130, 40, 91, 61))
-        self.logo_Login.setMinimumSize(QtCore.QSize(82, 45))
-        self.logo_Login.setStyleSheet("background-color: rgba(255, 255, 255, 0);\n"
-                        "image: url(:/newPrefix/images/backgrounds/PsLYIQ01.svg);")
-        self.logo_Login.setObjectName("logo_Login")
-        self.logo_Login.setText("<html><head/><body><p align=\"center\"><br/></p></body></html>")
 
 
         #Link lable to register window
@@ -86,15 +106,17 @@ class LoginWindow(QMainWindow):
         self.link_reg.setAutoFillBackground(False)
         self.link_reg.setStyleSheet("border: 0px; background-color:rgba(0,0,0,0%);")
         self.link_reg.setObjectName("link_reg")
-        self.link_reg.setText("<html><head/><body><p align=\"center\">Don`t have an account?</p></body></html>")
+        self.link_reg.setFont(self.label_font)
+        self.link_reg.setText("<html><head/><body><p style=\" color:#FFFFFF;\" align=\"center\">Don`t have an account?</p></body></html>")
 
         self.link_reg_2 = QtWidgets.QLabel(self)
-        self.link_reg_2.setGeometry(QtCore.QRect(253, 370, 171, 31))
+        self.link_reg_2.setGeometry(QtCore.QRect(275, 370, 171, 31))
         self.link_reg_2.setToolTip("")
         self.link_reg_2.setAutoFillBackground(False)
         self.link_reg_2.setStyleSheet("border: 0px; background-color:rgba(0,0,0,0%);")
         self.link_reg_2.setObjectName("link_reg_2")
-        self.link_reg_2.setText("<html><head/><body><p style=\" color:#FFFFFF;\" align=\"center\">Sign in </p></body></html>")
+        self.link_reg_2.setFont(self.label_font)
+        self.link_reg_2.setText("<html><head/><body><p style=\" color:#FF8C00;\" align=\"center\">Sign in </p></body></html>")
         self.link_reg_2.mousePressEvent = self.show_sign_in
 
 
@@ -106,7 +128,8 @@ class LoginWindow(QMainWindow):
         self.link_forg.setAutoFillBackground(False)
         self.link_forg.setStyleSheet("border: 0px; background-color:rgba(0,0,0,0%);")
         self.link_forg.setObjectName("link_forg")
-        self.link_forg.setText("<html><head/><body><p style=\" color:#FFFFFF;\" align=\"center\">Forgot password?</p></body></html>")
+        self.link_forg.setFont(self.label_font)
+        self.link_forg.setText("<html><head/><body><p style=\" color:#FF8C00;\" align=\"center\">Forgot password?</p></body></html>")
         self.link_forg.mousePressEvent = self.show_forgot_pass
 
 
@@ -121,7 +144,6 @@ class LoginWindow(QMainWindow):
                         "border: 2px solid #555;\n"
                         "border-radius: 20px;\n"
                         "border-style: outset;\n"
-                        "font: 12pt \"MS Shell Dlg 2\";\n"
                         "max-width: 131px;\n"
                         "background: qradialgradient(\n"
                         "cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4,\n"
@@ -146,6 +168,7 @@ class LoginWindow(QMainWindow):
                         "}")
         self.log_in_But.setObjectName("Log_in_But")
         self.log_in_But.setText("Log in")
+        self.log_in_But.setFont(self.button_font)
         self.log_in_But.clicked.connect(self.log_check)
 
         
@@ -157,7 +180,6 @@ class LoginWindow(QMainWindow):
                         "border: 2px solid #555;\n"
                         "border-radius: 10px;\n"
                         "border-style: inset;\n"
-                        "font: 10pt \"MS Shell Dlg 2\";\n"
                         "min-width: 8em;\n"
                         "background: qradialgradient(\n"
                         "cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4,\n"
@@ -181,6 +203,7 @@ class LoginWindow(QMainWindow):
                         ");\n"
                         "}")
         self.password_edit.setInputMask("")
+        self.password_edit.setFont(self.edit_font)
         self.password_edit.setToolTip("Your password")
         self.password_edit.setText("")
         self.password_edit.setPlaceholderText("")
@@ -191,7 +214,8 @@ class LoginWindow(QMainWindow):
 
         self.show_password_checkbox = QtWidgets.QCheckBox(self)
         self.show_password_checkbox.setText("Show")
-        self.show_password_checkbox.setGeometry(420,215,50,30)
+        self.show_password_checkbox.setGeometry(420,215,57,30)
+        self.show_password_checkbox.setFont(self.label_font)
         self.show_password_checkbox.setStyleSheet("background-color: rgba(255, 255, 255, 0);\n")
         self.show_password_checkbox.clicked.connect(self.show_password)
 
