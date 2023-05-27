@@ -1,6 +1,7 @@
 import sys
 import control
 from db_handler import SqliteDB
+from PyQt5.QtGui import QFontDatabase, QFont
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QApplication, QMainWindow
 
@@ -14,14 +15,31 @@ class ChangeNameWindow(QMainWindow):
         self.setStyleSheet("background-color: qlineargradient(spread:pad, x1:0.482198, y1:0.971, x2:0.497, y2:0.023, stop:0.0338983 rgba(46, 46, 46, 255), stop:1 rgba(168, 168, 168, 255));")
 
 
+        comfortaa_font_id = QFontDatabase.addApplicationFont("C:\\Solar Control\\Solar-Control\\fonts\\Comfortaa-Bold.ttf")
+        opensans_font_id = QFontDatabase.addApplicationFont("C:\\Solar Control\\Solar-Control\\fonts\\OpenSans-SemiBold.ttf")
+        if comfortaa_font_id != -1 and opensans_font_id != -1:
+            comfortaa_font_fam = QFontDatabase.applicationFontFamilies(comfortaa_font_id)
+            opensans_font_fam = QFontDatabase.applicationFontFamilies(opensans_font_id)
+            if comfortaa_font_fam and opensans_font_fam:
+
+                self.comfortaa_font = comfortaa_font_fam[0]
+                self.opensans_font = opensans_font_fam[0]
+                self.logo_font = QFont(self.comfortaa_font, 15)
+                self.button_font = QFont(self.comfortaa_font, 11)
+                self.edit_font = QFont(self.comfortaa_font, 9)
+                self.label_font = QFont(self.opensans_font, 10)
+
+
+
 
         #Logo name(SOLAR CONTROL)
         self.logo_name_lab = QtWidgets.QLabel(self)
-        self.logo_name_lab.setGeometry(QtCore.QRect(180, 60, 101, 31))
+        self.logo_name_lab.setGeometry(QtCore.QRect(140, 60, 180, 31))
         self.logo_name_lab.setToolTip("")
         self.logo_name_lab.setAutoFillBackground(False)
         self.logo_name_lab.setStyleSheet("border: 0px; background-color:rgba(0,0,0,0%);")
         self.logo_name_lab.setObjectName("logo_name_lab")
+        self.logo_name_lab.setFont(self.logo_font)
         self.logo_name_lab.setText("<html><head/><body><p align=\"center\">SOLAR CONTROL</p></body></html>")
 
 
@@ -34,7 +52,6 @@ class ChangeNameWindow(QMainWindow):
                         "border: 2px solid #555;\n"
                         "border-radius: 10px;\n"
                         "border-style: inset;\n"
-                        "font: 9pt \"MS Shell Dlg 2\";\n"
                         "min-width: 8em;\n"
                         "background: qradialgradient(\n"
                         "cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4,\n"
@@ -61,13 +78,14 @@ class ChangeNameWindow(QMainWindow):
         self.new_name_edit.setToolTip("Your new name")
         self.new_name_edit.setText("")
         self.new_name_edit.setObjectName("new_name_edit")
+        self.new_name_edit.setFont(self.edit_font)
         self.new_name_edit.setWhatsThis("Edit for name")
         self.new_name_edit.setPlaceholderText("New name")
 
 
         #Logo image
         self.logo_Login = QtWidgets.QLabel(self)
-        self.logo_Login.setGeometry(QtCore.QRect(75, 40, 91, 61))
+        self.logo_Login.setGeometry(QtCore.QRect(45, 40, 91, 61))
         self.logo_Login.setMinimumSize(QtCore.QSize(82, 45))
         self.logo_Login.setStyleSheet("background-color: rgba(255, 255, 255, 0);\n"
                         "image: url(:/newPrefix/images/backgrounds/PsLYIQ01.svg);")
@@ -88,7 +106,6 @@ class ChangeNameWindow(QMainWindow):
                         "border: 2px solid #555;\n"
                         "border-radius: 20px;\n"
                         "border-style: outset;\n"
-                        "font: 12pt \"MS Shell Dlg 2\";\n"
                         "max-width: 131px;\n"
                         "background: qradialgradient(\n"
                         "cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4,\n"
@@ -112,6 +129,7 @@ class ChangeNameWindow(QMainWindow):
                         ");\n"
                         "}")
         self.ch_name_but.setObjectName("ch_name_but")
+        self.ch_name_but.setFont(self.button_font)
         self.ch_name_but.setText("Change")
         self.ch_name_but.clicked.connect(self.change_name)
 
@@ -128,7 +146,6 @@ class ChangeNameWindow(QMainWindow):
                         "border: 2px solid #555;\n"
                         "border-radius: 20px;\n"
                         "border-style: outset;\n"
-                        "font: 12pt \"MS Shell Dlg 2\";\n"
                         "max-width: 131px;\n"
                         "background: qradialgradient(\n"
                         "cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4,\n"
@@ -152,6 +169,7 @@ class ChangeNameWindow(QMainWindow):
                         ");\n"
                         "}")
         self.back_but.setObjectName("back_but")
+        self.back_but.setFont(self.button_font)
         self.back_but.setText("<")
         self.back_but.clicked.connect(self.back_to_profile)
 
