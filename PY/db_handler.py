@@ -1,6 +1,6 @@
 import sqlite3 as sql
 import hashlib
-from datetime import datetime
+from datetime import datetime, timedelta
 
 class SqliteDB:
 
@@ -243,10 +243,10 @@ class SqliteDB:
 
     #delete panels group
     @staticmethod
-    def delete_panels(id_panel_group: int, person_id: int) -> bool:
+    def delete_panels(id_panel_group: int, person_id: int, date: datetime) -> bool:
         conn = sql.connect('C:\Solar Control\Solar-Control\PY\Solar_panels.db')
         cursor = conn.cursor()
-        cursor.execute("SELECT * FROM Panels WHERE Person_id = ? AND Id_PanelGroup = ?", (person_id, id_panel_group,))
+        cursor.execute("SELECT * FROM Panels WHERE Person_id = ? AND Id_PanelGroup = ? AND Date = ?", (person_id, id_panel_group, date,))
         result = cursor.fetchone()
         
         if result is None:
@@ -254,7 +254,7 @@ class SqliteDB:
             return False
 
         else:
-            cursor.execute("DELETE FROM Panels WHERE Person_id = ? AND Id_PanelGroup = ?", (person_id, id_panel_group,))
+            cursor.execute("DELETE FROM Panels WHERE Person_id = ? AND Id_PanelGroup = ? AND Date = ?", (person_id, id_panel_group, date))
             conn.commit()
             conn.close()
             return True
