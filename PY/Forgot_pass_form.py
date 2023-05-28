@@ -11,6 +11,8 @@ sec_code = None
 class ForgotPassWindow(QMainWindow):
     def __init__(self):
         super().__init__()
+        logotype = QtGui.QIcon("C:\\Solar Control\\Solar-Control\\images\\backgrounds\\PsLYIQ01.svg")
+        self.setWindowIcon(logotype)
         self.setWindowTitle("New password")
         self.setFixedSize(555,400)
         self.setStyleSheet("background-color: qlineargradient(spread:pad, x1:0.482198, y1:0.971, x2:0.497, y2:0.023, stop:0.0338983 rgba(46, 46, 46, 255), stop:1 rgba(168, 168, 168, 255));")
