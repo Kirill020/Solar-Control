@@ -13,6 +13,8 @@ sec_code = None
 class RegistrationWindow(QMainWindow):
     def __init__(self):
         super().__init__()
+        logotype = QtGui.QIcon("C:\\Solar Control\\Solar-Control\\images\\backgrounds\\PsLYIQ01.svg")
+        self.setWindowIcon(logotype)
 
         self.setWindowTitle("Registration")
         self.setFixedSize(555,440)
