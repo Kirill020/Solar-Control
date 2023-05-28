@@ -11,6 +11,8 @@ from PyQt5 import QtCore, QtGui, QtWidgets, QtChart, QtWebEngineWidgets
 class ProfileWindow(QtWidgets.QMainWindow):
     def __init__(self):
         super().__init__()
+        logotype = QtGui.QIcon("C:\\Solar Control\\Solar-Control\\images\\backgrounds\\PsLYIQ01.svg")
+        self.setWindowIcon(logotype)
         self.controller = control.ControlWindow()
         self.controllerAPI = control.ControlAPI()
         
