@@ -9,6 +9,8 @@ from PyQt5.QtWidgets import QApplication, QMainWindow
 class ChangeNameWindow(QMainWindow):
     def __init__(self):
         super().__init__()
+        logotype = QtGui.QIcon("C:\\Solar Control\\Solar-Control\\images\\backgrounds\\PsLYIQ01.svg")
+        self.setWindowIcon(logotype)
         self.controller = control.ControlWindow()
         self.setWindowTitle("Change login")
         self.setFixedSize(455,300)
