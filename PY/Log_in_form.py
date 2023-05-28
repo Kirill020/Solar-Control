@@ -12,7 +12,8 @@ session_binary_avatar = None
 class LoginWindow(QMainWindow):
     def __init__(self):
         super().__init__()
-
+        logotype = QtGui.QIcon("C:\\Solar Control\\Solar-Control\\images\\backgrounds\\PsLYIQ01.svg")
+        self.setWindowIcon(logotype)
 
         comfortaa_font_id = QFontDatabase.addApplicationFont("C:\\Solar Control\\Solar-Control\\fonts\\Comfortaa-Bold.ttf")
         opensans_font_id = QFontDatabase.addApplicationFont("C:\\Solar Control\\Solar-Control\\fonts\\OpenSans-SemiBold.ttf")
