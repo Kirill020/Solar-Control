@@ -1,6 +1,7 @@
 import sqlite3 as sql
 import hashlib
-from datetime import datetime, timedelta
+from datetime import datetime
+import requests
 
 class SqliteDB:
 
@@ -71,7 +72,10 @@ class SqliteDB:
     def get_panel_group_data(person_id: int, id_panel_group: int, date: datetime):
         conn = sql.connect("C:\Solar Control\Solar-Control\PY\Solar_panels.db")
         cursor = conn.cursor()
-        if id_panel_group is not None:
+        if person_id is not None and id_panel_group is not None and date is not None:
+            cursor.execute("SELECT Id_PanelGroup, Panels_amount, Panels_adress, Performance, Voltage, Power, Date FROM Panels WHERE Id_PanelGroup = ? AND Person_id = ? AND Date = ?", (id_panel_group, person_id, date))
+            result = cursor.fetchall()    
+        elif id_panel_group is not None:
             cursor.execute("SELECT Id_PanelGroup, Panels_amount, Panels_adress, Performance, Voltage, Power, Date FROM Panels WHERE Id_PanelGroup = ? AND Person_id = ?", (id_panel_group, person_id,))
             result = cursor.fetchall()
 
@@ -136,11 +140,27 @@ class SqliteDB:
         Id_PanelGroup = result[0]+1
 
         date = datetime.now()
+        date_str = date.strftime('%Y-%m-%d-%H')
         query = "INSERT INTO Panels (Id_PanelGroup, Person_id, Panels_amount, Panels_adress, Performance, Voltage, Power, Date, Control_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)"
-        values = (Id_PanelGroup, person_id, panels_amount, panels_adress, performance, voltage, power, date, control_id)
+        values = (Id_PanelGroup, person_id, panels_amount, panels_adress, performance, voltage, power, date_str, control_id)
         cursor.execute(query, values)
         conn.commit()
         conn.close()
+
+
+        api_key = 'e48976283ebb45a7ae1102438231003'
+        date_api = datetime.today().strftime('%Y-%m-%d')
+        hour = datetime.now().hour  
+
+        url = f"http://api.weatherapi.com/v1/history.json?key={api_key}&q={panels_adress}&dt={date_api}&hour={hour}"
+        response = requests.get(url)
+        data = response.json()
+
+        temperature = data['forecast']['forecastday'][0]['hour'][0]['temp_c']
+        wind_speed = data['forecast']['forecastday'][0]['hour'][0]['wind_kph']
+        weather_type = data['forecast']['forecastday'][0]['hour'][0]['condition']['text']
+
+        SqliteDB.update_weather(Id_PanelGroup, weather_type, temperature, wind_speed)
 
     #add weather data
     @staticmethod
@@ -264,7 +284,7 @@ class SqliteDB:
     def delete_weather(id_panel_group: int, date: datetime) -> bool:
         conn = sql.connect('C:\Solar Control\Solar-Control\PY\Solar_panels.db')
         cursor = conn.cursor()
-        date_str = date.strftime('%Y-%m-%d')  
+        date_str = date.strftime('%Y-%m-%d-%H')  
         cursor.execute("SELECT * FROM Weather WHERE Id_PanelGroup = ? AND Date = ?", (id_panel_group, date_str))
         result = cursor.fetchone()
         
