@@ -15,6 +15,10 @@ class ProfileWindow(QtWidgets.QMainWindow):
         self.setWindowIcon(logotype)
         self.controller = control.ControlWindow()
         self.controllerAPI = control.ControlAPI()
+
+        self.support_info = QtCore.QStringListModel()
+        support_data = ["                 Support info:"," "," "," ", "  work.tanasiichuk@gmail.com"]
+        self.support_info.setStringList(support_data)
         
         comfortaa_font_id = QFontDatabase.addApplicationFont("C:\\Solar Control\\Solar-Control\\fonts\\Comfortaa-Bold.ttf")
         opensans_font_id = QFontDatabase.addApplicationFont("C:\\Solar Control\\Solar-Control\\fonts\\OpenSans-SemiBold.ttf")
@@ -30,6 +34,7 @@ class ProfileWindow(QtWidgets.QMainWindow):
 
                 self.edit_font = QFont(self.comfortaa_font, 10)
                 self.label_font = QFont(self.opensans_font, 13)
+                self.support = QFont(self.opensans_font, 12)
                 self.label_font_2 = QFont(self.opensans_font, 19)
 
                 self.table_widget_font = QFont(self.comfortaa_font, 10)
@@ -103,7 +108,10 @@ class ProfileWindow(QtWidgets.QMainWindow):
         self.Support_data_prof.setMaximumSize(QtCore.QSize(250, 135))
         self.Support_data_prof.setStyleSheet("background-color: rgb(168, 168, 168);\n""")
         self.Support_data_prof.setObjectName("Support_data_prof")
-        self.Support_data_prof.setFont(self.label_font)
+        self.Support_data_prof.setFont(self.support)
+
+        self.Support_data_prof.setModel(self.support_info)
+
         self.Check_lay_prof.addWidget(self.Support_data_prof, 2, 2, 1, 1)
 
 
@@ -353,7 +361,17 @@ class ProfileWindow(QtWidgets.QMainWindow):
         self.Objects_info_prof.setHorizontalHeaderLabels(["№", "Amount", "Panel`s adress", "Performance", "Weather"])
 
         data = SqliteDB.get_panel_group_data(self.controller.session_id, None, None)
-        weather_data = SqliteDB.get_weather(data[0][0])
+        index = 0
+        weather_data = []
+        
+        for row in range(len(data)):
+            for col in range(len(data[row])):
+                if data[row][0] != index:
+                    weather_data.extend(SqliteDB.get_weather(data[row][0]))
+                    index = data[row][0]
+
+
+
         self.Objects_info_prof.setRowCount(len(data))
         for row in range(len(data)):
             for col in range(5):
@@ -669,6 +687,9 @@ class ProfileWindow(QtWidgets.QMainWindow):
         self.Support_data_cap.setMaximumSize(QtCore.QSize(250, 135))
         self.Support_data_cap.setStyleSheet("background-color: rgb(168, 168, 168);\n""")
         self.Support_data_cap.setObjectName("Support_data_cap")
+        self.Support_data_cap.setFont(self.support)
+
+        self.Support_data_cap.setModel(self.support_info)
 
 #add to layout
         self.U_perf_lay.addWidget(self.Support_data_cap, 2, 4, 1, 1)
@@ -683,8 +704,16 @@ class ProfileWindow(QtWidgets.QMainWindow):
         self.Objects_info_cap.setObjectName("Objects_info_cap")
         self.Objects_info_cap.setHorizontalHeaderLabels(["№", "Amount", "Panel`s adress", "Performance", "Voltage", "Power", "Date", "Weather", "°C", "Wind speed"])
 
+        index = 0
         panels_data = SqliteDB.get_panel_group_data(self.controller.session_id, None, None)
-        weather_data = SqliteDB.get_weather(panels_data[0][0])
+        weather_data = []
+        
+        for row in range(len(panels_data)):
+            for col in range(len(panels_data[row])):
+                if panels_data[row][0] != index:
+                    weather_data.extend(SqliteDB.get_weather(panels_data[row][0]))
+                    index = panels_data[row][0]
+        
         self.Objects_info_cap.setRowCount(len(panels_data))
         for row in range(len(panels_data)):
             for col in range(len(panels_data[row])+3):
@@ -1091,23 +1120,30 @@ class ProfileWindow(QtWidgets.QMainWindow):
 
         m = folium.Map(location=[0, 0], zoom_start=2)
         geolocator = Nominatim(user_agent="my_app")
+        
+
         addresses = []
         data = SqliteDB.get_panel_group_data(self.controller.session_id, None, None)
+        
         if data is not None:
             existing_addresses = set(addresses)
-            for i in data:
-                if i[2] not in existing_addresses:
-                    addresses.append(i[2])
-                    existing_addresses.add(i[2])
+            for row in data:
+                group_number = row[0]
+                panel_count = row[1]
+                address = row[2]
+                
+                if address not in existing_addresses:
+                    addresses.append(address)
+                    existing_addresses.add(address)
+                
+                    location = geolocator.geocode(address)
+                    if location is not None:
+                        popup_text = f"Address: {address}<br>Group Number: {group_number}<br>Panel Count: {panel_count}"
+                        folium.Marker([location.latitude, location.longitude], popup=popup_text).add_to(m)
 
-        
-        for index, address in enumerate(addresses):
-            location = geolocator.geocode(address)
-            if location is not None:
-                group_number = data[index][0]  
-                panel_count = data[index][1]
-                popup_text = f"Address: {address}<br>Group Number: {group_number}<br>Panel Count: {panel_count}"
-                folium.Marker([location.latitude, location.longitude], popup=popup_text).add_to(m)
+
+
+
 
         map_file = "C:\Solar Control\Solar-Control\map.html"
         m.save(map_file)
@@ -1471,6 +1507,7 @@ class ProfileWindow(QtWidgets.QMainWindow):
         self.U_pass_add_panels.setObjectName("U_pass_add_panels")
         self.U_pass_add_panels.setWhatsThis("Password")
         self.U_pass_add_panels.setPlaceholderText("Password")
+        self.U_pass_add_panels.setEchoMode(QtWidgets.QLineEdit.Password)
 
 
         self.verticalLayout_2.addWidget(self.U_pass_add_panels, 0, QtCore.Qt.AlignHCenter)
@@ -1869,19 +1906,31 @@ class ProfileWindow(QtWidgets.QMainWindow):
 
 
     def add_panels(self):
-        if not self.U_name_add_panels.text() or not self.U_email_add_panels.text() or not self.U_pass_add_panels.text() or not self.U_new_panels_adress.text() or not self.U_panels_amount.text() or not self.U_panels_key.text():
+        if not self.U_name_add_panels.text() or not self.U_email_add_panels.text() or not self.U_pass_add_panels.text() or not self.U_new_panels_adress.text() or not self.U_panels_amount.text() or not self.U_panels_amount.text().isdigit() or not self.U_panels_key.text():
             QtWidgets.QMessageBox.warning(self, "Warning", "Fill every fields please!")
         else:
             user_email = str(self.U_email_add_panels.text())
             password = str(self.U_pass_add_panels.text())
+            new_panels_amount = int(self.U_panels_amount.text())
+            new_panels_adress = str(self.U_new_panels_adress.text())
             result = SqliteDB.authenticate_user(user_email, password)
+
+
             if result[0] is True and result[1] == self.controller.session_id:
-                User_data = SqliteDB.get_user_data(user_email, self.controller.session_id)[0]
-                if self.U_name_add_panels.text() == User_data["P_name"]:
-                    panels_key = self.U_panels_key.text()
-                    if panels_key == self.controllerAPI.new_goup["id"]:
-                        new_group_data = self.controllerAPI.new_goup
-                        SqliteDB.add_panels_group(self.controller.session_id, self.U_panels_amount, self.U_new_panels_adress, new_group_data["performance"], new_group_data["voltage"], new_group_data["power"], new_group_data["id"])
+                if self.U_name_add_panels.text() == self.controller.session_name:
+                    panels_key = int(self.U_panels_key.text())
+                    print(f"Panels key = {panels_key}")
+
+                    #get panels_key from file and check it with for i...
+                    new_group_data = []
+                    if self.controllerAPI.new_group:
+                        for i in range(len(self.controllerAPI.new_group)): 
+                            if self.controllerAPI.new_group[i]["id"] == panels_key:
+                                new_group_data.append(self.controllerAPI.new_group[i])
+                    if new_group_data:
+                        for i in range(len(new_group_data)):
+                            SqliteDB.add_panels_group(self.controller.session_id, new_panels_amount, new_panels_adress, new_group_data[i]["performance"], new_group_data[i]["voltage"], new_group_data[i]["power"], new_group_data[i]["id"])
+                        self.controllerAPI.update_new_data(panels_key)
                         QtWidgets.QMessageBox.information(self, "Succesful", "Data has been added")
                         self.U_name_add_panels.setText("")
                         self.U_email_add_panels.setText("") 
@@ -1889,8 +1938,11 @@ class ProfileWindow(QtWidgets.QMainWindow):
                         self.U_new_panels_adress.setText("")
                         self.U_panels_amount.setText("")
                         self.U_panels_key.setText("")
+
+
+                        #delete added data from file txt
                     else:
-                        QtWidgets.QMessageBox.warning(self, "Error", "Something went wrong! Try later")
+                        QtWidgets.QMessageBox.warning(self, "Error", "The panels group does not exist! Try later")
                         self.U_name_add_panels.setText("")
                         self.U_email_add_panels.setText("") 
                         self.U_pass_add_panels.setText("")
@@ -1936,8 +1988,15 @@ class ProfileWindow(QtWidgets.QMainWindow):
                     date = date_ch.date()
                     panels_data = SqliteDB.get_panel_group_data(self.controller.session_id, None, date)
                     if panels_data is not None:   
+                        index = 0
+                        weather_data = []
+        
+                        for row in range(len(panels_data)):
+                            for col in range(len(panels_data[row])):
+                                if panels_data[row][0] != index:
+                                    weather_data.extend(SqliteDB.get_weather(panels_data[row][0]))
+                                    index = panels_data[row][0]
                         
-                        weather_data = SqliteDB.get_weather(panels_data[0][0])
                         self.Objects_info_cap.setRowCount(len(panels_data))
                         for row in range(len(panels_data)):
                             for col in range(len(panels_data[row])+3):
@@ -1963,8 +2022,18 @@ class ProfileWindow(QtWidgets.QMainWindow):
 
 
     def update_data_perf(self):
+
+        index = 0
         panels_data = SqliteDB.get_panel_group_data(self.controller.session_id, None, None)
-        weather_data = SqliteDB.get_weather(panels_data[0][0])
+        weather_data = []
+        
+        for row in range(len(panels_data)):
+            for col in range(len(panels_data[row])):
+                if panels_data[row][0] != index:
+                    weather_data.extend(SqliteDB.get_weather(panels_data[row][0]))
+                    index = panels_data[row][0]
+
+
         self.Objects_info_cap.setRowCount(len(panels_data))
         for row in range(len(panels_data)):
             for col in range(len(panels_data[row])+3):
@@ -2014,7 +2083,14 @@ class ProfileWindow(QtWidgets.QMainWindow):
 
     def update_data_prof(self):
         data = SqliteDB.get_panel_group_data(self.controller.session_id, None, None)
-        weather_data = SqliteDB.get_weather(data[0][0])
+        index = 0
+        weather_data = []
+        
+        for row in range(len(data)):
+            for col in range(len(data[row])):
+                if data[row][0] != index:
+                    weather_data.extend(SqliteDB.get_weather(data[row][0]))
+                    index = data[row][0]
         self.Objects_info_prof.setRowCount(len(data))
         for row in range(len(data)):
             for col in range(5):
@@ -2033,7 +2109,7 @@ class ProfileWindow(QtWidgets.QMainWindow):
         if self.Search_ed_chart.text() is not None:
             group_id_ed = SqliteDB.get_panel_group_data(self.controller.session_id,self.Search_ed_chart.text(), None)
             if group_id_ed is not None:
-                group_id = self.Search_ed_chart.text()
+                group_id = int(self.Search_ed_chart.text())
             
                 if index == 0:
                     self.chart.setTitle("Panels performance for last day")
@@ -2048,7 +2124,8 @@ class ProfileWindow(QtWidgets.QMainWindow):
                     for i in range(25):
                         
                         hour_ago = start_time.addSecs(i * 3600)
-                        data_row = SqliteDB.get_panel_group_data(self.controller.session_id, None, hour_ago.toPyDateTime().strftime('%Y-%m-%d-%H'))
+                        data_row = SqliteDB.get_panel_group_data(self.controller.session_id, group_id, hour_ago.toPyDateTime().strftime('%Y-%m-%d-%H'))
+                        
                         performance = 0
                         if data_row is not None:
                             data = []
@@ -2080,7 +2157,8 @@ class ProfileWindow(QtWidgets.QMainWindow):
                     for i in range((30*24)+1):
                         
                         hour_ago = start_time.addSecs(i * 3600)
-                        data_row = SqliteDB.get_panel_group_data(self.controller.session_id, None, hour_ago.toPyDateTime().strftime('%Y-%m-%d-%H'))
+                        data_row = SqliteDB.get_panel_group_data(self.controller.session_id, group_id, hour_ago.toPyDateTime().strftime('%Y-%m-%d-%H'))
+                        
                 
                         performance = 0
                         if data_row is not None:
@@ -2127,7 +2205,7 @@ class ProfileWindow(QtWidgets.QMainWindow):
                     for i in range((days_difference * 24)+1):
                         
                         hour_ago = start_time.addSecs(i * 3600)
-                        data_row = SqliteDB.get_panel_group_data(self.controller.session_id, None, hour_ago.toPyDateTime().strftime('%Y-%m-%d-%H'))
+                        data_row = SqliteDB.get_panel_group_data(self.controller.session_id, group_id, hour_ago.toPyDateTime().strftime('%Y-%m-%d-%H'))
                         
                         performance = 0
                         if data_row is not None:
