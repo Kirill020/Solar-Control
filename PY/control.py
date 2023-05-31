@@ -6,7 +6,8 @@ import Forgot_pass_form
 import Change_pass_form
 import Change_login_form
 import Change_name_form
-import api
+import json
+import os
 from db_handler import SqliteDB
 
 
@@ -54,11 +55,27 @@ class ControlWindow:
         
 class ControlAPI:
     def __init__(self):
-        if api.new_group["id"] is not None:
-            self.new_goup = api.new_group
-        else:
-            self.new_goup = {"id": None, "performance": None, "voltage": None, "power": None}
-        print(self.new_goup["id"])
+        self.new_group = None
+        with open('C:\\Solar Control\\Solar-Control\\PY\\new_group.txt', 'r') as file:
+            data = file.read()
+            if not data:  
+                self.new_group = None
+            else:
+                parsed_data = json.loads(data)
+                self.new_group = parsed_data
+
+    def update_new_data(self,added_group_id):
+        existing_data = []
+        file_path = 'C:\\Solar Control\\Solar-Control\\PY\\new_group.txt'
+        if os.path.isfile(file_path) and os.stat(file_path).st_size != 0:
+            with open(file_path, 'r') as file:
+                existing_data = json.load(file)
+
+        existing_data = [data for data in existing_data if data["id"] != added_group_id]
+        updated_data = json.dump(existing_data)
+
+        with open(file_path, 'w') as file:
+            file.write(updated_data)
 
 
 
