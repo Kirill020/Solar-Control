@@ -361,14 +361,12 @@ class ProfileWindow(QtWidgets.QMainWindow):
         self.Objects_info_prof.setHorizontalHeaderLabels(["№", "Amount", "Panel`s adress", "Performance", "Weather"])
 
         data = SqliteDB.get_panel_group_data(self.controller.session_id, None, None)
-        index = 0
+        
         weather_data = []
         
-        for row in range(len(data)):
-            for col in range(len(data[row])):
-                if data[row][0] != index:
-                    weather_data.extend(SqliteDB.get_weather(data[row][0]))
-                    index = data[row][0]
+        for row in range(len(data)):    
+            weather_data.extend(SqliteDB.get_weather(data[row][0], data[row][6]))
+            
 
 
 
@@ -704,15 +702,13 @@ class ProfileWindow(QtWidgets.QMainWindow):
         self.Objects_info_cap.setObjectName("Objects_info_cap")
         self.Objects_info_cap.setHorizontalHeaderLabels(["№", "Amount", "Panel`s adress", "Performance", "Voltage", "Power", "Date", "Weather", "°C", "Wind speed"])
 
-        index = 0
+        
         panels_data = SqliteDB.get_panel_group_data(self.controller.session_id, None, None)
         weather_data = []
         
         for row in range(len(panels_data)):
-            for col in range(len(panels_data[row])):
-                if panels_data[row][0] != index:
-                    weather_data.extend(SqliteDB.get_weather(panels_data[row][0]))
-                    index = panels_data[row][0]
+            weather_data.extend(SqliteDB.get_weather(panels_data[row][0], panels_data[row][6]))
+            
         
         self.Objects_info_cap.setRowCount(len(panels_data))
         for row in range(len(panels_data)):
@@ -1963,7 +1959,7 @@ class ProfileWindow(QtWidgets.QMainWindow):
                 panels_data = SqliteDB.get_panel_group_data(self.controller.session_id, text, None)
                 if panels_data is not None:    
                     
-                    weather_data = SqliteDB.get_weather(panels_data[0][0])
+                    weather_data = SqliteDB.get_weather(panels_data[0][0], None)
                     self.Objects_info_cap.setRowCount(len(panels_data))
                     for row in range(len(panels_data)):
                         for col in range(len(panels_data[row])+3):
@@ -1988,15 +1984,15 @@ class ProfileWindow(QtWidgets.QMainWindow):
                     date = date_ch.date()
                     panels_data = SqliteDB.get_panel_group_data(self.controller.session_id, None, date)
                     if panels_data is not None:   
-                        index = 0
                         weather_data = []
-        
+
+                        #get weather
                         for row in range(len(panels_data)):
-                            for col in range(len(panels_data[row])):
-                                if panels_data[row][0] != index:
-                                    weather_data.extend(SqliteDB.get_weather(panels_data[row][0]))
-                                    index = panels_data[row][0]
+                            for row in range(len(panels_data)):
+                                weather_data.extend(SqliteDB.get_weather(panels_data[row][0], panels_data[row][6]))
                         
+                        
+                        #fill tabwidget
                         self.Objects_info_cap.setRowCount(len(panels_data))
                         for row in range(len(panels_data)):
                             for col in range(len(panels_data[row])+3):
@@ -2022,18 +2018,12 @@ class ProfileWindow(QtWidgets.QMainWindow):
 
 
     def update_data_perf(self):
-
-        index = 0
         panels_data = SqliteDB.get_panel_group_data(self.controller.session_id, None, None)
         weather_data = []
         
         for row in range(len(panels_data)):
-            for col in range(len(panels_data[row])):
-                if panels_data[row][0] != index:
-                    weather_data.extend(SqliteDB.get_weather(panels_data[row][0]))
-                    index = panels_data[row][0]
-
-
+            weather_data.extend(SqliteDB.get_weather(panels_data[row][0], panels_data[row][6]))
+            
         self.Objects_info_cap.setRowCount(len(panels_data))
         for row in range(len(panels_data)):
             for col in range(len(panels_data[row])+3):
@@ -2060,7 +2050,7 @@ class ProfileWindow(QtWidgets.QMainWindow):
                 panels_data = SqliteDB.get_panel_group_data(self.controller.session_id, text, None)
                 if panels_data is not None:    
                     
-                    weather_data = SqliteDB.get_weather(panels_data[0][0])
+                    weather_data = SqliteDB.get_weather(panels_data[0][0], None)
                     self.Objects_info_prof.setRowCount(len(panels_data))
                     for row in range(len(panels_data)):
                         for col in range(5):
@@ -2083,14 +2073,12 @@ class ProfileWindow(QtWidgets.QMainWindow):
 
     def update_data_prof(self):
         data = SqliteDB.get_panel_group_data(self.controller.session_id, None, None)
-        index = 0
+        
         weather_data = []
         
         for row in range(len(data)):
-            for col in range(len(data[row])):
-                if data[row][0] != index:
-                    weather_data.extend(SqliteDB.get_weather(data[row][0]))
-                    index = data[row][0]
+            weather_data.extend(SqliteDB.get_weather(data[row][0], data[row][6]))
+        
         self.Objects_info_prof.setRowCount(len(data))
         for row in range(len(data)):
             for col in range(5):
