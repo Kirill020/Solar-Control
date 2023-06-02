@@ -54,11 +54,19 @@ class SqliteDB:
 
     #get wetaher data
     @staticmethod
-    def get_weather(id_panel_group: int):
+    def get_weather(id_panel_group: int, date: datetime):
         conn = sql.connect("C:\Solar Control\Solar-Control\PY\Solar_panels.db")
         cursor = conn.cursor()
-        cursor.execute("SELECT * FROM Weather WHERE Id_PanelGroup = ?", (id_panel_group,))
-        result = cursor.fetchall()
+
+        if id_panel_group is None:
+            cursor.execute("SELECT * FROM Weather WHERE Date LIKE ?", (date + '%'))
+            result = cursor.fetchall()
+        elif date is None:
+            cursor.execute("SELECT * FROM Weather WHERE Id_PanelGroup = ?", (id_panel_group,))
+            result = cursor.fetchall()
+        else:
+            cursor.execute("SELECT * FROM Weather WHERE Id_PanelGroup = ? AND Date LIKE ?", (id_panel_group, date + '%'))
+            result = cursor.fetchall()
         conn.close()
 
         if result is None:
@@ -228,6 +236,20 @@ class SqliteDB:
         cursor.execute(query, values)
         conn.commit()
         conn.close()
+
+        api_key = 'e48976283ebb45a7ae1102438231003'
+        date_api = datetime.today().strftime('%Y-%m-%d')
+        hour = datetime.now().hour  
+
+        url = f"http://api.weatherapi.com/v1/history.json?key={api_key}&q={panels_adress}&dt={date_api}&hour={hour}"
+        response = requests.get(url)
+        data = response.json()
+
+        temperature = data['forecast']['forecastday'][0]['hour'][0]['temp_c']
+        wind_speed = data['forecast']['forecastday'][0]['hour'][0]['wind_kph']
+        weather_type = data['forecast']['forecastday'][0]['hour'][0]['condition']['text']
+
+        SqliteDB.update_weather(panels_id, weather_type, temperature, wind_speed)
 
     #update weather data
     @staticmethod
