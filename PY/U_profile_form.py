@@ -1350,6 +1350,7 @@ class ProfileWindow(QtWidgets.QMainWindow):
                         "}")
         self.U_clear_panels_but.setObjectName("U_clear_panels_but")
         self.U_clear_panels_but.setText("Clear data")
+        self.U_clear_panels_but.clicked.connect(self.clear_set)
 
         self.verticalLayout_4.addWidget(self.U_clear_panels_but, 0, QtCore.Qt.AlignHCenter)
         spacerItem13 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
@@ -2215,7 +2216,14 @@ class ProfileWindow(QtWidgets.QMainWindow):
         else:
             QtWidgets.QMessageBox.warning(self, "Error", "Input the group number")
 
-        
+    def clear_set(self):
+        self.U_name_add_panels.setText("")
+        self.U_email_add_panels.setText("") 
+        self.U_pass_add_panels.setText("")
+        self.U_new_panels_adress.setText("")
+        self.U_panels_amount.setText("")
+        self.U_panels_key.setText("")
+
 
 
     def show_change_name(self):
