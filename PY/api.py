@@ -1,35 +1,44 @@
 # import fasapi
 from fastapi import FastAPI, HTTPException
 
+# import jwt tokens
+import jwt
+
 # import db handler
 from db_handler import SqliteDB
 
 # import models
-from models import CheckModel, GroupDataModel
+from models import LoginModel, GroupDataModel
 
 # import requests for weather api
 import requests
 
 # import datetime for weather api
-from datetime import datetime
+from datetime import datetime, timedelta
 
 import os
 import json
 
+secret_key = os.environ.get("TOKEN_KEY")
 app = FastAPI(title="SolarControl API", version="0.1.0", description="API for SolarControl project")
 
 @app.get("/")
 async def index():
     return {"message": "Hello World"}
 
-@app.post("/check")
-async def auth(auth_data: CheckModel):
-    if not all(auth_data.dict().values()):
+
+
+@app.post("/login")
+async def login(login_data: LoginModel):
+    if not all(login_data.dict().values()):
         raise HTTPException(status_code=400, detail="Missing required fields in JSON")
-    password = auth_data.password
-    username = auth_data.username
-    print(username)
-    print(password)
+    password = login_data.password
+    username = login_data.username
+    result = SqliteDB.authenticate_user(username, password)
+    if result[0]:
+        token = create_token(result[1])
+        return{"token": token}
+
 
 
 #get data from Arduino Uno WiFi Rev2
@@ -77,6 +86,25 @@ def add_new_data(new_group):
 
     with open(file_path, 'w') as file:
         json.dump(existing_data, file)
+
+
+def create_token(person_id: int) -> str:
+    expires = datetime.utcnow() + timedelta(hours=24)
+    payload = {"person_id": person_id, "exp": expires}
+    token = jwt.encode(payload, secret_key, algorithm="HS256")
+    return token
+
+def verify_token(token:str) -> bool:
+    try:
+        payload = jwt.decode(token, secret_key, algorithms=["HS256"])
+        if datetime.utcfromtimestamp(payload["exp"]) >=datetime.utcnow():
+            return True
+    except jwt.ExpiredSignatureError:
+        pass
+    except jwt.InvalidTokenError:
+        pass
+    return False
+
 
 
 if __name__ == "__main__":
