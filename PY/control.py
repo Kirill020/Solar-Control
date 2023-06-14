@@ -84,5 +84,8 @@ class ControlAPI:
 if __name__ == "__main__":
     app = QtWidgets.QApplication([])
     control = ControlWindow()
+
+    #add logic to check token
+
     control.show_login()
     app.exec_()
