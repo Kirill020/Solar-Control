@@ -1,8 +1,8 @@
 from pydantic import BaseModel
 
-class CheckModel(BaseModel):
+class LoginModel(BaseModel):
     username: str
-    password: int
+    password: str
 
 class GroupDataModel(BaseModel):
     id: int
