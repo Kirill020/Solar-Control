@@ -974,7 +974,7 @@ class ProfileWindow(QtWidgets.QMainWindow):
         
         if days_difference >= 1:
             self.axisX.setTickCount(days_difference)
-            self.axisX.setFormat("yyyy/MM/dd")  
+            self.axisX.setFormat("MM/dd")  
             self.axisX.setRange(oldest_date, now_axis)  
         else:
             self.axisX.setTickCount(24)  
@@ -2139,7 +2139,7 @@ class ProfileWindow(QtWidgets.QMainWindow):
                     self.series.clear()  
                     self.chart.removeSeries(self.series)  
                     self.axisX.setTickCount(30)
-                    self.axisX.setFormat("MM/dd")
+                    self.axisX.setFormat("dd")
                     #get data for axis_y
                     max_y = 0
                     for i in range((30*24)+1):
@@ -2176,7 +2176,7 @@ class ProfileWindow(QtWidgets.QMainWindow):
                     
                     if days_difference >= 1:
                         self.axisX.setTickCount(days_difference)
-                        self.axisX.setFormat("yyyy/MM/dd")  
+                        self.axisX.setFormat("MM/dd")  
                         self.axisX.setRange(oldest_date, now_axis)  
                     else:
                         self.axisX.setTickCount(24)  
