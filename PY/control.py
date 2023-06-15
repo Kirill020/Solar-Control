@@ -14,6 +14,11 @@ from db_handler import SqliteDB
 class ControlWindow:
     
     def __init__(self):
+        #if there is no token, we getting data about user using Login_form
+        #else if there IS token, we have to verify it in api and getting data about user using session_id from api
+        #it`s gotta be here, because we need to get data about user before we show any window 
+        #                           \/
+
         self.session_id = Log_in_form.session_id
         
         User_data, self.session_binary_avatar = SqliteDB.get_user_data(None, self.session_id)
@@ -23,6 +28,8 @@ class ControlWindow:
         else:
             self.session_login = User_data["P_email_adress"]
             self.session_name = User_data["P_name"]
+            
+        #                           /\
 
     def show_login(self):
         self.login_window = Log_in_form.LoginWindow()
