@@ -18,7 +18,7 @@ class ControlWindow:
         #else if there IS token, we have to verify it in api and getting data about user using session_id from api
         #it`s gotta be here, because we need to get data about user before we show any window 
         #                           \/
-
+        
         self.session_id = Log_in_form.session_id
         
         User_data, self.session_binary_avatar = SqliteDB.get_user_data(None, self.session_id)
