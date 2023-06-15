@@ -1,76 +1,46 @@
-# import fasapi
-from fastapi import FastAPI, HTTPException
-
-# import jwt tokens
+from fastapi import FastAPI
 import jwt
-
-# import db handler
 from db_handler import SqliteDB
-
-# import models
-from models import LoginModel, GroupDataModel
-
-# import requests for weather api
-import requests
-
-# import datetime for weather api
+from models import LoginModel, GroupDataModel, AuthModel
+from typing import Union
 from datetime import datetime, timedelta
-
 import os
 import json
 
-secret_key = os.environ.get("TOKEN_KEY")
-app = FastAPI(title="SolarControl API", version="0.1.0", description="API for SolarControl project")
-
-@app.get("/")
-async def index():
-    return {"message": "Hello World"}
+secret_key = "TOKEN_KEY"
+app = FastAPI(title="SolarControl API", version="0.2.0", description="API for SolarControl project")
 
 
-
-@app.post("/login")
-async def login(login_data: LoginModel):
-    if not all(login_data.dict().values()):
-        raise HTTPException(status_code=400, detail="Missing required fields in JSON")
-    password = login_data.password
-    username = login_data.username
-    result = SqliteDB.authenticate_user(username, password)
-    if result[0]:
-        token = create_token(result[1])
-        return{"token": token}
-
-
+@app.post("/auth", tags=["auth"])
+async def login(login_data: Union[LoginModel, AuthModel]):
+    if isinstance(login_data, LoginModel):
+        password, username = login_data.password, login_data.username
+        result = SqliteDB.authenticate_user(username, password)
+        if result[0]:
+            token = create_token(result[1])
+            return {"token": token}
+    else:
+        token = login_data.token
+        if token is not None and verify_token(token):
+            return True
+    return False
 
 #get data from Arduino Uno WiFi Rev2
-@app.post("/group_data")
+@app.post("/group_data", tags=["group_data"])
 async def add_group_data(group_data: GroupDataModel):
     if not all(group_data.dict().values()):
-        id = None
-        performance = None
-        voltage = None
-        power = None
+        id, performance, voltage, power = None, None, None, None
     else:
-        id = group_data.id
-        performance = group_data.performance
-        voltage = group_data.voltage
-        power = group_data.power
+        id, performance, voltage, power = group_data.id, group_data.performance, group_data.voltage, group_data.power
 
-        Panels_Data = SqliteDB.get_panel_group_data_api(id)
+        panels_data = SqliteDB.get_panel_group_data_api(id)
 
-        if Panels_Data is not None:
-            Id_PanelGroup = Panels_Data["Id_PanelGroup"]
-            Person_id = Panels_Data["Person_id"]
-            Panels_amount = Panels_Data["Panels_amount"]
-            Panels_adress = Panels_Data["Panels_adress"]
-            SqliteDB.update_penels_group(Id_PanelGroup, Person_id, Panels_amount, Panels_adress, performance, voltage, power, id)
+        if panels_data is not None:
+            id_panel_group, person_id, panels_amount, panels_address = panels_data["Id_PanelGroup"], panels_data["Person_id"], panels_data["Panels_amount"], panels_data["Panels_adress"]
+            SqliteDB.update_penels_group(id_panel_group, person_id, panels_amount, panels_address, performance, voltage, power, id)
         else:
-            #if in database does`t exist data about some panels group save this data to add their in future
-            new_group = {}
-            new_group['id'] =  id
-            new_group['performance'] =  performance
-            new_group['voltage'] =  voltage
-            new_group['power'] =  power
-
+            #if in database doesn't exist data about some panels group save this data to add their in future
+            new_group = {'id': id, 'performance': performance, 'voltage': voltage, 'power': power}
             add_new_data(new_group)
         
 
@@ -100,9 +70,9 @@ def verify_token(token:str) -> bool:
         if datetime.utcfromtimestamp(payload["exp"]) >=datetime.utcnow():
             return True
     except jwt.ExpiredSignatureError:
-        pass
+        return {"error": "Token expired"}
     except jwt.InvalidTokenError:
-        pass
+        return {"error": "Invalid token"}
     return False
 
 
