@@ -16,9 +16,7 @@ class SqliteDB:
             conn.close()
             return False, None
 
-        password_hash = hashlib.sha256(password.encode('utf-8')).hexdigest()
-
-        if password_hash == result[0]:
+        if password == result[0]:
             conn.close()
             return True, result[1]
 
