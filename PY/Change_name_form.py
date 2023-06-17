@@ -82,7 +82,7 @@ class ChangeNameWindow(QMainWindow):
         self.new_name_edit.setObjectName("new_name_edit")
         self.new_name_edit.setFont(self.edit_font)
         self.new_name_edit.setWhatsThis("Edit for name")
-        self.new_name_edit.setPlaceholderText("New name")
+        self.new_name_edit.setPlaceholderText("Нове Ім'я")
 
 
         #Logo image
@@ -132,7 +132,7 @@ class ChangeNameWindow(QMainWindow):
                         "}")
         self.ch_name_but.setObjectName("ch_name_but")
         self.ch_name_but.setFont(self.button_font)
-        self.ch_name_but.setText("Change")
+        self.ch_name_but.setText("Змінити")
         self.ch_name_but.clicked.connect(self.change_name)
 
 
@@ -180,15 +180,15 @@ class ChangeNameWindow(QMainWindow):
 #change password and add data to database
     def change_name(self):
         if not self.new_name_edit.text():
-            QtWidgets.QMessageBox.warning(self, "Warning", "Fill every fields please!")
+            QtWidgets.QMessageBox.warning(self, "Увага", "Заповніть всі поля!")
         else:
             
             new_name = str(self.new_name_edit.text())
             if SqliteDB.update_user_data(self.controller.session_id, new_name, None, None, None, None):
-                QtWidgets.QMessageBox.information(self, "Succesful!", "Your name has been changed!")
+                QtWidgets.QMessageBox.information(self, "Успішно!", "Ваше ім'я було змінено!")
                 self.back_to_profile()
             else:
-                QtWidgets.QMessageBox.warning(self, "Error!", "Something went wrong!")        
+                QtWidgets.QMessageBox.warning(self, "Помилка!", "Щось пішло не так!")        
                 self.back_to_profile()
 
 #close window
