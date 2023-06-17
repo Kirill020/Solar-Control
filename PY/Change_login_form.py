@@ -29,7 +29,7 @@ class ChangeLoginWindow(QMainWindow):
                 self.comfortaa_font = comfortaa_font_fam[0]
                 self.opensans_font = opensans_font_fam[0]
                 self.logo_font = QFont(self.comfortaa_font, 15)
-                self.button_font = QFont(self.comfortaa_font, 11)
+                self.button_font = QFont(self.comfortaa_font, 10)
                 self.edit_font = QFont(self.comfortaa_font, 9)
                 self.label_font = QFont(self.opensans_font, 10)
 
@@ -83,7 +83,7 @@ class ChangeLoginWindow(QMainWindow):
         self.old_login_edit.setObjectName("old_login_edit")
         self.old_login_edit.setFont(self.edit_font)
         self.old_login_edit.setWhatsThis("Edit for e-mail")
-        self.old_login_edit.setPlaceholderText("Old email")
+        self.old_login_edit.setPlaceholderText("Старий E-mail")
 
 
         #Logo image
@@ -100,7 +100,7 @@ class ChangeLoginWindow(QMainWindow):
 
 #send code button 
         self.send_code_but = QtWidgets.QPushButton(self)
-        self.send_code_but.setGeometry(QtCore.QRect(410, 140, 70, 31))
+        self.send_code_but.setGeometry(QtCore.QRect(410, 140, 110, 31))
         self.send_code_but.setAutoFillBackground(False)
         self.send_code_but.setStyleSheet("QPushButton {\n"
                         "color: #333;\n"
@@ -131,7 +131,7 @@ class ChangeLoginWindow(QMainWindow):
                         "}")
         self.send_code_but.setObjectName("ch_pass_but")
         self.send_code_but.setFont(self.button_font)
-        self.send_code_but.setText("Send")
+        self.send_code_but.setText("Відправити")
         self.send_code_but.clicked.connect(self.send_code)
 
 
@@ -173,7 +173,7 @@ class ChangeLoginWindow(QMainWindow):
                         "}")
         self.ch_pass_but.setObjectName("ch_pass_but")
         self.ch_pass_but.setFont(self.button_font)
-        self.ch_pass_but.setText("Change")
+        self.ch_pass_but.setText("Змінити")
         self.ch_pass_but.clicked.connect(self.change_pass)
 
 
@@ -255,7 +255,7 @@ class ChangeLoginWindow(QMainWindow):
         self.new_email_edit.setObjectName("new_email_edit")
         self.new_email_edit.setFont(self.edit_font)
         self.new_email_edit.setWhatsThis("Edit for new password")
-        self.new_email_edit.setPlaceholderText("New email")
+        self.new_email_edit.setPlaceholderText("Новий E-mail")
 
 
 
@@ -295,13 +295,13 @@ class ChangeLoginWindow(QMainWindow):
         self.password_edit.setObjectName("password_edit")
         self.password_edit.setFont(self.edit_font)
         self.password_edit.setWhatsThis("Edit for Password")
-        self.password_edit.setPlaceholderText("Password")
+        self.password_edit.setPlaceholderText("Пароль")
         self.password_edit.setReadOnly(True)
         self.password_edit.setEchoMode(QtWidgets.QLineEdit.Password)
 
         self.show_password_checkbox = QtWidgets.QCheckBox(self)
-        self.show_password_checkbox.setText("Show")
-        self.show_password_checkbox.setGeometry(410,226,57,30)
+        self.show_password_checkbox.setText("Показати")
+        self.show_password_checkbox.setGeometry(410,226,85,30)
         self.show_password_checkbox.setFont(self.label_font)
         self.show_password_checkbox.setStyleSheet("background-color: rgba(255, 255, 255, 0);\n")
         self.show_password_checkbox.clicked.connect(self.show_password)
@@ -344,15 +344,14 @@ class ChangeLoginWindow(QMainWindow):
         self.email_key.setObjectName("email_key")
         self.email_key.setFont(self.edit_font)
         self.email_key.setWhatsThis("Edit for Email key")
-        self.email_key.setPlaceholderText("Email key")
+        self.email_key.setPlaceholderText("Код перевірки")
         self.email_key.setReadOnly(True)
 
 #change password and add data to database
     def change_pass(self):
         if not self.password_edit.text() or not self.email_key.text():
-            QtWidgets.QMessageBox.warning(self, "Warning", "Fill every fields please!")
+            QtWidgets.QMessageBox.warning(self, "Увага", "Заповніть всі поля!")
         else:
-            print(f"sec_code in change_pass def: type = {type(sec_code)} value = {sec_code}")
             password = str(self.password_edit.text())
             old_login = str(self.old_login_edit.text())
             new_login = str(self.new_email_edit.text())
@@ -363,7 +362,7 @@ class ChangeLoginWindow(QMainWindow):
                 if User_data[0]:
                     Person_id = User_data[1]
                     if SqliteDB.update_user_data(Person_id, None, new_login, None, None, None):
-                        QtWidgets.QMessageBox.information(self, "Succesful!", "Your login has been changed!")
+                        QtWidgets.QMessageBox.information(self, "Успішно!", "Ваш логін було змінено!")
                         self.old_login_edit.setReadOnly(False)
                         self.old_login_edit.setText("")
 
@@ -380,14 +379,14 @@ class ChangeLoginWindow(QMainWindow):
                         self.back_to_profile()
 
                     else:
-                        QtWidgets.QMessageBox.warning(self, "Error!", "Something went wrong!")
+                        QtWidgets.QMessageBox.warning(self, "Помилка!", "Щось пішло не так!")
                         self.old_login_edit.setText("")
                         self.password_edit.setText("")
                         self.new_email_edit.setText("")
                         self.email_key.setText("")
                         self.send_code_but.setDisabled(False)
                 else:
-                    QtWidgets.QMessageBox.warning(self, "Error!", "Incorrect security code!")
+                    QtWidgets.QMessageBox.warning(self, "Помилка!", "Невірний код перевірки!")
                     self.old_login_edit.setText("")
                     self.password_edit.setText("")
                     self.new_email_edit.setText("")
@@ -399,7 +398,7 @@ class ChangeLoginWindow(QMainWindow):
 #send security code to user`s email
     def send_code(self):
         if not self.old_login_edit.text() or not self.new_email_edit.text():
-            QtWidgets.QMessageBox.warning(self, "Warning", "Fill E-mail`s fields!")
+            QtWidgets.QMessageBox.warning(self, "Увага", "Введіть ваш E-mail!")
         else:
             self.old_login_edit.setReadOnly(True)
             self.new_email_edit.setReadOnly(True)
@@ -417,7 +416,7 @@ class ChangeLoginWindow(QMainWindow):
                 global sec_code
                 sec_code = int(self.generate_code(new_login))
             else:
-                QtWidgets.QMessageBox.warning(self, "Error", "Incorrect Login or Password!")
+                QtWidgets.QMessageBox.warning(self, "Помилка", "Невірний логін чи пароль!")
                 self.old_login_edit.setReadOnly(False)
                 self.old_login_edit.setText("")
 
@@ -445,7 +444,7 @@ class ChangeLoginWindow(QMainWindow):
             server.sendmail(from_address, to_address, message)
             server.quit()
 
-            QtWidgets.QMessageBox.information(self, "Security code", "Security code has been sendet on your email")
+            QtWidgets.QMessageBox.information(self, "Код перевірки", "Код перевірки було відправлено на ваш email")
 
             return code
         except Exception as e:
