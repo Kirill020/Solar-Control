@@ -17,7 +17,7 @@ class ProfileWindow(QtWidgets.QMainWindow):
         self.controllerAPI = control.ControlAPI()
 
         self.support_info = QtCore.QStringListModel()
-        support_data = ["                 Support info:"," "," "," ", "  work.tanasiichuk@gmail.com"]
+        support_data = ["                 Підтримка:"," "," "," ", "  work.tanasiichuk@gmail.com"]
         self.support_info.setStringList(support_data)
         
         comfortaa_font_id = QFontDatabase.addApplicationFont("C:\\Solar Control\\Solar-Control\\fonts\\Comfortaa-Bold.ttf")
@@ -296,7 +296,7 @@ class ProfileWindow(QtWidgets.QMainWindow):
                         ");\n"
                         "}")
         self.Search_but_prof.setObjectName("Search_but_prof")
-        self.Search_but_prof.setText("Search")
+        self.Search_but_prof.setText("Пошук")
         self.Search_but_prof.clicked.connect(self.find_data_prof)
         self.Search_but_prof.setFont(self.button_font)
 
@@ -358,7 +358,7 @@ class ProfileWindow(QtWidgets.QMainWindow):
         self.Objects_info_prof.setColumnCount(5)
         self.Objects_info_prof.setObjectName("Objects_info_prof")
         self.Objects_info_prof.setFont(self.table_widget_font)
-        self.Objects_info_prof.setHorizontalHeaderLabels(["№", "Amount", "Panel`s adress", "Performance", "Weather"])
+        self.Objects_info_prof.setHorizontalHeaderLabels(["№", "Кількість", "Адреса", "Продуктивність", "Погода"])
 
         data = SqliteDB.get_panel_group_data(self.controller.session_id, None, None)
         
@@ -382,7 +382,7 @@ class ProfileWindow(QtWidgets.QMainWindow):
 
         self.Objects_info_prof.horizontalHeader().setFont(self.table_widget_font)
         self.Objects_info_prof.setColumnWidth(0, 30)
-        self.Objects_info_prof.setColumnWidth(1, 67)
+        self.Objects_info_prof.setColumnWidth(1, 80)
         self.Objects_info_prof.setColumnWidth(4, 120)
         self.Objects_info_prof.horizontalHeader().setSectionResizeMode(0, QtWidgets.QHeaderView.Fixed)
         self.Objects_info_prof.horizontalHeader().setSectionResizeMode(1, QtWidgets.QHeaderView.Fixed)
@@ -510,7 +510,7 @@ class ProfileWindow(QtWidgets.QMainWindow):
                         ");\n"
                         "}")
         self.Log_out_but_prof.setObjectName("Log_out_but_prof")
-        self.Log_out_but_prof.setText("Log out")
+        self.Log_out_but_prof.setText("Вихід")
         self.Log_out_but_prof.clicked.connect(self.log_out)
 
 
@@ -673,7 +673,7 @@ class ProfileWindow(QtWidgets.QMainWindow):
                         "}")
         self.Search_ed_perf.setObjectName("Search_ed_perf")
         self.Search_ed_perf.setFont(self.edit_font)
-        self.Search_ed_perf.setPlaceholderText("yyyy-mm-dd or №")
+        self.Search_ed_perf.setPlaceholderText("рррр-мм-дд чи №")
 
 
 #add to layout
@@ -700,7 +700,7 @@ class ProfileWindow(QtWidgets.QMainWindow):
         self.Objects_info_cap.setColumnCount(10)
         self.Objects_info_cap.setFont(self.tab_widget_font)
         self.Objects_info_cap.setObjectName("Objects_info_cap")
-        self.Objects_info_cap.setHorizontalHeaderLabels(["№", "Amount", "Panel`s adress", "Performance", "Voltage", "Power", "Date", "Weather", "°C", "Wind speed"])
+        self.Objects_info_cap.setHorizontalHeaderLabels(["№", "Кількість", "Адреса", "Продуктивність", "Напруга", "Сила струму", "Дата", "Погода", "°C", "Шв. вітру"])
 
         
         panels_data = SqliteDB.get_panel_group_data(self.controller.session_id, None, None)
@@ -726,7 +726,7 @@ class ProfileWindow(QtWidgets.QMainWindow):
 
         self.Objects_info_cap.horizontalHeader().setFont(self.tab_widget_font)
         self.Objects_info_cap.setColumnWidth(0, 20)
-        self.Objects_info_cap.setColumnWidth(1, 67)
+        self.Objects_info_cap.setColumnWidth(1, 80)
         self.Objects_info_cap.horizontalHeader().setSectionResizeMode(0, QtWidgets.QHeaderView.Fixed)
         self.Objects_info_cap.horizontalHeader().setSectionResizeMode(1, QtWidgets.QHeaderView.Fixed)
 
@@ -741,6 +741,7 @@ class ProfileWindow(QtWidgets.QMainWindow):
         self.Objects_info_cap.horizontalHeader().setSectionResizeMode(7, QtWidgets.QHeaderView.Stretch)
         self.Objects_info_cap.setColumnWidth(8, 40)
         self.Objects_info_cap.horizontalHeader().setSectionResizeMode(8, QtWidgets.QHeaderView.Fixed)
+        self.Objects_info_cap.setColumnWidth(9, 100)
         self.Objects_info_cap.horizontalHeader().setSectionResizeMode(9, QtWidgets.QHeaderView.Stretch)
         
 #add to layout
@@ -780,7 +781,7 @@ class ProfileWindow(QtWidgets.QMainWindow):
                         "}")
         self.Search_but_perf.setObjectName("Search_but_perf")
         self.Search_but_perf.setFont(self.button_font)
-        self.Search_but_perf.setText("Search")
+        self.Search_but_perf.setText("Пошук")
         self.Search_but_perf.clicked.connect(self.find_data_perf)
 
 #add to layout
@@ -866,7 +867,7 @@ class ProfileWindow(QtWidgets.QMainWindow):
                         ");\n"
                         "}")
         self.Log_out_but_perf.setObjectName("Log_out_but_perf")
-        self.Log_out_but_perf.setText("Log out")
+        self.Log_out_but_perf.setText("Вихід")
         self.Log_out_but_perf.clicked.connect(self.log_out)
 
 #logo and layouts
@@ -949,17 +950,17 @@ class ProfileWindow(QtWidgets.QMainWindow):
         self.series = QtChart.QLineSeries()
         self.chart.addSeries(self.series)
         
-        self.chart.setTitle("Panels performance for all time")
+        self.chart.setTitle("Продуктивність за весь час")
 
         self.axisX = QtChart.QDateTimeAxis()
-        self.axisX.setTitleText("Time") 
+        self.axisX.setTitleText("Час") 
 
         self.chart.addAxis(self.axisX, QtCore.Qt.AlignBottom)
         self.series.attachAxis(self.axisX)
 
         self.axisY = QtChart.QValueAxis()
         self.axisY.setLabelFormat("%f")
-        self.axisY.setTitleText("Performance")
+        self.axisY.setTitleText("Продуктивність")
         self.axisY.setTickCount(10)
         self.chart.addAxis(self.axisY, QtCore.Qt.AlignLeft)
         self.series.attachAxis(self.axisY)
@@ -1016,9 +1017,9 @@ class ProfileWindow(QtWidgets.QMainWindow):
 
 
         self.chart_time_combobox = QtWidgets.QComboBox(self.U_chart)
-        self.chart_time_combobox.addItem("Last 24 hours")
-        self.chart_time_combobox.addItem("Last 30 days")
-        self.chart_time_combobox.addItem("All the time")
+        self.chart_time_combobox.addItem("Остання доба")
+        self.chart_time_combobox.addItem("Останні 30 днів")
+        self.chart_time_combobox.addItem("За весь час")
         self.chart_time_combobox.setStyleSheet("QComboBox {\n"
                         "color: #333;\n"
                         "border: 2px solid #555;\n"
@@ -1088,7 +1089,7 @@ class ProfileWindow(QtWidgets.QMainWindow):
                         ");\n"
                         "}")
         self.check_chart_but.setObjectName("check_chart_but")
-        self.check_chart_but.setText("Check")
+        self.check_chart_but.setText("Перегляд")
         self.check_chart_but.setFont(self.button_font)
         self.check_chart_but.clicked.connect(self.chart_time_change)
 
@@ -1174,7 +1175,7 @@ class ProfileWindow(QtWidgets.QMainWindow):
         self.add_pan_dat_lab.setStyleSheet("background-color: rgba(255, 255, 255, 0);")
         self.add_pan_dat_lab.setObjectName("add_pan_dat_lab")
         self.add_pan_dat_lab.setFont(self.label_font)
-        self.add_pan_dat_lab.setText("<html><head/><body><p align=\"center\"><span style=\" font-size:14pt; color:#f5f5dc;\">Panels data</span></p></body></html>")
+        self.add_pan_dat_lab.setText("<html><head/><body><p align=\"center\"><span style=\" font-size:14pt; color:#f5f5dc;\">Панелі</span></p></body></html>")
 
 
         self.verticalLayout_4.addWidget(self.add_pan_dat_lab)
@@ -1217,7 +1218,7 @@ class ProfileWindow(QtWidgets.QMainWindow):
         self.U_new_panels_adress.setFont(self.button_font)
         self.U_new_panels_adress.setObjectName("U_new_panels_adress")
         self.U_new_panels_adress.setWhatsThis("New Adress")
-        self.U_new_panels_adress.setPlaceholderText("Adress")
+        self.U_new_panels_adress.setPlaceholderText("Адреса")
 
         self.verticalLayout_4.addWidget(self.U_new_panels_adress, 0, QtCore.Qt.AlignHCenter)
         spacerItem9 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
@@ -1261,7 +1262,7 @@ class ProfileWindow(QtWidgets.QMainWindow):
         self.U_panels_amount.setFont(self.edit_font)
         self.U_panels_amount.setObjectName("U_panels_amount")
         self.U_panels_amount.setWhatsThis("Amount")
-        self.U_panels_amount.setPlaceholderText("Amount")
+        self.U_panels_amount.setPlaceholderText("Кількість")
 
 
         self.verticalLayout_4.addWidget(self.U_panels_amount, 0, QtCore.Qt.AlignHCenter)
@@ -1305,7 +1306,7 @@ class ProfileWindow(QtWidgets.QMainWindow):
         self.U_panels_key.setFont(self.edit_font)
         self.U_panels_key.setObjectName("U_panels_key")
         self.U_panels_key.setWhatsThis("Key")
-        self.U_panels_key.setPlaceholderText("Panels key")
+        self.U_panels_key.setPlaceholderText("Ключ контролеру")
 
 
         self.verticalLayout_4.addWidget(self.U_panels_key, 0, QtCore.Qt.AlignHCenter)
@@ -1349,7 +1350,7 @@ class ProfileWindow(QtWidgets.QMainWindow):
                         ");\n"
                         "}")
         self.U_clear_panels_but.setObjectName("U_clear_panels_but")
-        self.U_clear_panels_but.setText("Clear data")
+        self.U_clear_panels_but.setText("Очистити")
 
         self.verticalLayout_4.addWidget(self.U_clear_panels_but, 0, QtCore.Qt.AlignHCenter)
         spacerItem13 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
@@ -1370,7 +1371,7 @@ class ProfileWindow(QtWidgets.QMainWindow):
         self.add_pan_us_lab.setStyleSheet("background-color: rgba(255, 255, 255, 0);")
         self.add_pan_us_lab.setObjectName("add_pan_lab")
         self.add_pan_us_lab.setFont(self.label_font)
-        self.add_pan_us_lab.setText("<html><head/><body><p align=\"center\"><span style=\" font-size:14pt; color:#f5f5dc;\">User data</span></p></body></html>")
+        self.add_pan_us_lab.setText("<html><head/><body><p align=\"center\"><span style=\" font-size:14pt; color:#f5f5dc;\">Користувач</span></p></body></html>")
 
 
         self.verticalLayout_2.addWidget(self.add_pan_us_lab)
@@ -1414,7 +1415,7 @@ class ProfileWindow(QtWidgets.QMainWindow):
         self.U_name_add_panels.setText("")
         self.U_name_add_panels.setObjectName("U_name_add_panels")
         self.U_name_add_panels.setWhatsThis("Name")
-        self.U_name_add_panels.setPlaceholderText("Name")
+        self.U_name_add_panels.setPlaceholderText("Ім'я")
 
 
         self.verticalLayout_2.addWidget(self.U_name_add_panels, 0, QtCore.Qt.AlignHCenter)
@@ -1458,7 +1459,7 @@ class ProfileWindow(QtWidgets.QMainWindow):
         self.U_email_add_panels.setFont(self.edit_font)
         self.U_email_add_panels.setObjectName("U_email_add_panels")
         self.U_email_add_panels.setWhatsThis("Email")
-        self.U_email_add_panels.setPlaceholderText("E-mail")
+        self.U_email_add_panels.setPlaceholderText("Логін")
 
 
         self.verticalLayout_2.addWidget(self.U_email_add_panels, 0, QtCore.Qt.AlignHCenter)
@@ -1502,7 +1503,7 @@ class ProfileWindow(QtWidgets.QMainWindow):
         self.U_pass_add_panels.setFont(self.edit_font)
         self.U_pass_add_panels.setObjectName("U_pass_add_panels")
         self.U_pass_add_panels.setWhatsThis("Password")
-        self.U_pass_add_panels.setPlaceholderText("Password")
+        self.U_pass_add_panels.setPlaceholderText("Пароль")
         self.U_pass_add_panels.setEchoMode(QtWidgets.QLineEdit.Password)
 
 
@@ -1548,7 +1549,7 @@ class ProfileWindow(QtWidgets.QMainWindow):
                         ");\n"
                         "}")
         self.U_add_panels_but.setObjectName("U_add_panels_but")
-        self.U_add_panels_but.setText("Add Panels")
+        self.U_add_panels_but.setText("Додати")
         self.U_add_panels_but.clicked.connect(self.add_panels)
 
 
@@ -1566,7 +1567,7 @@ class ProfileWindow(QtWidgets.QMainWindow):
         self.add_pan_lab.setStyleSheet("background-color: rgba(255, 255, 255, 0);")
         self.add_pan_lab.setObjectName("add_pan_lab")
         self.add_pan_lab.setFont(self.label_font_2)
-        self.add_pan_lab.setText("<html><head/><body><p align=\"center\"><span style=\" color:#f5f5dc;\">Add Panels</span></p></body></html>")
+        self.add_pan_lab.setText("<html><head/><body><p align=\"center\"><span style=\" color:#f5f5dc;\">Додати Панелі</span></p></body></html>")
 
 
         self.gridLayout_3.addWidget(self.add_pan_lab, 0, 3, 1, 1)
@@ -1610,7 +1611,7 @@ class ProfileWindow(QtWidgets.QMainWindow):
                         "}")
         self.Ch_photo_but.setObjectName("Ch_photo_but")
         self.Ch_photo_but.setFont(self.button_font)
-        self.Ch_photo_but.setText("Change")
+        self.Ch_photo_but.setText("Змінити")
         self.Ch_photo_but.clicked.connect(self.select_avatar)
 
         self.gridLayout_2.addWidget(self.Ch_photo_but, 1, 3, 1, 1)
@@ -1696,7 +1697,7 @@ class ProfileWindow(QtWidgets.QMainWindow):
                         ");\n"
                         "}")
         self.Log_out_but_set.setObjectName("Log_out_but_set")
-        self.Log_out_but_set.setText("Log out")
+        self.Log_out_but_set.setText("Вихід")
         self.Log_out_but_set.clicked.connect(self.log_out)
 #add to layout
         self.gridLayout_2.addWidget(self.Log_out_but_set, 9, 2, 1, 1)
@@ -1734,7 +1735,7 @@ class ProfileWindow(QtWidgets.QMainWindow):
                         "}")
         self.Ch_log_but.setObjectName("Ch_log_but")
         self.Ch_log_but.setFont(self.button_font)
-        self.Ch_log_but.setText("Change Login")
+        self.Ch_log_but.setText("Змінити логін")
         self.Ch_log_but.clicked.connect(self.show_change_login)
 
 #add to layout
@@ -1775,7 +1776,7 @@ class ProfileWindow(QtWidgets.QMainWindow):
                         ");\n"
                         "}")
         self.Ch_pass_butt.setObjectName("Ch_pass_butt")
-        self.Ch_pass_butt.setText("Change Password")
+        self.Ch_pass_butt.setText("Змінити пароль")
         self.Ch_pass_butt.clicked.connect(self.show_change_pass)
 #add to layout
         self.gridLayout_2.addWidget(self.Ch_pass_butt, 6, 3, 1, 1)
@@ -1814,7 +1815,7 @@ class ProfileWindow(QtWidgets.QMainWindow):
                         "}")
         self.Ch_name_but.setObjectName("Ch_name_but")
         self.Ch_name_but.setFont(self.button_font)
-        self.Ch_name_but.setText("Change")
+        self.Ch_name_but.setText("Змінити")
         self.Ch_name_but.clicked.connect(self.show_change_name)
 
 
@@ -1849,11 +1850,11 @@ class ProfileWindow(QtWidgets.QMainWindow):
         self.horizontalLayout.addWidget(self.tabWidget)
 
         self.tabWidget.setCurrentIndex(0)
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.U_profile_tab), "Profile")
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.U_Performance), "Performance")
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.U_chart), "Chart")
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.U_panels_map), "Map")
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.U_settings), "Settings")
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.U_profile_tab), "Профіль")
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.U_Performance), "Продуктивність")
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.U_chart), "Графік")
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.U_panels_map), "Карта")
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.U_settings), "Налаштування")
 
 
 
@@ -1903,7 +1904,7 @@ class ProfileWindow(QtWidgets.QMainWindow):
 
     def add_panels(self):
         if not self.U_name_add_panels.text() or not self.U_email_add_panels.text() or not self.U_pass_add_panels.text() or not self.U_new_panels_adress.text() or not self.U_panels_amount.text() or not self.U_panels_amount.text().isdigit() or not self.U_panels_key.text():
-            QtWidgets.QMessageBox.warning(self, "Warning", "Fill every fields please!")
+            QtWidgets.QMessageBox.warning(self, "Увага", "Заповніть всі поля!")
         else:
             user_email = str(self.U_email_add_panels.text())
             password = str(self.U_pass_add_panels.text())
@@ -1927,7 +1928,7 @@ class ProfileWindow(QtWidgets.QMainWindow):
                         for i in range(len(new_group_data)):
                             SqliteDB.add_panels_group(self.controller.session_id, new_panels_amount, new_panels_adress, new_group_data[i]["performance"], new_group_data[i]["voltage"], new_group_data[i]["power"], new_group_data[i]["id"])
                         self.controllerAPI.update_new_data(panels_key)
-                        QtWidgets.QMessageBox.information(self, "Succesful", "Data has been added")
+                        QtWidgets.QMessageBox.information(self, "Успішно", "Дані були додані")
                         self.U_name_add_panels.setText("")
                         self.U_email_add_panels.setText("") 
                         self.U_pass_add_panels.setText("")
@@ -1938,7 +1939,7 @@ class ProfileWindow(QtWidgets.QMainWindow):
 
                         #delete added data from file txt
                     else:
-                        QtWidgets.QMessageBox.warning(self, "Error", "The panels group does not exist! Try later")
+                        QtWidgets.QMessageBox.warning(self, "Помилка", "Група сонячних панелей не існує! Спробуйте пізніше")
                         self.U_name_add_panels.setText("")
                         self.U_email_add_panels.setText("") 
                         self.U_pass_add_panels.setText("")
@@ -1946,9 +1947,9 @@ class ProfileWindow(QtWidgets.QMainWindow):
                         self.U_panels_amount.setText("")
                         self.U_panels_key.setText("")
                 else:
-                    QtWidgets.QMessageBox.warning(self, "Warning", "Write correct name!")
+                    QtWidgets.QMessageBox.warning(self, "Увага", "Введіть коректне ім'я!")
             else:
-                QtWidgets.QMessageBox.warning(self, "Warning", "Incorrect login or password!")
+                QtWidgets.QMessageBox.warning(self, "Увага", "Невірний логін чи пароль!")
         
 
     def find_data_perf(self):
@@ -1975,7 +1976,7 @@ class ProfileWindow(QtWidgets.QMainWindow):
                     header = self.Objects_info_cap.verticalHeader()
                     header.setSectionResizeMode(QtWidgets.QHeaderView.Fixed)
                 else:
-                    QtWidgets.QMessageBox.warning(self, "Error", "Something went wrong")
+                    QtWidgets.QMessageBox.warning(self, "Помилка", "Щосб пішло не так")
                 self.Search_ed_perf.setText("")
             else:
                 try:
@@ -2008,13 +2009,13 @@ class ProfileWindow(QtWidgets.QMainWindow):
                         header = self.Objects_info_cap.verticalHeader()
                         header.setSectionResizeMode(QtWidgets.QHeaderView.Fixed)
                     else:
-                        QtWidgets.QMessageBox.warning(self, "Error", "Something went wrong")
+                        QtWidgets.QMessageBox.warning(self, "Помилка", "Щось пішло не так")
 
                 except ValueError:
-                    QtWidgets.QMessageBox.warning(self, "Error", "Input right date format")
+                    QtWidgets.QMessageBox.warning(self, "Помилка", "Введіть коректний формат дати")
                 self.Search_ed_perf.setText("")
         else:
-            QtWidgets.QMessageBox.warning(self, "Error", "Fill every fields please")
+            QtWidgets.QMessageBox.warning(self, "Помилка", "Заповніть всі поля")
 
 
     def update_data_perf(self):
@@ -2062,13 +2063,13 @@ class ProfileWindow(QtWidgets.QMainWindow):
                     header = self.Objects_info_prof.verticalHeader()
                     header.setSectionResizeMode(QtWidgets.QHeaderView.Fixed)
                 else:
-                    QtWidgets.QMessageBox.warning(self, "Error", "Something went wrong")
+                    QtWidgets.QMessageBox.warning(self, "Помилка", "Щось пішло не так")
                 self.Search_ed_prof.setText("")
             else:
-                QtWidgets.QMessageBox.warning(self, "Error", "Input correct value")
+                QtWidgets.QMessageBox.warning(self, "Помилка", "Введіть коректне значення")
                 self.Search_ed_prof.setText("")
         else:
-            QtWidgets.QMessageBox.warning(self, "Error", "Fill every fields please")
+            QtWidgets.QMessageBox.warning(self, "Помилка", "Заповніть всі поля")
 
 
     def update_data_prof(self):
@@ -2100,7 +2101,7 @@ class ProfileWindow(QtWidgets.QMainWindow):
                 group_id = int(self.Search_ed_chart.text())
             
                 if index == 0:
-                    self.chart.setTitle("Panels performance for last day")
+                    self.chart.setTitle("Продуктивність за останній день")
                     now = QtCore.QDateTime.currentDateTime()
                     start_time = now.addSecs(-24 * 3600)
                     self.series.clear()  
@@ -2133,7 +2134,7 @@ class ProfileWindow(QtWidgets.QMainWindow):
 
 
                 elif index == 1:
-                    self.chart.setTitle("Panels performance for last month")
+                    self.chart.setTitle("Продуктивність за останній місяць")
                     now = QtCore.QDateTime.currentDateTime()
                     start_time = now.addSecs(-(30*24) * 3600)
                     self.series.clear()  
@@ -2165,7 +2166,7 @@ class ProfileWindow(QtWidgets.QMainWindow):
 
                 
                 elif index == 2:
-                    self.chart.setTitle("Panels performance for all time")
+                    self.chart.setTitle("Продуктивність за весь час")
                     now_axis = datetime.now()
                     data = SqliteDB.get_panel_group_data(self.controller.session_id,group_id,None)
                     
@@ -2211,9 +2212,9 @@ class ProfileWindow(QtWidgets.QMainWindow):
                     self.chart.addSeries(self.series)
 
             else:
-                QtWidgets.QMessageBox.warning(self, "Error", "Input correct group number")
+                QtWidgets.QMessageBox.warning(self, "Помилка", "Введіть коректний номер групи")
         else:
-            QtWidgets.QMessageBox.warning(self, "Error", "Input the group number")
+            QtWidgets.QMessageBox.warning(self, "Помилка", "Введіть номер групи")
 
         
 
