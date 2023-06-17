@@ -91,7 +91,7 @@ class LoginWindow(QMainWindow):
                         "}")
         self.login_edit.setInputMask("")
         self.login_edit.setFont(self.edit_font)
-        self.login_edit.setToolTip("Your E-mail adress")
+        self.login_edit.setToolTip("Ваша електронна пошта")
         self.login_edit.setText("")
         self.login_edit.setPlaceholderText("")
         self.login_edit.setObjectName("login_edit")
@@ -102,22 +102,22 @@ class LoginWindow(QMainWindow):
 
         #Link lable to register window
         self.link_reg = QtWidgets.QLabel(self)
-        self.link_reg.setGeometry(QtCore.QRect(170, 370, 171, 31))
+        self.link_reg.setGeometry(QtCore.QRect(155, 370, 171, 31))
         self.link_reg.setToolTip("")
         self.link_reg.setAutoFillBackground(False)
         self.link_reg.setStyleSheet("border: 0px; background-color:rgba(0,0,0,0%);")
         self.link_reg.setObjectName("link_reg")
         self.link_reg.setFont(self.label_font)
-        self.link_reg.setText("<html><head/><body><p style=\" color:#FFFFFF;\" align=\"center\">Don`t have an account?</p></body></html>")
+        self.link_reg.setText("<html><head/><body><p style=\" color:#FFFFFF;\" align=\"center\">Немає акаунту?</p></body></html>")
 
         self.link_reg_2 = QtWidgets.QLabel(self)
-        self.link_reg_2.setGeometry(QtCore.QRect(275, 370, 171, 31))
+        self.link_reg_2.setGeometry(QtCore.QRect(250, 370, 171, 31))
         self.link_reg_2.setToolTip("")
         self.link_reg_2.setAutoFillBackground(False)
         self.link_reg_2.setStyleSheet("border: 0px; background-color:rgba(0,0,0,0%);")
         self.link_reg_2.setObjectName("link_reg_2")
         self.link_reg_2.setFont(self.label_font)
-        self.link_reg_2.setText("<html><head/><body><p style=\" color:#FF8C00;\" align=\"center\">Sign in </p></body></html>")
+        self.link_reg_2.setText("<html><head/><body><p style=\" color:#FF8C00;\" align=\"center\">Реєстрація </p></body></html>")
         self.link_reg_2.mousePressEvent = self.show_sign_in
 
 
@@ -130,7 +130,7 @@ class LoginWindow(QMainWindow):
         self.link_forg.setStyleSheet("border: 0px; background-color:rgba(0,0,0,0%);")
         self.link_forg.setObjectName("link_forg")
         self.link_forg.setFont(self.label_font)
-        self.link_forg.setText("<html><head/><body><p style=\" color:#FF8C00;\" align=\"center\">Forgot password?</p></body></html>")
+        self.link_forg.setText("<html><head/><body><p style=\" color:#FF8C00;\" align=\"center\">Забули пароль?</p></body></html>")
         self.link_forg.mousePressEvent = self.show_forgot_pass
 
 
@@ -168,7 +168,7 @@ class LoginWindow(QMainWindow):
                         ");\n"
                         "}")
         self.log_in_But.setObjectName("Log_in_But")
-        self.log_in_But.setText("Log in")
+        self.log_in_But.setText("Вхід")
         self.log_in_But.setFont(self.button_font)
         self.log_in_But.clicked.connect(self.log_check)
 
@@ -205,17 +205,16 @@ class LoginWindow(QMainWindow):
                         "}")
         self.password_edit.setInputMask("")
         self.password_edit.setFont(self.edit_font)
-        self.password_edit.setToolTip("Your password")
+        self.password_edit.setToolTip("Ваш пароль")
         self.password_edit.setText("")
-        self.password_edit.setPlaceholderText("")
         self.password_edit.setObjectName("password_edit")
         self.password_edit.setWhatsThis("Edit for Password")
-        self.password_edit.setPlaceholderText("Password")
+        self.password_edit.setPlaceholderText("Пароль")
         self.password_edit.setEchoMode(QtWidgets.QLineEdit.Password)
 
         self.show_password_checkbox = QtWidgets.QCheckBox(self)
-        self.show_password_checkbox.setText("Show")
-        self.show_password_checkbox.setGeometry(420,215,57,30)
+        self.show_password_checkbox.setText("Показати")
+        self.show_password_checkbox.setGeometry(420,215,85,30)
         self.show_password_checkbox.setFont(self.label_font)
         self.show_password_checkbox.setStyleSheet("background-color: rgba(255, 255, 255, 0);\n")
         self.show_password_checkbox.clicked.connect(self.show_password)
@@ -230,7 +229,7 @@ class LoginWindow(QMainWindow):
 
     def log_check(self):
         if not self.login_edit.text() or not self.password_edit.text():
-            QtWidgets.QMessageBox.warning(self, "Warning", "Fill every fields please!")
+            QtWidgets.QMessageBox.warning(self, "Увага", "Заповніть всі поля!")
         else:
                 user_name = str(self.login_edit.text())
                 password = str(self.password_edit.text())
@@ -254,7 +253,7 @@ class LoginWindow(QMainWindow):
                     self.controller.show_profile()
                     self.close()
                 else:
-                    QtWidgets.QMessageBox.warning(self, "Error", "Something went wrong. Please, try again")
+                    QtWidgets.QMessageBox.warning(self, "Помилка", "Щось пішло не так. Спробуйте пізніше")
 
 
     def show_sign_in(self,event):
