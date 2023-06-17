@@ -31,7 +31,7 @@ class RegistrationWindow(QMainWindow):
                 self.comfortaa_font = comfortaa_font_fam[0]
                 self.opensans_font = opensans_font_fam[0]
                 self.logo_font = QFont(self.comfortaa_font, 15)
-                self.button_font = QFont(self.comfortaa_font, 11)
+                self.button_font = QFont(self.comfortaa_font, 10)
                 self.edit_font = QFont(self.comfortaa_font, 9)
                 self.label_font = QFont(self.opensans_font, 10)
 
@@ -72,7 +72,7 @@ class RegistrationWindow(QMainWindow):
                         "}")
         self.reg_but.setObjectName("reg_but")
         self.reg_but.setFont(self.button_font)
-        self.reg_but.setText("Sign up")
+        self.reg_but.setText("Реєстрація")
         self.reg_but.clicked.connect(self.reg_check)
         self.reg_but.setDisabled(True)
 
@@ -121,7 +121,7 @@ class RegistrationWindow(QMainWindow):
 
 #send code button 
         self.send_code_but = QtWidgets.QPushButton(self)
-        self.send_code_but.setGeometry(QtCore.QRect(410, 85, 70, 31))
+        self.send_code_but.setGeometry(QtCore.QRect(410, 85, 110, 31))
         self.send_code_but.setAutoFillBackground(False)
         self.send_code_but.setStyleSheet("QPushButton {\n"
                         "color: #333;\n"
@@ -152,7 +152,7 @@ class RegistrationWindow(QMainWindow):
                         "}")
         self.send_code_but.setObjectName("send_code_but")
         self.send_code_but.setFont(self.button_font)
-        self.send_code_but.setText("Send")
+        self.send_code_but.setText("Відправити")
         self.send_code_but.clicked.connect(self.send_code)
 
 
@@ -193,7 +193,7 @@ class RegistrationWindow(QMainWindow):
         self.login_edit.setText("")
         self.login_edit.setObjectName("login_edit")
         self.login_edit.setWhatsThis("Edit for Login")
-        self.login_edit.setPlaceholderText("Name")
+        self.login_edit.setPlaceholderText("Ім'я")
         self.login_edit.setReadOnly(True)
 
 
@@ -234,7 +234,7 @@ class RegistrationWindow(QMainWindow):
         self.email_key_edit.setObjectName("email_key_edit")
         self.email_key_edit.setFont(self.edit_font)
         self.email_key_edit.setWhatsThis("Edit for security code")
-        self.email_key_edit.setPlaceholderText("Code")
+        self.email_key_edit.setPlaceholderText("Код перевірки")
         self.email_key_edit.setReadOnly(True)
 
 
@@ -276,7 +276,7 @@ class RegistrationWindow(QMainWindow):
         self.adress_edit.setObjectName("adress_edit")
         self.adress_edit.setFont(self.edit_font)
         self.adress_edit.setWhatsThis("Edit for adress")
-        self.adress_edit.setPlaceholderText("Adress")
+        self.adress_edit.setPlaceholderText("Адреса")
         self.adress_edit.setReadOnly(True)
 
 
@@ -318,14 +318,14 @@ class RegistrationWindow(QMainWindow):
         self.password_edit.setObjectName("password_edit")
         self.password_edit.setFont(self.edit_font)
         self.password_edit.setWhatsThis("Edit for login")
-        self.password_edit.setPlaceholderText("Password")
+        self.password_edit.setPlaceholderText("Пароль")
         self.password_edit.setReadOnly(True)
         self.password_edit.setEchoMode(QtWidgets.QLineEdit.Password)
 
         self.show_password_checkbox = QtWidgets.QCheckBox(self)
-        self.show_password_checkbox.setText("Show")
+        self.show_password_checkbox.setText("Показати")
         self.show_password_checkbox.setFont(self.label_font)
-        self.show_password_checkbox.setGeometry(400,327,57,30)
+        self.show_password_checkbox.setGeometry(400,327,85,30)
         self.show_password_checkbox.setStyleSheet("background-color: rgba(255, 255, 255, 0);\n")
         self.show_password_checkbox.clicked.connect(self.show_password)
 
@@ -393,38 +393,26 @@ class RegistrationWindow(QMainWindow):
 
     def reg_check(self):
         if not self.login_edit.text() or not self.email_edit.text() or not self.password_edit.text() or not self.adress_edit.text() or not self.email_key_edit.text():
-            QtWidgets.QMessageBox.warning(self, "Warning", "Fill every fields please!")
+            QtWidgets.QMessageBox.warning(self, "Увага", "Заповніть всі поля!")
         else:
-                user_name = self.login_edit.text()
-                email = self.email_edit.text()
-                password = self.password_edit.text()
-                adress = self.adress_edit.text()
-                code = self.email_key_edit.text()
-                if code == sec_code["code"] and (time.time() - sec_code['timestamp']) < 180:
-                    with open(r'C:\Solar Control\Solar-Control\images\empty_user.png', 'rb') as f:
-                        image_binary = f.read()
+            user_name = self.login_edit.text()
+            email = str(self.email_edit.text())
+            password = self.password_edit.text()
+            adress = self.adress_edit.text()
+            code = self.email_key_edit.text()
+            
+            
+            if code == sec_code["code"] and (time.time() - sec_code['timestamp']) < 180:
+                with open(r'C:\Solar Control\Solar-Control\images\empty_user.png', 'rb') as f:
+                    image_binary = f.read()
 
-
-                    if SqliteDB.add_user(user_name, email, adress, password, image_binary):
-                        self.controller = control.ControlWindow()
-                        self.controller.show_login()
-                        self.close()
-                    else:
-                        QtWidgets.QMessageBox.warning(self, "Error", "Something went wrong. Please, try again")
-                        self.email_edit.setReadOnly(False)
-                        self.email_edit.setText("")
-                        self.send_code_but.setDisabled(False)
-                        self.email_key_edit.setReadOnly(True)
-                        self.email_key_edit.setText("")
-                        self.login_edit.setReadOnly(True)
-                        self.login_edit.setText("")
-                        self.password_edit.setReadOnly(True)
-                        self.password_edit.setText("")
-                        self.adress_edit.setReadOnly(True)
-                        self.adress_edit.setText("")
-                        self.reg_but.setDisabled(True)
+                        
+                if SqliteDB.add_user(user_name, email, adress, password, image_binary):
+                    self.controller = control.ControlWindow()
+                    self.controller.show_login()
+                    self.close()
                 else:
-                    QtWidgets.QMessageBox.warning(self, "Error", "Security code is not correct")
+                    QtWidgets.QMessageBox.warning(self, "Помилка", "Щось пішло не так. Спробуйте пізніше")
                     self.email_edit.setReadOnly(False)
                     self.email_edit.setText("")
                     self.send_code_but.setDisabled(False)
@@ -437,12 +425,30 @@ class RegistrationWindow(QMainWindow):
                     self.adress_edit.setReadOnly(True)
                     self.adress_edit.setText("")
                     self.reg_but.setDisabled(True)
+            else:
+                QtWidgets.QMessageBox.warning(self, "Помилка", "Невірний код перевірки")
+                self.email_edit.setReadOnly(False)
+                self.email_edit.setText("")
+                self.send_code_but.setDisabled(False)
+                self.email_key_edit.setReadOnly(True)
+                self.email_key_edit.setText("")
+                self.login_edit.setReadOnly(True)
+                self.login_edit.setText("")
+                self.password_edit.setReadOnly(True)
+                self.password_edit.setText("")
+                self.adress_edit.setReadOnly(True)
+                self.adress_edit.setText("")
+                self.reg_but.setDisabled(True)
 
 
 
     def send_code(self):
+        
         if not self.email_edit.text():
-            QtWidgets.QMessageBox.warning(self, "Warning", "Write your E-mail!")
+            QtWidgets.QMessageBox.warning(self, "Увага", "Введіть ваш E-mail!")
+        elif SqliteDB.get_user_data(str(self.email_edit.text()), None) is not None:
+            QtWidgets.QMessageBox.warning(self, "Помилка", "Дана пошта вже використовується")
+            self.email_edit.setText("")
         else:
             self.email_edit.setReadOnly(True)
             self.send_code_but.setDisabled(True)
@@ -472,7 +478,7 @@ class RegistrationWindow(QMainWindow):
             server.sendmail(from_address, to_address, message)
             server.quit()
 
-            QtWidgets.QMessageBox.information(self, "Security code", "Security code has been sendet on your email")
+            QtWidgets.QMessageBox.information(self, "Код перевірки", "Код перевірки було відправлено на ваш E-mail")
             return {
             'code': code,
             'timestamp': time.time()
