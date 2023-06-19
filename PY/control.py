@@ -56,7 +56,7 @@ class ControlWindow:
 class ControlAPI:
     def __init__(self):
         self.new_group = None
-        with open('C:\\Solar Control\\Solar-Control\\PY\\new_group.txt', 'r') as file:
+        with open('C:\\Solar Control\\new_group.txt', 'r') as file:
             data = file.read()
             if not data:  
                 self.new_group = None
@@ -66,13 +66,13 @@ class ControlAPI:
 
     def update_new_data(self,added_group_id):
         existing_data = []
-        file_path = 'C:\\Solar Control\\Solar-Control\\PY\\new_group.txt'
+        file_path = 'C:\\Solar Control\\new_group.txt'
         if os.path.isfile(file_path) and os.stat(file_path).st_size != 0:
             with open(file_path, 'r') as file:
                 existing_data = json.load(file)
 
         existing_data = [data for data in existing_data if data["id"] != added_group_id]
-        updated_data = json.dump(existing_data)
+        updated_data = json.dumps(existing_data)
 
         with open(file_path, 'w') as file:
             file.write(updated_data)
