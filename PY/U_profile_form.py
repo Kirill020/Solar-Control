@@ -1854,7 +1854,7 @@ class ProfileWindow(QtWidgets.QMainWindow):
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.U_profile_tab), "Профіль")
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.U_Performance), "Продуктивність")
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.U_chart), "Графік")
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.U_panels_map), "Карта")
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.U_panels_map), "Мапа")
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.U_settings), "Налаштування")
 
 
@@ -1917,7 +1917,6 @@ class ProfileWindow(QtWidgets.QMainWindow):
             if result[0] is True and result[1] == self.controller.session_id:
                 if self.U_name_add_panels.text() == self.controller.session_name:
                     panels_key = int(self.U_panels_key.text())
-                    print(f"Panels key = {panels_key}")
 
                     #get panels_key from file and check it with for i...
                     new_group_data = []
