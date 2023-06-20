@@ -18,10 +18,6 @@ import json
 
 app = FastAPI(title="SolarControl API", version="0.1.0", description="API for SolarControl project")
 
-@app.get("/")
-async def index():
-    return {"message": "Hello World"}
-
 @app.post("/check")
 async def auth(auth_data: CheckModel):
     if not all(auth_data.dict().values()):
@@ -56,11 +52,13 @@ async def add_group_data(group_data: GroupDataModel):
             SqliteDB.update_penels_group(Id_PanelGroup, Person_id, Panels_amount, Panels_adress, performance, voltage, power, id)
         else:
             #if in database does`t exist data about some panels group save this data to add their in future
+            date = datetime.now()
             new_group = {}
             new_group['id'] =  id
             new_group['performance'] =  performance
             new_group['voltage'] =  voltage
             new_group['power'] =  power
+            new_group['date'] = date
 
             add_new_data(new_group)
         
