@@ -1926,7 +1926,7 @@ class ProfileWindow(QtWidgets.QMainWindow):
                                 new_group_data.append(self.controllerAPI.new_group[i])
                     if new_group_data:
                         for i in range(len(new_group_data)):
-                            SqliteDB.add_panels_group(self.controller.session_id, new_panels_amount, new_panels_adress, new_group_data[i]["performance"], new_group_data[i]["voltage"], new_group_data[i]["power"], new_group_data[i]["id"])
+                            SqliteDB.add_panels_group(self.controller.session_id, new_panels_amount, new_panels_adress, new_group_data[i]["performance"], new_group_data[i]["voltage"], new_group_data[i]["power"], datetime.strptime(new_group_data[i]["date"],"%Y-%m-%d-%H" ) , new_group_data[i]["id"])
                         self.controllerAPI.update_new_data(panels_key)
                         QtWidgets.QMessageBox.information(self, "Успішно", "Дані були додані")
                         self.U_name_add_panels.setText("")
@@ -2251,9 +2251,4 @@ class ProfileWindow(QtWidgets.QMainWindow):
 
         
 import Backgrounds
-if __name__ == "__main__":
-    import sys
-    app = QtWidgets.QApplication(sys.argv)
-    profile_window = ProfileWindow()
-    profile_window.show()
-    sys.exit(app.exec_())
+
