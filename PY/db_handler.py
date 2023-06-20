@@ -140,15 +140,14 @@ class SqliteDB:
     
     #add panel group
     @staticmethod
-    def add_panels_group(person_id: int, panels_amount: int, panels_adress: str, performance: float, voltage: float, power: float, control_id: int):
+    def add_panels_group(person_id: int, panels_amount: int, panels_adress: str, performance: float, voltage: float, power: float, date: datetime, control_id: int):
         conn = sql.connect('C:\Solar Control\Solar-Control\PY\Solar_panels.db')
         cursor = conn.cursor()
         cursor.execute("SELECT MAX(Id_PanelGroup) FROM Panels")
         result = cursor.fetchone()
         Id_PanelGroup = result[0]+1
 
-        date = datetime.now()
-        date_str = date.strftime('%Y-%m-%d-%H')
+        date_str = date.strftime("%Y-%m-%d-%H")
         query = "INSERT INTO Panels (Id_PanelGroup, Person_id, Panels_amount, Panels_adress, Performance, Voltage, Power, Date, Control_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)"
         values = (Id_PanelGroup, person_id, panels_amount, panels_adress, performance, voltage, power, date_str, control_id)
         cursor.execute(query, values)
@@ -157,8 +156,9 @@ class SqliteDB:
 
 
         api_key = 'e48976283ebb45a7ae1102438231003'
-        date_api = datetime.today().strftime('%Y-%m-%d')
-        hour = datetime.now().hour  
+        print(date)
+        date_api = date.date()
+        hour = date.hour
 
         url = f"http://api.weatherapi.com/v1/history.json?key={api_key}&q={panels_adress}&dt={date_api}&hour={hour}"
         response = requests.get(url)
@@ -168,14 +168,13 @@ class SqliteDB:
         wind_speed = data['forecast']['forecastday'][0]['hour'][0]['wind_kph']
         weather_type = data['forecast']['forecastday'][0]['hour'][0]['condition']['text']
 
-        SqliteDB.update_weather(Id_PanelGroup, weather_type, temperature, wind_speed)
+        SqliteDB.add_weather_data(Id_PanelGroup, weather_type, temperature, wind_speed,date)
 
     #add weather data
     @staticmethod
-    def add_weather_data(id_panels_group: int, weather_type: str, temperature: float, wind_speed: float):
+    def add_weather_data(id_panels_group: int, weather_type: str, temperature: float, wind_speed: float, date:datetime):
         conn = sql.connect('C:\Solar Control\Solar-Control\PY\Solar_panels.db')
         cursor = conn.cursor()
-        date = datetime.now()
         date_str = date.strftime('%Y-%m-%d-%H')
         query = "INSERT INTO Weather (Id_PanelGroup, Weather_type, Date, Temperature, Wind_speed) VALUES (?, ?, ?, ?, ?)"
         values = (id_panels_group, weather_type, date_str, temperature, wind_speed)
