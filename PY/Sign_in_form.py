@@ -390,7 +390,7 @@ class RegistrationWindow(QMainWindow):
         self.logo_sign_in.setText("<html><head/><body><p align=\"center\"><br/></p></body></html>")
 
 
-
+#make a check up only for data that were inputted by user   \/
     def reg_check(self):
         if not self.login_edit.text() or not self.email_edit.text() or not self.password_edit.text() or not self.adress_edit.text() or not self.email_key_edit.text():
             QtWidgets.QMessageBox.warning(self, "Warning", "Fill every fields please!")
@@ -401,6 +401,11 @@ class RegistrationWindow(QMainWindow):
                 adress = self.adress_edit.text()
                 code = self.email_key_edit.text()
                 if code == sec_code["code"] and (time.time() - sec_code['timestamp']) < 180:
+
+
+                    #request to api to add new user
+
+
                     with open(r'C:\Solar Control\Solar-Control\images\empty_user.png', 'rb') as f:
                         image_binary = f.read()
 
@@ -498,4 +503,4 @@ if __name__ == '__main__':
     app = QApplication(sys.argv)
     registration_window = RegistrationWindow()
     registration_window.show()
-    sys.exit(app.exec_())
+    sys.exit(app.exec_())   
