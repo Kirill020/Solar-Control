@@ -12,11 +12,12 @@ class SqliteDB:
         cursor = conn.cursor()
         cursor.execute("SELECT P_pass, Person_id FROM Users WHERE P_email_adress = ?", (login,))
         result = cursor.fetchone()
+        H_password = hashlib.sha256(password.encode('utf-8')).hexdigest()
         if result is None:
             conn.close()
             return False, None
 
-        if password == result[0]:
+        if H_password == result[0]:
             conn.close()
             return True, result[1]
 
@@ -44,7 +45,6 @@ class SqliteDB:
         if result is None:    
             return None, None
         else:
-
             User_data = {}
             User_data = {'Person_id':result[0], 'P_name':result[1], 'P_email_adress':result[2], 'P_adress':result[3]}
             return User_data, result[5]
@@ -125,8 +125,7 @@ class SqliteDB:
     def add_user(p_name: str, p_email_adress: str, p_adress: str, password: str, image_binary: bytes) -> bool:
         conn = sql.connect("C:\Solar Control\Solar-Control\PY\Solar_panels.db")
         cursor = conn.cursor()
-        p_pass  = hashlib.sha256(password.encode('utf-8')).hexdigest()
-        cursor.execute("INSERT INTO Users (P_name, P_email_adress, P_adress, P_pass, P_avatar) VALUES (?, ?, ?, ?, ?)", (p_name, p_email_adress, p_adress, p_pass, image_binary,))
+        cursor.execute("INSERT INTO Users (P_name, P_email_adress, P_adress, P_pass, P_avatar) VALUES (?, ?, ?, ?, ?)", (p_name, p_email_adress, p_adress, password, image_binary,))
         conn.commit()
         cursor.execute("SELECT COUNT(*) FROM Users WHERE P_name = ? AND P_email_adress = ? AND P_adress = ?  LIMIT 1", (p_name,p_email_adress, p_adress,))
         result = cursor.fetchone()
