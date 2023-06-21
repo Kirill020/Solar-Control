@@ -1,29 +1,79 @@
 from fastapi import FastAPI
 import jwt
 from db_handler import SqliteDB
-from models import LoginModel, GroupDataModel, AuthModel
+from models import LoginModel, GroupDataModel, AuthModel, RegModel, VerifyEmailModel
 from typing import Union
 from datetime import datetime, timedelta
 import os
 import json
+import random
+import smtplib
+import time
 
+security_code = None
 secret_key = "TOKEN_KEY"
 app = FastAPI(title="SolarControl API", version="0.2.0", description="API for SolarControl project")
 
-
+#authenticate user
 @app.post("/auth", tags=["auth"])
 async def login(login_data: Union[LoginModel, AuthModel]):
     if isinstance(login_data, LoginModel):
-        password, username = login_data.password, login_data.username
-        result = SqliteDB.authenticate_user(username, password)
+        password, login = login_data.password, login_data.login
+        result = SqliteDB.authenticate_user(login, password)
         if result[0]:
             token = create_token(result[1])
             return {"token": token}
     else:
         token = login_data.token
-        if token is not None and verify_token(token):
-            return True
+        if token is not None:
+            ver = verify_token(token)
+            if ver == True:
+                return True
+            else:
+                return False, ver
     return False
+
+#register user 
+@app.post("/reg", tags=["reg"])
+async def registration(reg_data: RegModel):
+    if not all(reg_data.dict().values()):
+        return False
+    else:
+        login = reg_data.login, password = reg_data.password, username = reg_data.username, adress = reg_data.adress, code = reg_data.code
+        if SqliteDB.get_user_data(login,None) is None:
+            if code == security_code["code"] and (time.time() - security_code['timestamp']) < 180 and security_code['form_name'] == "Reg_form":
+                                            #to do      ->        change path to default image on a server
+                with open(r'Path\\to\\image\\file\\on\\server ', 'rb') as f:
+                    image_binary = f.read()
+                if SqliteDB.add_user(username, login,adress, password, image_binary):
+                    return True, {"Info": "User has been succesfuly refistred"}
+                else:
+                    return False, {"Error": "Something went wrong"}
+            else:
+                return False, {"Error": "Invalid security code"}    
+        else:
+            return False, {"Error": "This user has been registered earlier"}
+        
+
+#verify email using security code
+@app.post("/verify_email", tags=["verify email"])
+async def verify_email(e_mail: VerifyEmailModel):
+    if not all(e_mail.dict().values()):
+        return False, {"Error": "Not enough data"}      
+    else:
+        global security_code    
+        email, form_name = e_mail.login, e_mail.form_name
+        user_data = SqliteDB.get_user_data(email,None)
+        if form_name == "Reg_form" and user_data[0] is None and user_data[1] is None:
+            security_code = generate_code(email, form_name)
+            return True, {"Info": "Security code has been sendet"}
+        elif form_name != "Reg_form" and user_data[0] is not None and user_data[1] is not None:
+            security_code = generate_code(email, form_name)
+            return True, {"Info": "Security code has been sendet"}                        
+        else:
+            return False, {"Error": "Input correct email please"}
+
+
 
 #get data from Arduino Uno WiFi Rev2
 @app.post("/group_data", tags=["group_data"])
@@ -75,7 +125,30 @@ def verify_token(token:str) -> bool:
         return {"error": "Invalid token"}
     return False
 
+#generate security code
+def generate_code(email, form_name) -> int:
+    try:
+        code = int(random.randint(100000, 999999))
 
+        #add this data to enviroment variable \/
+        from_address = 'work.tanasiichuk@gmail.com'
+        to_address = email
+        subject = 'Security Code'
+        body = f'Your security code is: {code}'
+        message = f'Subject: {subject}\n\n{body}'
+        server = smtplib.SMTP('smtp.gmail.com', 587)
+        server.starttls()
+        server.login(from_address, 'wilgfdzekbdoboxp')
+        server.sendmail(from_address, to_address, message)
+        server.quit()
+
+        return {
+        'code': code,
+        'timestamp': time.time(),
+        'form_name': form_name
+        }
+    except Exception as e:
+        return{"Error", f"An error occurred: {str(e)}"}
 
 if __name__ == "__main__":
     import uvicorn
