@@ -21,7 +21,7 @@ class ControlWindow:
         
         self.session_id = Log_in_form.session_id
         
-        User_data, self.session_binary_avatar = SqliteDB.get_user_data(None, self.session_id)
+        User_data = SqliteDB.get_user_data(None, self.session_id)
         if User_data is None:
             self.session_login = None
             self.session_name = None
