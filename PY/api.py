@@ -251,14 +251,14 @@ def generate_code(email):
             code = int(random.randint(100000, 999999))
 
             #add this data to environment variable \/ 
-            from_address = 'work.tanasiichuk@gmail.com'
+            from_address = 'working email'
             to_address = email
             subject = 'Security Code'
             body = f'Your security code is: {code}'
             message = f'Subject: {subject}\n\n{body}'
             server = smtplib.SMTP('smtp.gmail.com', 587)
             server.starttls()
-            server.login(from_address, 'wilgfdzekbdoboxp')
+            server.login(from_address, 'password')
             server.sendmail(from_address, to_address, message)
             server.quit()
 
