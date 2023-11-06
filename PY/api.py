@@ -66,7 +66,7 @@ async def add_group_data(group_data: GroupDataModel):
         
 
 def add_new_data(new_group):
-    file_path = 'new_group.txt'
+    file_path = 'new_group.json'
     if os.path.isfile(file_path) and os.stat(file_path).st_size != 0:
         with open(file_path, 'r') as file:
             existing_data = json.load(file)
