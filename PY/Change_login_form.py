@@ -434,14 +434,14 @@ class ChangeLoginWindow(QMainWindow):
         try:
             code = int(random.randint(100000, 999999))
             
-            from_address = 'work.tanasiichuk@gmail.com'
+            from_address = 'email_address'
             to_address = login
             subject = 'Security Code'
             body = f'Your security code is: {code}'
             message = f'Subject: {subject}\n\n{body}'
             server = smtplib.SMTP('smtp.gmail.com', 587)
             server.starttls()
-            server.login(from_address, 'wilgfdzekbdoboxp')
+            server.login(from_address, '000000000')
             server.sendmail(from_address, to_address, message)
             server.quit()
 
